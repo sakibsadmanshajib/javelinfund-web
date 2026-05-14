@@ -1,0 +1,96 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+const stories = (await getCollection('stories')).sort(
+  (a, b) => +b.data.date - +a.data.date,
+);
+---
+
+<Base
+  title="Stories"
+  description="Stories from the families and communities served by Javelin Fund in Northern Haiti."
+>
+  <section class="container" style="padding:80px 0">
+    <p class="eyebrow gold">Stories</p>
+    <h1 class="display" style="font-size:64px;letter-spacing:-2px">From the North.</h1>
+    <ul class="grid">
+      {
+        stories.map((s) => (
+          <li class="card">
+            <a href={`/stories/${s.id}`}>
+              <Image
+                src={s.data.hero}
+                alt={s.data.title}
+                widths={[400, 800]}
+                sizes="(max-width:880px) 100vw, 33vw"
+                class="photo"
+              />
+              <div class="body">
+                <p class="meta">
+                  {s.data.location} ·{' '}
+                  {s.data.date.toLocaleDateString('en-CA', { month: 'long', year: 'numeric' })}
+                </p>
+                <h2 class="display">{s.data.title}</h2>
+                <p>{s.data.excerpt}</p>
+                <span class="more">
+                  Read <span aria-hidden="true">→</span>
+                </span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    list-style: none;
+    padding: 48px 0 0;
+    margin: 0;
+  }
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .card {
+    background: var(--navy-3);
+  }
+  .photo {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+  .body {
+    padding: 24px;
+  }
+  .meta {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  h2.display {
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    margin: 10px 0 12px;
+    line-height: 1.1;
+  }
+  .more {
+    color: var(--gold);
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+  .gold {
+    color: var(--gold);
+  }
+</style>
