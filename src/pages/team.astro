@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+const members = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="The People" description="The team behind Javelin Fund.">
+  <section class="container" style="padding:80px 0">
+    <p class="eyebrow gold">The People</p>
+    <h1 class="display" style="font-size:64px;letter-spacing:-2px">The hands behind the work.</h1>
+    <ul class="grid">
+      {members.map((m) => (
+        <li class="card">
+          <Image
+            src={m.data.photo}
+            alt={m.data.name}
+            widths={[300, 600]}
+            sizes="(max-width:880px) 50vw, 25vw"
+            class="photo"
+          />
+          <h2 class="display">{m.data.name}</h2>
+          <p class="role">{m.data.role}</p>
+          {m.data.bio && <p class="bio">{m.data.bio}</p>}
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+<style>
+  .gold { color: var(--gold); }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    list-style: none;
+    padding: 48px 0 0;
+    margin: 0;
+  }
+  @media (max-width: 880px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .card { background: var(--navy-3); padding: 0 0 20px; }
+  .photo {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    margin-bottom: 14px;
+  }
+  h2.display {
+    font-size: 18px;
+    letter-spacing: -0.3px;
+    margin: 0 16px 4px;
+  }
+  .role {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 16px 8px;
+    font-weight: 800;
+  }
+  .bio {
+    font-size: 13px;
+    color: var(--fg-muted);
+    margin: 0 16px;
+    line-height: 1.5;
+  }
+</style>
