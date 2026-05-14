@@ -19,7 +19,7 @@ collections:
       - { name: excerpt,  label: Excerpt,  widget: text }
       - { name: date,     label: Date,     widget: datetime }
       - { name: hero,     label: Hero image, widget: image }
-      - { name: featured, label: Featured? widget: boolean, default: false }
+      - { name: featured, label: 'Featured?', widget: boolean, default: false }
       - { name: priority, label: Priority, widget: number,  default: 0 }
       - { name: location, label: Location, widget: string,  required: false }
       - { name: person,   label: Person,   widget: string,  required: false }
@@ -48,7 +48,7 @@ collections:
       - { name: frequency,         label: Frequency, widget: select, options: ['one-time','monthly','yearly','custom'] }
       - { name: label,             label: Label,     widget: string }
       - { name: sub,               label: Subline,   widget: string }
-      - { name: featured,          label: Featured?  widget: boolean, default: false }
+      - { name: featured,          label: 'Featured?', widget: boolean, default: false }
       - { name: priority,          label: Priority,  widget: number,  default: 0 }
       - { name: ribbon,            label: Ribbon,    widget: string,  required: false }
       - { name: canada_helps_url,  label: CanadaHelps URL, widget: string, required: false }
