@@ -1,0 +1,7 @@
+name = "javelinfund-web"
+compatibility_date = "2025-05-01"
+
+# Cloudflare Workers Static Assets — serve the Astro build output.
+[assets]
+directory = "./dist"
+not_found_handling = "404-page"
