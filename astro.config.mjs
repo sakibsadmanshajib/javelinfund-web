@@ -7,5 +7,4 @@ export default defineConfig({
   trailingSlash: 'never',
   build: { format: 'directory' },
   integrations: [sitemap()],
-  image: { service: { entrypoint: 'astro/assets/services/sharp' } },
 });
