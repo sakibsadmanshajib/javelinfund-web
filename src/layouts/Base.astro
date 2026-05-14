@@ -1,6 +1,8 @@
 ---
 // src/layouts/Base.astro
 import '../styles/global.css';
+import FlagBar from '../components/FlagBar.astro';
+import Nav from '../components/Nav.astro';
 
 interface Props {
   title: string;
@@ -32,7 +34,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <a href="#main" class="skip" style="position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--navy);padding:8px 12px;font-weight:800">Skip to content</a>
-    <slot name="header" />
+    <FlagBar />
+    <Nav />
     <main id="main"><slot /></main>
     <slot name="footer" />
   </body>
