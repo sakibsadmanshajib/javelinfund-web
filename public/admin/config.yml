@@ -1,0 +1,54 @@
+backend:
+  name: github
+  repo: OWNER/REPO
+  branch: main
+  base_url: https://api.netlify.com  # OAuth proxy; replace with self-hosted later
+  auth_endpoint: auth
+
+media_folder: src/assets/images
+public_folder: /assets/images
+
+collections:
+  - name: stories
+    label: Stories
+    folder: src/content/stories
+    create: true
+    slug: '{{slug}}'
+    fields:
+      - { name: title,    label: Title,    widget: string }
+      - { name: excerpt,  label: Excerpt,  widget: text }
+      - { name: date,     label: Date,     widget: datetime }
+      - { name: hero,     label: Hero image, widget: image }
+      - { name: featured, label: Featured? widget: boolean, default: false }
+      - { name: priority, label: Priority, widget: number,  default: 0 }
+      - { name: location, label: Location, widget: string,  required: false }
+      - { name: person,   label: Person,   widget: string,  required: false }
+      - { name: tags,     label: Tags,     widget: list,    required: false }
+      - { name: body,     label: Body,     widget: markdown }
+
+  - name: team
+    label: Team
+    folder: src/content/team
+    create: true
+    slug: '{{slug}}'
+    fields:
+      - { name: name,  label: Name,  widget: string }
+      - { name: role,  label: Role,  widget: string }
+      - { name: photo, label: Photo, widget: image }
+      - { name: order, label: Order, widget: number, default: 100 }
+      - { name: bio,   label: Bio,   widget: text,   required: false }
+
+  - name: donateTiers
+    label: Donate tiers
+    folder: src/content/donate-tiers
+    create: true
+    extension: yaml
+    fields:
+      - { name: amount,            label: Amount,    widget: string }
+      - { name: frequency,         label: Frequency, widget: select, options: ['one-time','monthly','yearly','custom'] }
+      - { name: label,             label: Label,     widget: string }
+      - { name: sub,               label: Subline,   widget: string }
+      - { name: featured,          label: Featured?  widget: boolean, default: false }
+      - { name: priority,          label: Priority,  widget: number,  default: 0 }
+      - { name: ribbon,            label: Ribbon,    widget: string,  required: false }
+      - { name: canada_helps_url,  label: CanadaHelps URL, widget: string, required: false }
