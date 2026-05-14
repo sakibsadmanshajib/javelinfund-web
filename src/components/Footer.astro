@@ -1,0 +1,46 @@
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container row">
+    <div>
+      <div class="logo">JAVELIN FUND</div>
+      <p class="muted">Direct relief and lasting programs for families in Northern Haiti — together with the people who live there.</p>
+      <p class="motto">L'union fait la force.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <a href="/about">Our Work</a>
+      <a href="/team">The People</a>
+      <a href="/stories">Stories</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <div>
+      <h4>Give</h4>
+      <a href="/donate">Donate</a>
+      <a href="/donate#monthly">Monthly giving</a>
+      <a href="/donate#interac">Interac e-Transfer</a>
+    </div>
+    <div>
+      <h4>Stay close</h4>
+      <a href="mailto:contact@javelinfund.ca">contact@javelinfund.ca</a>
+    </div>
+  </div>
+  <div class="container bottom">
+    <span>© {year} Javelin Fund · BN 755722097 RR0001</span>
+    <span><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · Made in Canada · For Haiti</span>
+  </div>
+</footer>
+<style>
+  .footer { background: var(--bg-alt); padding: 60px 0 24px; border-top: 1px solid var(--line); }
+  .row { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+  @media (max-width: 720px) { .row { grid-template-columns: 1fr 1fr; } }
+  .logo { font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; margin-bottom: 12px; }
+  .muted { color: var(--fg-muted); font-size: 14px; max-width: 320px; }
+  .motto { font-family: var(--font-accent); font-style: italic; color: var(--gold); margin-top: 14px; }
+  h4 { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: var(--gold); margin: 0 0 14px; }
+  .footer a { display: block; color: var(--fg-muted); font-size: 13px; padding: 5px 0; }
+  .footer a:hover { color: var(--gold); }
+  .bottom { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--fg-muted); flex-wrap: wrap; gap: 12px; }
+</style>
