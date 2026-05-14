@@ -1,0 +1,93 @@
+---
+// src/components/forms/ContactForm.astro
+---
+<form id="contact-form" novalidate>
+  <label>Name <input name="name" required autocomplete="name" /></label>
+  <label>Email <input name="email" type="email" required autocomplete="email" /></label>
+  <label>Message <textarea name="message" rows="6" required></textarea></label>
+  <!-- honeypot — hidden from humans -->
+  <label class="hp" aria-hidden="true" tabindex="-1">
+    <input name="hp" tabindex="-1" autocomplete="off" />
+  </label>
+  <button class="btn btn-gold" type="submit">
+    Send <span aria-hidden="true">→</span>
+  </button>
+  <p class="status" role="status" aria-live="polite"></p>
+</form>
+<style>
+  form { display: grid; gap: 16px; max-width: 520px; }
+  label {
+    display: grid;
+    gap: 6px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--fg-muted);
+  }
+  input, textarea {
+    font: inherit;
+    background: var(--navy-3);
+    color: var(--ivory);
+    border: 1px solid var(--line);
+    padding: 12px 14px;
+    font-size: 15px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  textarea { resize: vertical; min-height: 140px; }
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 22px;
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    justify-self: start;
+  }
+  .btn:hover { filter: brightness(0.95); }
+  .status {
+    font-size: 13px;
+    color: var(--gold);
+    min-height: 1em;
+    margin: 0;
+  }
+</style>
+<script>
+  import { submitForm } from '../../lib/forms';
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector('.status') as HTMLElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const fields = Object.fromEntries(fd) as Record<string, string>;
+      const hp = fields.hp ?? '';
+      delete fields.hp;
+      status.textContent = 'Sending…';
+      const res = await submitForm({ kind: 'contact', fields, hp });
+      status.textContent = res.ok
+        ? 'Thank you. We will be in touch.'
+        : `Sorry — ${res.error ?? 'something went wrong'}.`;
+      if (res.ok) form.reset();
+    });
+  }
+</script>
