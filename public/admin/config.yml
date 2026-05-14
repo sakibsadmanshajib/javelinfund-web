@@ -2,7 +2,7 @@ backend:
   name: github
   repo: sakibsadmanshajib/javelinfund-web
   branch: main
-  base_url: https://api.netlify.com  # OAuth proxy; replace with self-hosted later
+  base_url: https://javelinfund-decap-oauth.sakibsadmanshajib.workers.dev
   auth_endpoint: auth
 
 media_folder: src/assets/images
