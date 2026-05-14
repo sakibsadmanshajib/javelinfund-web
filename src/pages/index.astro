@@ -1,9 +1,59 @@
 ---
 import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import MottoBand from '../components/MottoBand.astro';
+import StatsGrid from '../components/StatsGrid.astro';
+import ProgramCard from '../components/ProgramCard.astro';
+import StorySpotlight from '../components/StorySpotlight.astro';
+import DonateStrip from '../components/DonateStrip.astro';
+import TrustBand from '../components/TrustBand.astro';
+
+import { getCollection } from 'astro:content';
+import { pickFeatured, pickFeaturedAll } from '../lib/featured';
+
+import prog1 from '../assets/images/prog-1.jpg';
+import prog2 from '../assets/images/prog-2.jpg';
+import prog3 from '../assets/images/prog-3.jpg';
+
+const stories = await getCollection('stories');
+const featuredStory = pickFeatured(stories);
+
+const tiers = await getCollection('donateTiers');
+const featuredTiers = pickFeaturedAll(tiers).slice(0, 4);
+
+const heroQuote = {
+  text: '"They didn\'t just bring food. They sat with us, learned our names, and asked what we needed first."',
+  who: 'Marie-Carline P.',
+  where: 'Mother of three · Cap-Haïtien',
+};
 ---
-<Base title="Home">
-  <section class="container" style="padding:48px 0">
-    <h1 class="display" style="font-size:48px">Javelin Fund</h1>
-    <p>Static rebuild in progress.</p>
+<Base title="Home" description="Direct relief and lasting programs for families in Northern Haiti.">
+  <Hero quote={heroQuote} />
+  <MottoBand />
+  <StatsGrid />
+  <section class="programs">
+    <div class="container">
+      <header class="head">
+        <h2 class="display">Our work,<br /><span class="gold">in the North.</span></h2>
+        <p>Three programs running today in Cap-Haïtien and the surrounding villages — long partnerships with local teams.</p>
+      </header>
+      <div class="grid">
+        <ProgramCard variant="gold"  image={prog1} tag="Education"    meta="Since 2016 · 325 children"     title="Schools & Scholarships" body="Tuition, supplies, uniforms and a hot lunch for 325 children across our partner schools." href="/about#education" />
+        <ProgramCard variant="red"   image={prog2} tag="Food security" meta="Since 2016 · 320+ families"   title="Feeding the Orphans"   body="Daily meals plus weekly rice, beans and oil distributions partnered with women-led cooperatives." href="/about#food" />
+        <ProgramCard variant="ivory" image={prog3} tag="Health & water" meta="Since 2019 · 6 systems"      title="Clean Water & Care"   body="Filtration and rainwater systems plus basic medical visits in villages cut off from municipal services." href="/about#water" />
+      </div>
+    </div>
   </section>
+  {featuredStory && <StorySpotlight story={featuredStory} />}
+  <DonateStrip tiers={featuredTiers} />
+  <TrustBand />
 </Base>
+<style>
+  .programs { padding: 90px 0; background: var(--bg); }
+  .head { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; flex-wrap: wrap; margin-bottom: 46px; }
+  .head h2 { font-size: 46px; margin: 0; max-width: 600px; line-height: 1; letter-spacing: -1.5px; }
+  .head p  { max-width: 380px; color: var(--fg-muted); font-size: 15px; margin: 0; }
+  .gold { color: var(--gold); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+</style>
