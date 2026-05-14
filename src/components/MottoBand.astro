@@ -1,0 +1,19 @@
+---
+// src/components/MottoBand.astro
+---
+<section class="motto-band">
+  <div class="container row">
+    <span class="fr">L'union fait la force.</span>
+    <span class="div" aria-hidden="true"></span>
+    <span class="en">Strength through unity · National motto of Haiti</span>
+    <span class="div" aria-hidden="true"></span>
+    <span class="en">Serving the North since 2016</span>
+  </div>
+</section>
+<style>
+  .motto-band { background: var(--red); color: #fff; padding: 18px 0; border-top: 6px solid var(--gold); border-bottom: 6px solid var(--gold); }
+  .row { display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap; text-align: center; }
+  .fr { font-family: var(--font-accent); font-style: italic; font-size: 22px; letter-spacing: 0.5px; }
+  .en { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; font-weight: 700; }
+  .div { width: 1px; height: 24px; background: rgba(255, 255, 255, 0.4); }
+</style>
