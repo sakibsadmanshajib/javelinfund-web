@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://javelinfund.ca/sitemap-index.xml
