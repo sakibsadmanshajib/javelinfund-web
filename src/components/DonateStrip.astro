@@ -35,7 +35,11 @@ function formatFrequency(freq: string) {
     </div>
     <div class="tiers">
       {tiers.map((t) => (
-        <a class={`tier ${t.data.featured ? 'featured' : ''}`} href={t.data.canada_helps_url ?? '/donate'}>
+        <a
+          class={`tier ${t.data.featured ? 'featured' : ''}`}
+          href={t.data.canada_helps_url ?? '/donate'}
+          aria-label={`Donate ${formatAmount(t.data.amount)} ${formatFrequency(t.data.frequency)} — ${t.data.label}`}
+        >
           {t.data.ribbon && <span class="ribbon">{t.data.ribbon}</span>}
           <span class="amt">{formatAmount(t.data.amount)}</span>
           <span class="freq">{formatFrequency(t.data.frequency)}</span>

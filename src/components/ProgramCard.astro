@@ -5,6 +5,7 @@ import type { ImageMetadata } from 'astro';
 
 interface Props {
   image: ImageMetadata;
+  alt: string;
   tag: string;
   meta: string;
   title: string;
@@ -12,10 +13,10 @@ interface Props {
   href: string;
   variant?: 'gold' | 'red' | 'ivory';
 }
-const { image, tag, meta, title, body, href, variant = 'gold' } = Astro.props;
+const { image, alt, tag, meta, title, body, href, variant = 'gold' } = Astro.props;
 ---
 <article class={`card v-${variant}`}>
-  <Image src={image} alt="" widths={[400, 800]} sizes="(max-width:880px) 100vw, 33vw" class="photo" />
+  <Image src={image} alt={alt} widths={[400, 800]} sizes="(max-width:880px) 100vw, 33vw" class="photo" />
   <div class="body">
     <span class="tag">{tag}</span>
     <div class="meta">{meta}</div>

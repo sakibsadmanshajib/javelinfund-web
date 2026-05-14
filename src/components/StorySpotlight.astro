@@ -23,7 +23,10 @@ const { story } = Astro.props;
         <p class="quote">{story.data.excerpt}</p>
         {story.data.person && <p class="who">— {story.data.person}</p>}
         {story.data.location && <p class="where">{story.data.location}, Northern Haiti</p>}
-        <a class="read-more" href={`/stories/${story.id}`}>Read her story <span aria-hidden="true">→</span></a>
+        <a class="read-more" href={`/stories/${story.id}`}>
+          Read {story.data.person ? `${story.data.person}'s story` : 'their story'}
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
   </div>
