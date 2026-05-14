@@ -1,0 +1,65 @@
+---
+// src/components/DonateStrip.astro
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  tiers: CollectionEntry<'donateTiers'>[];
+}
+const { tiers } = Astro.props;
+
+function formatAmount(amount: number | 'custom') {
+  if (amount === 'custom') return 'Custom';
+  return `$${amount.toLocaleString('en-CA')}`;
+}
+function formatFrequency(freq: string) {
+  switch (freq) {
+    case 'yearly':   return 'Per year';
+    case 'monthly':  return 'Per month';
+    case 'one-time': return 'One-time';
+    default:         return 'Any amount';
+  }
+}
+---
+<section class="donate">
+  <div class="container row">
+    <div>
+      <p class="eyebrow red">Give today</p>
+      <h2 class="display">Receipts,<br /><span class="accent">not</span> promises.</h2>
+      <p>Pick any amount. Instant tax receipt via CanadaHelps. Monthly giving = 3× the impact per dollar.</p>
+      <div class="pay-row">
+        <span class="chip">💳 Card</span>
+        <span class="chip">🍁 Interac e-Transfer</span>
+        <span class="chip">↻ Monthly</span>
+        <span class="chip">🧾 CRA receipt</span>
+      </div>
+    </div>
+    <div class="tiers">
+      {tiers.map((t) => (
+        <a class={`tier ${t.data.featured ? 'featured' : ''}`} href={t.data.canada_helps_url ?? '/donate'}>
+          {t.data.ribbon && <span class="ribbon">{t.data.ribbon}</span>}
+          <span class="amt">{formatAmount(t.data.amount)}</span>
+          <span class="freq">{formatFrequency(t.data.frequency)}</span>
+          <span class="what">{t.data.label}</span>
+          <span class="sub">{t.data.sub}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .donate { background: var(--gold); color: var(--navy); padding: 70px 0; }
+  .row { display: grid; grid-template-columns: 1fr 1.15fr; gap: 50px; align-items: center; }
+  @media (max-width: 880px) { .row { grid-template-columns: 1fr; } }
+  h2.display { font-size: 48px; line-height: 0.95; letter-spacing: -1.5px; margin: 0 0 16px; }
+  .red { color: var(--red); margin-bottom: 14px; }
+  .pay-row { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .chip { background: var(--navy); color: var(--ivory); font-size: 11px; letter-spacing: 1.5px; padding: 8px 12px; text-transform: uppercase; font-weight: 700; }
+  .tiers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .tier { background: var(--navy); color: var(--ivory); padding: 24px 22px; display: flex; flex-direction: column; gap: 6px; border-left: 3px solid var(--gold); position: relative; }
+  .tier.featured { background: var(--red); border-left-color: var(--gold); }
+  .ribbon { position: absolute; top: 0; right: 0; background: var(--gold); color: var(--navy); font-size: 9px; letter-spacing: 1.5px; padding: 3px 8px; font-weight: 900; text-transform: uppercase; }
+  .amt { font-family: var(--font-display); font-size: 30px; color: var(--gold); letter-spacing: -1px; }
+  .freq { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--fg-muted); font-weight: 700; }
+  .what { font-size: 14px; font-weight: 700; margin-top: 6px; }
+  .sub  { font-size: 12px; color: var(--fg-muted); }
+</style>
