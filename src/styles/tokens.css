@@ -1,0 +1,42 @@
+/* src/styles/tokens.css */
+:root {
+  /* palette */
+  --navy: #0a1a3f;
+  --navy-2: #08153a;
+  --navy-3: #0e2050;
+  --red: #d62828;
+  --red-dark: #a51d1d;
+  --gold: #ffd60a;
+  --gold-2: #f5c100;
+  --ivory: #fafaf7;
+  --sand: #f1e9d8;
+
+  /* roles */
+  --bg: var(--navy);
+  --bg-alt: var(--navy-2);
+  --fg: var(--ivory);
+  --fg-muted: rgba(250, 250, 247, 0.72);
+  --line: rgba(250, 250, 247, 0.12);
+  --accent: var(--gold);
+  --accent-2: var(--red);
+
+  /* typography */
+  --font-display: 'Archivo Black', system-ui, sans-serif;
+  --font-accent: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, system-ui, sans-serif;
+
+  /* spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* layout */
+  --container: 1240px;
+  --container-x: clamp(16px, 4vw, 32px);
+}
