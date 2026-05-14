@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro';
+import TrustBand from '../components/TrustBand.astro';
+import { getCollection } from 'astro:content';
+
+const tiers = (await getCollection('donateTiers')).sort(
+  (a, b) => b.data.priority - a.data.priority,
+);
+
+const formatAmount = (a: number | 'custom') => (a === 'custom' ? 'Your amount' : `$${a.toLocaleString('en-CA')}`);
+const formatFrequency = (f: string) =>
+  f === 'yearly' ? 'Per year'
+  : f === 'monthly' ? 'Per month'
+  : f === 'one-time' ? 'One-time'
+  : 'Any amount';
+---
+<Base title="Donate" description="Support Javelin Fund. Tax receipts issued automatically.">
+  <section class="donate-page container">
+    <p class="eyebrow red">Give today</p>
+    <h1 class="display" style="font-size:64px;letter-spacing:-2px;margin:0 0 24px">
+      Receipts,<br /><span class="accent">not</span> promises.
+    </h1>
+    <p class="lede">
+      Every dollar reaches Northern Haiti through audited programs. Pick a tier, pay with card, or send Interac e-Transfer — your CRA-compliant tax receipt is issued automatically.
+    </p>
+
+    <div class="tiers">
+      {tiers.map((t) => (
+        <a
+          class={`tier ${t.data.featured ? 'featured' : ''}`}
+          href={t.data.canada_helps_url ?? '#interac'}
+          aria-label={`Donate ${formatAmount(t.data.amount)} ${formatFrequency(t.data.frequency)} — ${t.data.label}`}
+        >
+          {t.data.ribbon && <span class="ribbon">{t.data.ribbon}</span>}
+          <span class="amt">{formatAmount(t.data.amount)}</span>
+          <span class="freq">{formatFrequency(t.data.frequency)}</span>
+          <span class="what">{t.data.label}</span>
+          <span class="sub">{t.data.sub}</span>
+        </a>
+      ))}
+    </div>
+
+    <h2 class="display" id="interac" style="margin-top:80px;font-size:32px">
+      Prefer Interac e-Transfer?
+    </h2>
+    <p class="interac">
+      Send your gift to <strong>donate@javelinfund.ca</strong>. Auto-deposit is on, so no security question is needed. We email a tax receipt within 5 business days.
+    </p>
+
+    <h2 class="display" style="margin-top:80px;font-size:32px">Frequently asked</h2>
+    <details>
+      <summary>How are tax receipts issued?</summary>
+      <p>CanadaHelps issues your CRA-compliant receipt instantly by email. Interac receipts are issued manually within 5 business days.</p>
+    </details>
+    <details>
+      <summary>What does my donation pay for?</summary>
+      <p>98¢ of every dollar goes directly to programs in Northern Haiti — schooling, food, water and health. Our audited annual report is published every March.</p>
+    </details>
+    <details>
+      <summary>Can I give in-kind or via my donor-advised fund?</summary>
+      <p>Yes. Email <strong>donate@javelinfund.ca</strong> and we will arrange securities, DAF grants or in-kind support directly.</p>
+    </details>
+    <details>
+      <summary>Is my donation secure?</summary>
+      <p>Card payments are processed by CanadaHelps, a registered Canadian charity platform with PCI-DSS compliance. Interac transfers are bank-grade.</p>
+    </details>
+  </section>
+
+  <TrustBand />
+</Base>
+<style>
+  .donate-page { padding: 80px 0; }
+  .red { color: var(--red); margin-bottom: 14px; }
+  .accent { font-family: var(--font-accent); font-style: italic; text-transform: none; letter-spacing: 0; }
+  .lede { font-size: 18px; color: var(--fg-muted); max-width: 640px; line-height: 1.55; margin: 0 0 40px; }
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 880px) {
+    .tiers { grid-template-columns: repeat(2, 1fr); }
+  }
+  .tier {
+    background: var(--navy-3);
+    color: var(--ivory);
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-left: 3px solid var(--gold);
+    position: relative;
+    transition: transform 120ms ease;
+  }
+  .tier:hover { transform: translateY(-2px); }
+  .tier.featured { background: var(--red); border-left-color: var(--gold); }
+  .ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    padding: 3px 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .amt {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--gold);
+    letter-spacing: -1px;
+  }
+  .freq {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-weight: 700;
+  }
+  .what { font-size: 14px; font-weight: 700; margin-top: 6px; }
+  .sub  { font-size: 12px; color: var(--fg-muted); }
+  details {
+    border-top: 1px solid var(--line);
+    padding: 16px 0;
+    max-width: 760px;
+  }
+  details:last-of-type { border-bottom: 1px solid var(--line); }
+  summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .interac { font-size: 17px; color: var(--fg-muted); max-width: 640px; }
+</style>
