@@ -3,6 +3,7 @@
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
+  <h2 class="sr-only">Footer</h2>
   <div class="container row">
     <div>
       <div class="logo">JAVELIN FUND</div>
@@ -10,20 +11,20 @@ const year = new Date().getFullYear();
       <p class="motto">L'union fait la force.</p>
     </div>
     <div>
-      <h4>Explore</h4>
+      <h3>Explore</h3>
       <a href="/about">Our Work</a>
       <a href="/team">The People</a>
       <a href="/stories">Stories</a>
       <a href="/contact">Contact</a>
     </div>
     <div>
-      <h4>Give</h4>
+      <h3>Give</h3>
       <a href="/donate">Donate</a>
       <a href="/donate#monthly">Monthly giving</a>
       <a href="/donate#interac">Interac e-Transfer</a>
     </div>
     <div>
-      <h4>Stay close</h4>
+      <h3>Stay close</h3>
       <a href="mailto:contact@javelinfund.ca">contact@javelinfund.ca</a>
     </div>
   </div>
@@ -39,7 +40,8 @@ const year = new Date().getFullYear();
   .logo { font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; margin-bottom: 12px; }
   .muted { color: var(--fg-muted); font-size: 14px; max-width: 320px; }
   .motto { font-family: var(--font-accent); font-style: italic; color: var(--gold); margin-top: 14px; }
-  h4 { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: var(--gold); margin: 0 0 14px; }
+  h3 { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: var(--gold); margin: 0 0 14px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
   .footer a { display: block; color: var(--fg-muted); font-size: 13px; padding: 5px 0; }
   .footer a:hover { color: var(--gold); }
   .bottom { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--fg-muted); flex-wrap: wrap; gap: 12px; }
