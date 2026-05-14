@@ -12,8 +12,6 @@ const SHEET_ID = '1u5loldYJCDfoI9wgLSGOtlfk8vhnqZevLZqGEWN4IVY';
 const ALLOWED_ORIGINS = [
   'https://javelinfund.ca',
   'https://www.javelinfund.ca',
-  'https://javelinfunds.ca',
-  'https://www.javelinfunds.ca',
   'https://javelinfund-web.sakibsadmanshajib.workers.dev',
   'https://javelinfund-web.pages.dev',
 ];
