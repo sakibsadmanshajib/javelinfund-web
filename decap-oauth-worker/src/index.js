@@ -91,25 +91,39 @@ async function handleCallback(url, env) {
 }
 
 function htmlPostMessage(token) {
-  // Decap expects: window.opener.postMessage("authorization:github:success:<json>", "*")
-  // where <json> = JSON.stringify({ token, provider: 'github' })
+  // Decap CMS protocol:
+  //   1. popup announces with `authorizing:github`
+  //   2. opener echoes the same string back to acknowledge
+  //   3. popup replies with `authorization:github:success:<json>`
+  // This handshake mirrors the well-known netlify-cms-github-oauth-provider
+  // implementation and matches what Decap's auth page expects.
   const payload = JSON.stringify({ token, provider: 'github' });
-  // Note: we use "*" target origin because Decap's postMessage listener filters
-  // on the message format ("authorization:github:..."), not on origin.
   const html = `<!doctype html>
 <html><head><meta charset="utf-8"><title>CMS sign-in</title></head>
 <body>
 <p>Signed in. You may close this window.</p>
 <script>
 (function () {
-  function send() {
-    if (!window.opener) return;
-    window.opener.postMessage('authorization:github:success:' + ${JSON.stringify(payload)}, '*');
+  var payload = ${JSON.stringify(payload)};
+  function receive(e) {
+    if (!e.data || typeof e.data !== 'string') return;
+    if (e.data !== 'authorizing:github') return;
+    (e.source || window.opener).postMessage(
+      'authorization:github:success:' + payload,
+      e.origin && e.origin !== 'null' ? e.origin : '*'
+    );
   }
-  // Send twice in case the opener wasn't quite ready.
-  send();
-  setTimeout(send, 200);
-  setTimeout(window.close, 800);
+  window.addEventListener('message', receive, false);
+  // Kick off the handshake.
+  if (window.opener) {
+    window.opener.postMessage('authorizing:github', '*');
+  }
+  // Failsafe: if the opener never echoes (legacy clients), push success
+  // directly after a short delay so old Decap builds still work.
+  setTimeout(function () {
+    if (window.opener) window.opener.postMessage('authorization:github:success:' + payload, '*');
+  }, 1200);
+  setTimeout(function () { try { window.close(); } catch (_) {} }, 2200);
 })();
 </script>
 </body></html>`;
