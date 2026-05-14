@@ -15,34 +15,38 @@ const stories = (await getCollection('stories')).sort(
   <section class="container" style="padding:80px 0">
     <p class="eyebrow gold">Stories</p>
     <h1 class="display" style="font-size:64px;letter-spacing:-2px">From the North.</h1>
-    <ul class="grid">
-      {
-        stories.map((s) => (
-          <li class="card">
-            <a href={`/stories/${s.id}`}>
-              <Image
-                src={s.data.hero}
-                alt={s.data.title}
-                widths={[400, 800]}
-                sizes="(max-width:880px) 100vw, 33vw"
-                class="photo"
-              />
-              <div class="body">
-                <p class="meta">
-                  {s.data.location} ·{' '}
-                  {s.data.date.toLocaleDateString('en-CA', { month: 'long', year: 'numeric' })}
-                </p>
-                <h2 class="display">{s.data.title}</h2>
-                <p>{s.data.excerpt}</p>
-                <span class="more">
-                  Read <span aria-hidden="true">→</span>
-                </span>
-              </div>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+    {stories.length === 0 ? (
+      <p style="color:var(--fg-muted);padding:48px 0">No stories yet — check back soon.</p>
+    ) : (
+      <ul class="grid">
+        {
+          stories.map((s) => (
+            <li class="card">
+              <a href={`/stories/${s.id}`}>
+                <Image
+                  src={s.data.hero}
+                  alt=""
+                  widths={[400, 800]}
+                  sizes="(max-width:880px) 100vw, 33vw"
+                  class="photo"
+                />
+                <div class="body">
+                  <p class="meta">
+                    {s.data.location} ·{' '}
+                    {s.data.date.toLocaleDateString('en-CA', { month: 'long', year: 'numeric' })}
+                  </p>
+                  <h2 class="display">{s.data.title}</h2>
+                  <p>{s.data.excerpt}</p>
+                  <span class="more" aria-hidden="true">
+                    Read <span aria-hidden="true">→</span>
+                  </span>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    )}
   </section>
 </Base>
 

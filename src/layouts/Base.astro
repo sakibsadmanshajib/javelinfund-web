@@ -23,7 +23,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonical.toString()} />
     <meta property="og:title" content={`${title} · Javelin Fund`} />
     <meta property="og:description" content={description} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && (
+      <meta
+        property="og:image"
+        content={new URL(ogImage, Astro.site).toString()}
+      />
+    )}
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
