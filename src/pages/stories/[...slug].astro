@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro';
+import MottoBand from '../../components/MottoBand.astro';
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const stories = await getCollection('stories');
+  return stories.map((s) => ({ params: { slug: s.id }, props: { story: s } }));
+}
+
+const { story } = Astro.props;
+const { Content } = await render(story);
+---
+
+<Base
+  title={story.data.title}
+  description={story.data.excerpt}
+  ogImage={story.data.hero.src}
+>
+  <article class="container" style="padding:60px 0 80px;max-width:760px">
+    <p class="eyebrow gold">Story · {story.data.location}</p>
+    <h1 class="display" style="font-size:54px;letter-spacing:-2px;margin:8px 0 24px">
+      {story.data.title}
+    </h1>
+    <Image
+      src={story.data.hero}
+      alt={story.data.title}
+      widths={[800, 1400]}
+      sizes="100vw"
+      class="hero"
+    />
+    <p class="lede">{story.data.excerpt}</p>
+    <div class="prose"><Content /></div>
+  </article>
+  <MottoBand />
+</Base>
+
+<style>
+  .gold {
+    color: var(--gold);
+  }
+  .hero {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    margin: 0 0 32px;
+  }
+  .lede {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--fg-muted);
+    font-family: var(--font-accent);
+    font-style: italic;
+    border-left: 3px solid var(--gold);
+    padding-left: 16px;
+    margin: 0 0 32px;
+  }
+  .prose {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--fg-muted);
+  }
+  .prose :global(h2) {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--ivory);
+    margin: 40px 0 16px;
+  }
+  .prose :global(p) {
+    margin: 18px 0;
+  }
+</style>
