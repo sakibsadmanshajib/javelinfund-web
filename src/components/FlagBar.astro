@@ -1,0 +1,12 @@
+---
+// src/components/FlagBar.astro
+---
+<div class="flag-bar" aria-hidden="true">
+  <span style="background: var(--navy)"></span>
+  <span style="background: var(--red)"></span>
+  <span style="background: var(--gold)"></span>
+</div>
+<style>
+  .flag-bar { height: 6px; display: flex; }
+  .flag-bar span { flex: 1; display: block; }
+</style>
