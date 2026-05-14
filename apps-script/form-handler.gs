@@ -8,8 +8,15 @@
  *   5. Copy the deployment URL into the Cloudflare Pages env var PUBLIC_FORMS_ENDPOINT.
  *   6. Test with `curl -XPOST <url> -d '{"kind":"contact","fields":{"name":"x"}}'`.
  */
-const SHEET_ID = 'REPLACE_WITH_SHEET_ID';
-const ALLOWED_ORIGINS = ['https://javelinfund.ca', 'https://staging.javelinfund.ca'];
+const SHEET_ID = '1u5loldYJCDfoI9wgLSGOtlfk8vhnqZevLZqGEWN4IVY';
+const ALLOWED_ORIGINS = [
+  'https://javelinfund.ca',
+  'https://www.javelinfund.ca',
+  'https://javelinfunds.ca',
+  'https://www.javelinfunds.ca',
+  'https://javelinfund-web.sakibsadmanshajib.workers.dev',
+  'https://javelinfund-web.pages.dev',
+];
 
 function doPost(e) {
   try {
