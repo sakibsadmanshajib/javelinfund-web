@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: OWNER/REPO
+  repo: sakibsadmanshajib/javelinfund-web
   branch: main
   base_url: https://api.netlify.com  # OAuth proxy; replace with self-hosted later
   auth_endpoint: auth
