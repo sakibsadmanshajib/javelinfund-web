@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry, render } from 'astro:content';
+
+const page = await getEntry('pages', 'privacy');
+if (!page) {
+  throw new Error('Missing pages/privacy content entry');
+}
+const { Content } = await render(page);
+---
+<Base title={page.data.title} description={page.data.description}>
+  <section class="container" style="padding:80px 0;max-width:760px">
+    <h1 class="display" style="font-size:48px;letter-spacing:-1.5px">{page.data.title}</h1>
+    <article class="prose"><Content /></article>
+  </section>
+</Base>
+<style>
+  .prose { font-size: 16px; line-height: 1.7; color: var(--fg-muted); }
+  .prose :global(h2) { color: var(--ivory); margin-top: 32px; }
+  .prose :global(a) { color: var(--gold); text-decoration: underline; }
+</style>
