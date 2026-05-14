@@ -1,0 +1,37 @@
+---
+// src/components/StatsGrid.astro
+const stats = [
+  { num: '325',    label: 'Children in school' },
+  { num: '12,400', label: 'Meals served · 2025' },
+  { num: '98¢',    label: 'Of every $1 to programs' },
+  { num: '10 yrs', label: 'On the ground since 2016' },
+];
+---
+<section class="stats">
+  <div class="container">
+    <p class="eyebrow gold">Our impact · 2025</p>
+    <h2 class="display">Receipts, not promises.</h2>
+    <p class="lede">Our annual report is audited and published every March. The numbers below are what the year actually delivered.</p>
+    <div class="grid">
+      {stats.map((s, i) => (
+        <div class={`stat n-${i}`}><div class="num">{s.num}</div><div class="lbl">{s.label}</div></div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .stats { background: var(--bg-alt); padding: 70px 0; position: relative; overflow: hidden; }
+  .stats::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--navy) 0% 33.3%, var(--red) 33.3% 66.6%, var(--gold) 66.6% 100%); }
+  .gold { color: var(--gold); margin: 0 0 8px; }
+  h2.display { font-size: 42px; letter-spacing: -1.5px; margin: 0 0 8px; }
+  .lede { color: var(--fg-muted); margin: 0 0 48px; max-width: 640px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  @media (max-width: 880px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+  .stat { padding: 28px 24px; background: var(--navy-3); border-top: 4px solid var(--gold); }
+  .stat.n-1 { border-top-color: var(--red); }
+  .stat.n-3 { border-top-color: var(--ivory); }
+  .num { font-family: var(--font-display); font-size: 54px; line-height: 1; color: var(--gold); letter-spacing: -2px; }
+  .stat.n-1 .num { color: var(--red); }
+  .stat.n-3 .num { color: var(--ivory); }
+  .lbl { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fg-muted); font-weight: 700; margin-top: 10px; }
+</style>
