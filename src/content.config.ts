@@ -1,8 +1,9 @@
-// src/content/config.ts
+// src/content.config.ts
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const stories = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/stories' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -18,7 +19,7 @@ const stories = defineCollection({
 });
 
 const team = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/team' }),
   schema: ({ image }) =>
     z.object({
       name: z.string(),
@@ -30,7 +31,7 @@ const team = defineCollection({
 });
 
 const donateTiers = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/donate-tiers' }),
   schema: z.object({
     amount: z.union([z.number(), z.literal('custom')]),
     frequency: z.enum(['one-time', 'monthly', 'yearly', 'custom']),
@@ -44,7 +45,7 @@ const donateTiers = defineCollection({
 });
 
 const pages = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/pages' }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
