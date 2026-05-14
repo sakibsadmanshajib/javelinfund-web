@@ -1,4 +1,5 @@
 ---
+# TODO: replace placeholder before launch
 name: 'Founder Name'
 role: 'Founder & Executive Director'
 photo: ../../assets/images/team-founder.jpg

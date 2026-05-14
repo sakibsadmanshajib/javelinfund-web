@@ -23,4 +23,12 @@ describe('pickFeaturedAll', () => {
     const items = [mk(true, 1, 'a'), mk(true, 3, 'b'), mk(false, 99, 'c'), mk(true, 2, 'd')];
     expect(pickFeaturedAll(items).map((i) => i.id)).toEqual(['b', 'd', 'a']);
   });
+
+  it('returns empty array when no items are featured', () => {
+    expect(pickFeaturedAll([mk(false, 99, 'a')])).toEqual([]);
+  });
+
+  it('returns empty array for empty input', () => {
+    expect(pickFeaturedAll([])).toEqual([]);
+  });
 });
