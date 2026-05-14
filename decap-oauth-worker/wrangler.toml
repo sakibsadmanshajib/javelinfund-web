@@ -1,0 +1,8 @@
+name = "javelinfund-decap-oauth"
+main = "src/index.js"
+compatibility_date = "2025-05-01"
+
+# Plain free-tier Worker. No KV / Durable Objects needed.
+# Secrets are set via `npx wrangler secret put` after the first deploy:
+#   GITHUB_CLIENT_ID
+#   GITHUB_CLIENT_SECRET
