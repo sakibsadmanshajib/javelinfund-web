@@ -72,13 +72,17 @@ function _handleReceipt(body) {
     const data = body.pdfBase64;
     if (!serial || !data) return _err('missing serial or pdfBase64');
     const folderId = _getProp('RECEIPTS_FOLDER_ID');
+    if (!folderId) return _err('RECEIPTS_FOLDER_ID not set');
+    const values = sh.getDataRange().getValues();
+    let rowIndex = -1;
+    for (let i = 1; i < values.length; i++) {
+      if (values[i][0] === serial) { rowIndex = i; break; }
+    }
+    if (rowIndex === -1) return _err('serial not found');
     const folder = DriveApp.getFolderById(folderId);
     const blob = Utilities.newBlob(Utilities.base64Decode(data), 'application/pdf', serial + '.pdf');
     const file = folder.createFile(blob);
-    const values = sh.getDataRange().getValues();
-    for (let i = 1; i < values.length; i++) {
-      if (values[i][0] === serial) { sh.getRange(i + 1, 10).setValue(file.getId()); break; }
-    }
+    sh.getRange(rowIndex + 1, 10).setValue(file.getId());
     return _json({ ok: true, driveFileId: file.getId() });
   }
 
