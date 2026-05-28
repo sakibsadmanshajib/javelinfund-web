@@ -41,3 +41,6 @@ See [`docs/DECISIONS.md`](../docs/DECISIONS.md) for the full table of 15 brainst
 ## Key Learning (2026-05-28)
 - Worker `/api/receipts` routes live in `decap-oauth-worker/src/api/receipts.js`, wired in `index.js` before the `/auth` branch (reuses existing `url`). Auth via `verifyGitHubIdentity` + `RECEIPTS_ALLOWLIST`. CORS echoes Origin from `SITE_ORIGINS`.
 - Worker route tests must use `// @vitest-environment node` (not happy-dom) because happy-dom strips the Origin request header.
+
+## Key Learnings
+- Root-run vitest importing `decap-oauth-worker/src` needs any worker runtime dep (e.g. pdf-lib) ALSO in ROOT package.json devDependencies — CI runs `npm ci` only at repo root; the sub-package node_modules is never installed in CI. Verify by hiding decap-oauth-worker/node_modules and running the test. (2026-05-28)

@@ -5,7 +5,7 @@
     "error_message": "Significant refactor of ",
     "file": "docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
     "root_cause": "7 lines replaced/restructured",
-    "fix": "Rewrote 8\u219214 lines (7 removed)",
+    "fix": "Rewrote 8→14 lines (7 removed)",
     "tags": [
       "auto-detected",
       "refactor",
@@ -97,5 +97,23 @@
     "related_bugs": [],
     "occurrences": 1,
     "last_seen": "2026-05-28T18:33:17.032505"
+  },
+  {
+    "id": "bug-007",
+    "timestamp": "2026-05-28",
+    "error_message": "CI test step: ERR_MODULE_NOT_FOUND pdf-lib (renderPdf.js/receipts.js)",
+    "file": "package.json",
+    "root_cause": "pdf-lib was only in decap-oauth-worker/package.json (sub-package). Root vitest imports worker source; CI runs npm ci at repo root only, so the sub-package node_modules is never installed and pdf-lib fails to resolve. Passed locally because a subagent npm-installed it inside the sub-package.",
+    "fix": "Added pdf-lib to ROOT package.json devDependencies so root npm ci installs it; node resolution walks up to root node_modules. Kept it in the worker package for wrangler deploy.",
+    "tags": [
+      "ci",
+      "monorepo",
+      "module-resolution",
+      "pdf-lib",
+      "vitest"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-05-28"
   }
 ]
