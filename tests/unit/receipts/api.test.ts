@@ -14,7 +14,11 @@ const env = {
   SIGNATURE_PNG_B64: '',
 };
 
-function req(method: string, path: string, opts: any = {}) {
+function req(
+  method: string,
+  path: string,
+  opts: { headers?: Record<string, string>; body?: unknown } = {},
+) {
   return new Request(`https://worker.example${path}`, {
     method,
     headers: {

@@ -68,8 +68,12 @@ import Base from '../../layouts/Base.astro';
             cancelBtn.textContent = 'Cancel';
             cancelBtn.addEventListener('click', async () => {
               if (!confirm('Cancel this receipt? It cannot be un-cancelled; you must issue a new one.')) return;
-              await cancelReceipt(r.serial);
-              refresh();
+              try {
+                await cancelReceipt(r.serial);
+                refresh();
+              } catch (e) {
+                formMsg.textContent = 'Cancel failed: ' + (e as Error).message;
+              }
             });
             actions.appendChild(cancelBtn);
           }
@@ -79,7 +83,7 @@ import Base from '../../layouts/Base.astro';
       } catch (e) { formMsg.textContent = (e as Error).message; }
     }
 
-    function showApp() { authState.hidden = true; signinBtn.hidden = true; app.hidden = false; refresh(); }
+    function showApp() { authState.hidden = true; signinBtn.hidden = true; app.hidden = false; refresh().catch(() => {}); }
 
     if (getToken()) showApp();
     else { authState.textContent = 'Please sign in to manage receipts.'; signinBtn.hidden = false; }

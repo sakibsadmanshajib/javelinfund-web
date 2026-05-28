@@ -3,6 +3,7 @@
 const OAUTH_BASE = 'https://javelinfund-decap-oauth.sakibsadmanshajib.workers.dev';
 const API_BASE = OAUTH_BASE; // same worker hosts /api/receipts
 const SUCCESS_PREFIX = 'authorization:github:success:';
+const OAUTH_TIMEOUT_MS = 120_000;
 
 export interface ReceiptRow {
   serial: string;
@@ -45,16 +46,28 @@ export function clearToken(): void {
 
 // Reuses Decap's popup handshake to obtain a GitHub token.
 export function authorizeWithGitHub(): Promise<string> {
+  const expectedOrigin = new URL(OAUTH_BASE).origin;
   return new Promise((resolve, reject) => {
     const popup = window.open(`${OAUTH_BASE}/auth`, 'gh-oauth', 'width=720,height=720');
     if (!popup) return reject(new Error('popup blocked'));
+    const timer = setTimeout(() => {
+      window.removeEventListener('message', onMessage);
+      try {
+        popup!.close();
+      } catch {
+        /* noop */
+      }
+      reject(new Error('sign-in timed out'));
+    }, OAUTH_TIMEOUT_MS);
     function onMessage(e: MessageEvent) {
+      if (e.origin !== expectedOrigin) return; // only trust the OAuth worker
       if (e.data === 'authorizing:github') {
-        popup!.postMessage('authorizing:github', '*');
+        popup!.postMessage('authorizing:github', expectedOrigin);
         return;
       }
       const token = parseOAuthMessage(e.data);
       if (token) {
+        clearTimeout(timer);
         window.removeEventListener('message', onMessage);
         setToken(token);
         try {
@@ -66,10 +79,6 @@ export function authorizeWithGitHub(): Promise<string> {
       }
     }
     window.addEventListener('message', onMessage, false);
-    setTimeout(() => {
-      window.removeEventListener('message', onMessage);
-      reject(new Error('sign-in timed out'));
-    }, 120000);
   });
 }
 
@@ -92,6 +101,7 @@ export async function listReceipts(): Promise<ReceiptRow[]> {
     clearToken();
     throw new Error('not authorized');
   }
+  if (!res.ok) throw new Error(`list failed (${res.status})`);
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || 'list failed');
   return json.receipts as ReceiptRow[];
@@ -101,6 +111,20 @@ export async function createReceipt(
   fields: Record<string, string>,
 ): Promise<{ serial: string; pdfBase64: string }> {
   const res = await apiFetch('/api/receipts', { method: 'POST', body: JSON.stringify(fields) });
+  if (res.status === 401) {
+    clearToken();
+    throw new Error('not authorized');
+  }
+  if (!res.ok) {
+    let msg = `create failed (${res.status})`;
+    try {
+      const j = await res.json();
+      if (j && j.error) msg = j.error;
+    } catch {
+      /* keep generic */
+    }
+    throw new Error(msg);
+  }
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || 'create failed');
   return { serial: json.serial, pdfBase64: json.pdfBase64 };
