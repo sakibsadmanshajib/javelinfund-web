@@ -23,10 +23,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
-const DUMP = path.join(
-  ROOT,
-  '_source/extracted/javelinsooperior/mysql/javelins_funds_db.sql',
-);
+const DUMP = path.join(ROOT, '_source/extracted/javelinsooperior/mysql/javelins_funds_db.sql');
 const PUBLIC_ROOT = path.join(
   ROOT,
   '_source/extracted/javelinsooperior/homedir/public_html/public',
@@ -55,10 +52,7 @@ const sql = fs.readFileSync(DUMP, 'utf8');
  */
 function extractTuplesForTable(sqlText, table) {
   // Find all INSERT statements (may be more than one) for this table.
-  const headerRe = new RegExp(
-    `INSERT INTO\\s+\`${table}\`[^;]*?VALUES\\s*`,
-    'gi',
-  );
+  const headerRe = new RegExp(`INSERT INTO\\s+\`${table}\`[^;]*?VALUES\\s*`, 'gi');
   const tuples = [];
   let m;
   while ((m = headerRe.exec(sqlText)) !== null) {
@@ -235,7 +229,10 @@ function htmlToMarkdown(html) {
 
   let md = walk(root);
   // Collapse 3+ blank lines, trim, normalize spaces.
-  md = md.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  md = md
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
   return md;
 }
 
@@ -350,9 +347,7 @@ function migrateStories() {
     }
     if (!resolvedSrc) {
       console.warn(
-        `[stories] ${slug}: missing image (looked for ${candidates.join(
-          ', ',
-        )}), skipping`,
+        `[stories] ${slug}: missing image (looked for ${candidates.join(', ')}), skipping`,
       );
       stats.storiesSkippedMissingImage++;
       continue;
@@ -363,8 +358,7 @@ function migrateStories() {
     copyImage(resolvedSrc, imgName);
     stats.imagesCopied++;
 
-    const dateStr =
-      fmtDate(newsDate) ?? fmtDate(createdAt) ?? '2023-01-01';
+    const dateStr = fmtDate(newsDate) ?? fmtDate(createdAt) ?? '2023-01-01';
 
     const excerpt = subTitle?.trim() || htmlToExcerpt(content, title);
 

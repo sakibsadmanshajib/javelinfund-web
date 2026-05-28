@@ -5,30 +5,35 @@ import { Image } from 'astro:assets';
 
 const members = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 ---
+
 <Base title="The People" description="The team behind Javelin Fund.">
   <section class="container" style="padding:80px 0">
     <p class="eyebrow gold">The People</p>
     <h1 class="display" style="font-size:64px;letter-spacing:-2px">The hands behind the work.</h1>
     <ul class="grid">
-      {members.map((m) => (
-        <li class="card">
-          <Image
-            src={m.data.photo}
-            alt={m.data.name}
-            widths={[300, 600]}
-            sizes="(max-width:880px) 50vw, 25vw"
-            class="photo"
-          />
-          <h2 class="display">{m.data.name}</h2>
-          <p class="role">{m.data.role}</p>
-          {m.data.bio && <p class="bio">{m.data.bio}</p>}
-        </li>
-      ))}
+      {
+        members.map((m) => (
+          <li class="card">
+            <Image
+              src={m.data.photo}
+              alt={m.data.name}
+              widths={[300, 600]}
+              sizes="(max-width:880px) 50vw, 25vw"
+              class="photo"
+            />
+            <h2 class="display">{m.data.name}</h2>
+            <p class="role">{m.data.role}</p>
+            {m.data.bio && <p class="bio">{m.data.bio}</p>}
+          </li>
+        ))
+      }
     </ul>
   </section>
 </Base>
 <style>
-  .gold { color: var(--gold); }
+  .gold {
+    color: var(--gold);
+  }
   .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -38,9 +43,14 @@ const members = (await getCollection('team')).sort((a, b) => a.data.order - b.da
     margin: 0;
   }
   @media (max-width: 880px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
-  .card { background: var(--navy-3); padding: 0 0 20px; }
+  .card {
+    background: var(--navy-3);
+    padding: 0 0 20px;
+  }
   .photo {
     width: 100%;
     aspect-ratio: 4/5;

@@ -38,16 +38,16 @@ current template, archive a copy, and allow re-download later.
 
 ## Approved decisions
 
-| Decision | Choice |
-|---|---|
-| Access lock | Reuse GitHub OAuth (same as Decap); enforced server-side in the Worker |
-| Tool location | `/admin/receipts` — custom Astro page, linked from CMS landing |
-| System of record | Google Sheet, new `Receipts` tab |
-| PDF generation | **Worker-side** `pdf-lib` `drawText`, rendering the receipt fresh — visually faithful to Glen's template layout but using the **corrected current charity details** (NOT a byte-identical fill of the legacy AcroForm, which carried the old N0R 1A0 / Lillydale address) |
-| PDF archival | Store generated PDF copy in a **private** Google Drive folder; served only via authenticated Worker; data kept for regeneration |
-| Serial number | `2026-NNNN` — year prefix + 4 digits (max 9999/yr); **start = 2026-0001**; assigned atomically server-side |
-| Signature | Facsimile image stored as a **Cloudflare Worker Secret** (base64); composited server-side; never in repo or browser |
-| Corrections | Mark row `Cancelled` (serial never reused) + issue a fresh receipt |
+| Decision         | Choice                                                                                                                                                                                                                                                                    |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Access lock      | Reuse GitHub OAuth (same as Decap); enforced server-side in the Worker                                                                                                                                                                                                    |
+| Tool location    | `/admin/receipts` — custom Astro page, linked from CMS landing                                                                                                                                                                                                            |
+| System of record | Google Sheet, new `Receipts` tab                                                                                                                                                                                                                                          |
+| PDF generation   | **Worker-side** `pdf-lib` `drawText`, rendering the receipt fresh — visually faithful to Glen's template layout but using the **corrected current charity details** (NOT a byte-identical fill of the legacy AcroForm, which carried the old N0R 1A0 / Lillydale address) |
+| PDF archival     | Store generated PDF copy in a **private** Google Drive folder; served only via authenticated Worker; data kept for regeneration                                                                                                                                           |
+| Serial number    | `2026-NNNN` — year prefix + 4 digits (max 9999/yr); **start = 2026-0001**; assigned atomically server-side                                                                                                                                                                |
+| Signature        | Facsimile image stored as a **Cloudflare Worker Secret** (base64); composited server-side; never in repo or browser                                                                                                                                                       |
+| Corrections      | Mark row `Cancelled` (serial never reused) + issue a fresh receipt                                                                                                                                                                                                        |
 
 ## Architecture
 

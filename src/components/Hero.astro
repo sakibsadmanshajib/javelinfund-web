@@ -9,14 +9,28 @@ interface Props {
 }
 const { pill = 'Northern Haiti · 2026 Appeal', quote } = Astro.props;
 ---
+
 <section class="hero">
-  <Image src={hero} alt="Children in a Javelin Fund partner school in Northern Haiti" class="bg" widths={[800, 1200, 1800]} sizes="100vw" loading="eager" />
+  <Image
+    src={hero}
+    alt="Children in a Javelin Fund partner school in Northern Haiti"
+    class="bg"
+    widths={[800, 1200, 1800]}
+    sizes="100vw"
+    loading="eager"
+  />
   <div class="scrim" aria-hidden="true"></div>
   <div class="container content">
     <div class="left">
       <span class="pill"><span class="dot" aria-hidden="true"></span>{pill}</span>
-      <h1 class="display">Hope is<br /><span class="accent gold">a</span> <span class="gold">plan.</span></h1>
-      <p class="lede">Javelin Fund delivers direct relief and long-term programs to families in Cap-Haïtien and the villages of the North. Every dollar shipped. Every family known by name.</p>
+      <h1 class="display">
+        Hope is<br /><span class="accent gold">a</span>
+        <span class="gold">plan.</span>
+      </h1>
+      <p class="lede">
+        Javelin Fund delivers direct relief and long-term programs to families in Cap-Haïtien and
+        the villages of the North. Every dollar shipped. Every family known by name.
+      </p>
       <div class="cta">
         <a class="btn btn-red" href="/donate">Donate now <span aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="/stories">Read the stories</a>
@@ -27,38 +41,173 @@ const { pill = 'Northern Haiti · 2026 Appeal', quote } = Astro.props;
         <span><span class="check" aria-hidden="true">✓</span> Since 2016</span>
       </div>
     </div>
-    {quote && (
-      <aside class="right">
-        <div class="quote-card">
-          <p class="q">{quote.text}</p>
-          <p class="who">— {quote.who}</p>
-          <p class="where">{quote.where}</p>
-        </div>
-      </aside>
-    )}
+    {
+      quote && (
+        <aside class="right">
+          <div class="quote-card">
+            <p class="q">{quote.text}</p>
+            <p class="who">— {quote.who}</p>
+            <p class="where">{quote.where}</p>
+          </div>
+        </aside>
+      )
+    }
   </div>
 </section>
 <style>
-  .hero { position: relative; min-height: 88vh; overflow: hidden; }
-  .bg   { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
-  .scrim { position: absolute; inset: 0; background: linear-gradient(110deg, rgba(8, 21, 58, 0.95) 0%, rgba(8, 21, 58, 0.78) 45%, rgba(8, 21, 58, 0.28) 100%); }
-  .content { position: relative; padding: 80px 0 100px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; min-height: 88vh; }
-  @media (max-width: 880px) { .content { grid-template-columns: 1fr; padding: 60px 0; } }
-  .left { display: flex; flex-direction: column; gap: 24px; max-width: 620px; }
-  .pill { display: inline-flex; align-items: center; gap: 8px; background: var(--red); color: #fff; font-size: 11px; letter-spacing: 2px; padding: 6px 14px; font-weight: 800; text-transform: uppercase; width: fit-content; }
-  .dot  { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; }
-  h1.display { font-size: clamp(48px, 7.5vw, 108px); line-height: 0.86; letter-spacing: -3px; margin: 0; }
-  .gold { color: var(--gold); }
-  .lede { font-size: 17px; color: var(--fg-muted); max-width: 520px; margin: 0; }
-  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 12px; letter-spacing: 1.5px; padding: 14px 24px; border: none; cursor: pointer; text-transform: uppercase; }
-  .btn-red { background: var(--red); color: #fff; }
-  .btn-ghost { background: transparent; color: var(--fg); border: 1px solid rgba(255, 255, 255, 0.4); }
-  .trust { display: flex; gap: 20px; align-items: center; font-size: 12px; color: var(--fg-muted); flex-wrap: wrap; }
-  .check { width: 18px; height: 18px; border-radius: 50%; background: rgba(255, 214, 10, 0.18); color: var(--gold); display: inline-grid; place-items: center; font-size: 11px; font-weight: 900; }
-  .right { display: flex; justify-content: flex-end; }
-  .quote-card { background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px solid var(--line); padding: 26px 28px; max-width: 340px; border-left: 3px solid var(--gold); }
-  .q { font-family: var(--font-accent); font-style: italic; font-size: 18px; line-height: 1.45; margin: 0; }
-  .who { margin: 14px 0 0; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); font-weight: 800; }
-  .where { font-size: 12px; color: var(--fg-muted); margin: 2px 0 0; }
+  .hero {
+    position: relative;
+    min-height: 88vh;
+    overflow: hidden;
+  }
+  .bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      rgba(8, 21, 58, 0.95) 0%,
+      rgba(8, 21, 58, 0.78) 45%,
+      rgba(8, 21, 58, 0.28) 100%
+    );
+  }
+  .content {
+    position: relative;
+    padding: 80px 0 100px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: center;
+    min-height: 88vh;
+  }
+  @media (max-width: 880px) {
+    .content {
+      grid-template-columns: 1fr;
+      padding: 60px 0;
+    }
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 620px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  h1.display {
+    font-size: clamp(48px, 7.5vw, 108px);
+    line-height: 0.86;
+    letter-spacing: -3px;
+    margin: 0;
+  }
+  .gold {
+    color: var(--gold);
+  }
+  .lede {
+    font-size: 17px;
+    color: var(--fg-muted);
+    max-width: 520px;
+    margin: 0;
+  }
+  .cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    padding: 14px 24px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .btn-red {
+    background: var(--red);
+    color: #fff;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+  .trust {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--fg-muted);
+    flex-wrap: wrap;
+  }
+  .check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(255, 214, 10, 0.18);
+    color: var(--gold);
+    display: inline-grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 900;
+  }
+  .right {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .quote-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    padding: 26px 28px;
+    max-width: 340px;
+    border-left: 3px solid var(--gold);
+  }
+  .q {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.45;
+    margin: 0;
+  }
+  .who {
+    margin: 14px 0 0;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 800;
+  }
+  .where {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin: 2px 0 0;
+  }
 </style>

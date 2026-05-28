@@ -12,7 +12,13 @@ export async function renderReceiptPdf(model, signaturePngBytes) {
   let y = 740;
 
   const line = (text, opts = {}) => {
-    page.drawText(String(text), { x: opts.x ?? left, y, size: opts.size ?? 11, font: opts.bold ? bold : font, color: ink });
+    page.drawText(String(text), {
+      x: opts.x ?? left,
+      y,
+      size: opts.size ?? 11,
+      font: opts.bold ? bold : font,
+      color: ink,
+    });
     y -= opts.gap ?? 16;
   };
 
@@ -42,7 +48,9 @@ export async function renderReceiptPdf(model, signaturePngBytes) {
       const h = (png.height / png.width) * w;
       page.drawImage(png, { x: left, y: y - h + 10, width: w, height: h });
       y -= h;
-    } catch (_) { /* if signature fails to embed, fall through to text line */ }
+    } catch (_) {
+      /* if signature fails to embed, fall through to text line */
+    }
   }
   page.drawLine({ start: { x: left, y }, end: { x: left + 200, y }, thickness: 0.8, color: ink });
   y -= 14;

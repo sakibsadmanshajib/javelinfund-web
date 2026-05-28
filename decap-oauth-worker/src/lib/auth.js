@@ -22,5 +22,8 @@ export async function verifyGitHubIdentity(token, allowlist) {
 }
 
 export function parseAllowlist(raw) {
-  return String(raw || '').split(',').map((s) => s.trim()).filter(Boolean);
+  return String(raw || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
 }

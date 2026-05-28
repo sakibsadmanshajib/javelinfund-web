@@ -4,10 +4,14 @@ import { verifyGitHubIdentity } from '../../../decap-oauth-worker/src/lib/auth.j
 afterEach(() => vi.restoreAllMocks());
 
 function mockUser(login: string, status = 200) {
-  vi.stubGlobal('fetch', vi.fn(async () => ({
-    ok: status === 200, status,
-    json: async () => ({ login }),
-  })));
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async () => ({
+      ok: status === 200,
+      status,
+      json: async () => ({ login }),
+    })),
+  );
 }
 
 describe('verifyGitHubIdentity', () => {

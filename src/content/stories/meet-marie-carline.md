@@ -12,4 +12,4 @@ tags: ['food', 'education']
 
 When the Javelin Fund team first met Marie-Carline, the rains had not come for the planting season and the school year had already started two weeks late.
 
-> *(Body content to be written by the editorial team. Use Decap CMS or commit directly. This file is a seed — replace with the real story before launch.)*
+> _(Body content to be written by the editorial team. Use Decap CMS or commit directly. This file is a seed — replace with the real story before launch.)_

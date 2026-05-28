@@ -40,3 +40,8 @@ _source/
 .code-review-graph/
 graphify-out/
 .cache/
+
+# local caches / artifacts
+node-compile-cache/
+playwright-transform-cache-*/
+test-results/

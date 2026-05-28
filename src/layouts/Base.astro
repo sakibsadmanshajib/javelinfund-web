@@ -10,9 +10,14 @@ interface Props {
   description?: string;
   ogImage?: string;
 }
-const { title, description = 'Direct relief and lasting programs for families in Northern Haiti.', ogImage } = Astro.props;
+const {
+  title,
+  description = 'Direct relief and lasting programs for families in Northern Haiti.',
+  ogImage,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -23,12 +28,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonical.toString()} />
     <meta property="og:title" content={`${title} · Javelin Fund`} />
     <meta property="og:description" content={description} />
-    {ogImage && (
-      <meta
-        property="og:image"
-        content={new URL(ogImage, Astro.site).toString()}
-      />
-    )}
+    {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />}
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

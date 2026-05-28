@@ -15,7 +15,8 @@ function cors(origin) {
 }
 function json(obj, status, origin) {
   return new Response(JSON.stringify(obj), {
-    status, headers: { 'content-type': 'application/json', ...cors(origin) },
+    status,
+    headers: { 'content-type': 'application/json', ...cors(origin) },
   });
 }
 function bytesToBase64(bytes) {
@@ -34,7 +35,8 @@ export async function handleReceiptsRequest(request, env) {
   const url = new URL(request.url);
   const origin = allowOrigin(request.headers.get('origin'));
 
-  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
+  if (request.method === 'OPTIONS')
+    return new Response(null, { status: 204, headers: cors(origin) });
 
   const token = (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
   const id = await verifyGitHubIdentity(token, parseAllowlist(env.RECEIPTS_ALLOWLIST));
@@ -52,19 +54,34 @@ export async function handleReceiptsRequest(request, env) {
       try {
         buildReceiptModel(fields, { serial: '0000-0000', dateIssued: new Date().toISOString() });
       } catch (ve) {
-        return json({ ok: false, error: ve instanceof Error ? ve.message : 'invalid input' }, 400, origin);
+        return json(
+          { ok: false, error: ve instanceof Error ? ve.message : 'invalid input' },
+          400,
+          origin,
+        );
       }
       const reserved = await callAppsScript(env, 'receipt.reserve', { issuedBy: id.login, fields });
       try {
-        const model = buildReceiptModel(fields, { serial: reserved.serial, dateIssued: reserved.dateIssued });
+        const model = buildReceiptModel(fields, {
+          serial: reserved.serial,
+          dateIssued: reserved.dateIssued,
+        });
         const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
         const pdf = await renderReceiptPdf(model, sig);
         const pdfBase64 = bytesToBase64(pdf);
         await callAppsScript(env, 'receipt.store', { serial: reserved.serial, pdfBase64 });
-        return json({ ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64 }, 200, origin);
+        return json(
+          { ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64 },
+          200,
+          origin,
+        );
       } catch (postErr) {
         // best-effort: void the reserved-but-unfinished serial so it isn't left dangling active
-        try { await callAppsScript(env, 'receipt.cancel', { serial: reserved.serial }); } catch (_) { /* swallow */ }
+        try {
+          await callAppsScript(env, 'receipt.cancel', { serial: reserved.serial });
+        } catch (_) {
+          /* swallow */
+        }
         throw postErr;
       }
     }
@@ -79,13 +96,26 @@ export async function handleReceiptsRequest(request, env) {
         return json({ ok: false, error: 'receipt cancelled' }, 410, origin);
       }
       const model = buildReceiptModel(
-        { donorName: row.donorName, donorAddress: row.donorAddress, cityProvince: row.cityProvince,
-          postalCode: row.postalCode, amount: row.amount, dateReceived: String(row.dateReceived).slice(0, 10) },
+        {
+          donorName: row.donorName,
+          donorAddress: row.donorAddress,
+          cityProvince: row.cityProvince,
+          postalCode: row.postalCode,
+          amount: row.amount,
+          dateReceived: String(row.dateReceived).slice(0, 10),
+        },
         { serial: row.serial, dateIssued: new Date(row.dateIssued).toISOString() },
       );
       const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
       const pdf = await renderReceiptPdf(model, sig);
-      return new Response(pdf, { status: 200, headers: { 'content-type': 'application/pdf', 'content-disposition': `attachment; filename="${serial}.pdf"`, ...cors(origin) } });
+      return new Response(pdf, {
+        status: 200,
+        headers: {
+          'content-type': 'application/pdf',
+          'content-disposition': `attachment; filename="${serial}.pdf"`,
+          ...cors(origin),
+        },
+      });
     }
 
     const cancelMatch = /^\/api\/receipts\/([0-9]{4}-[0-9]{4})\/cancel$/.exec(url.pathname);

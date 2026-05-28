@@ -27,6 +27,7 @@
 ## File structure (created / modified)
 
 **Worker (`decap-oauth-worker/`)** — backend API + PDF
+
 - Create `decap-oauth-worker/src/lib/serial.js` — serial formatting helper (pure)
 - Create `decap-oauth-worker/src/lib/receiptModel.js` — validate+normalise donor input into a receipt model (pure)
 - Create `decap-oauth-worker/src/lib/auth.js` — `verifyGitHubIdentity(token, allowlist)` (fetch-based)
@@ -38,15 +39,18 @@
 - Modify `decap-oauth-worker/wrangler.toml` — document new secrets
 
 **Apps Script (`apps-script/`)** — record + serial + Drive
+
 - Modify `apps-script/form-handler.gs` — add `action`-based receipt branch (reserve / store / list / cancel)
 - Modify `apps-script/README.md` — document the receipt deployment + properties
 
 **Frontend (`src/`)** — admin page
+
 - Create `src/lib/receiptsClient.ts` — browser API client + OAuth popup (`authorizeWithGitHub`, `apiFetch`)
 - Create `src/pages/admin/receipts.astro` — the receipts page (form + list + download)
 - Modify `public/admin/index.html` — add a "Donation Receipts" link to the CMS landing
 
 **Tests (`tests/unit/receipts/`)** — vitest
+
 - Create `tests/unit/receipts/serial.test.ts`
 - Create `tests/unit/receipts/receiptModel.test.ts`
 - Create `tests/unit/receipts/auth.test.ts`
@@ -54,6 +58,7 @@
 - Create `tests/unit/receipts/receiptsClient.test.ts`
 
 **Docs**
+
 - Create `docs/manual-donation-receipts-setup.md` — operator setup (secrets, Apps Script, signature import, manual E2E checklist)
 
 > Note: Worker lib modules are plain ESM `.js`; vitest (`tests/unit/**`) imports them by relative path. Coverage `include` stays `src/**`, so Worker files won't appear in coverage — that's expected; the tests still run and gate behaviour.
@@ -63,6 +68,7 @@
 ## Task 1: Apps Script — receipt actions (serial, sheet, Drive)
 
 **Files:**
+
 - Modify: `apps-script/form-handler.gs`
 - Modify: `apps-script/README.md`
 
@@ -70,17 +76,29 @@ Apps Script cannot be unit-tested locally; this task is code + a manual curl smo
 
 - [ ] **Step 1: Add the receipt branch to `doPost`**
 
-In `apps-script/form-handler.gs`, replace the body of `doPost` so it dispatches receipt actions *before* the existing form logic. Add the new code shown; keep all existing helper functions.
+In `apps-script/form-handler.gs`, replace the body of `doPost` so it dispatches receipt actions _before_ the existing form logic. Add the new code shown; keep all existing helper functions.
 
 ```javascript
 // --- add near the top, after SHEET_ID / ALLOWED_ORIGINS ---
 const RECEIPTS_SHEET = 'Receipts';
 const RECEIPT_HEADERS = [
-  'serial', 'dateReceived', 'dateIssued', 'donorName', 'donorAddress',
-  'cityProvince', 'postalCode', 'amount', 'status', 'driveFileId', 'issuedBy', 'timestamp',
+  'serial',
+  'dateReceived',
+  'dateIssued',
+  'donorName',
+  'donorAddress',
+  'cityProvince',
+  'postalCode',
+  'amount',
+  'status',
+  'driveFileId',
+  'issuedBy',
+  'timestamp',
 ];
 
-function _getProp(key) { return PropertiesService.getScriptProperties().getProperty(key); }
+function _getProp(key) {
+  return PropertiesService.getScriptProperties().getProperty(key);
+}
 
 function _receiptsSheet(ss) {
   let sh = ss.getSheetByName(RECEIPTS_SHEET);
@@ -100,7 +118,7 @@ function _reserveSerial() {
     const key = 'serial_' + year;
     const props = PropertiesService.getScriptProperties();
     const current = parseInt(props.getProperty(key) || '0', 10);
-    const next = current + 1;            // first issued = 1 -> 2026-0001
+    const next = current + 1; // first issued = 1 -> 2026-0001
     props.setProperty(key, String(next));
     return year + '-' + String(next).padStart(4, '0');
   } finally {
@@ -118,8 +136,18 @@ function _handleReceipt(body) {
     const serial = _reserveSerial();
     const dateIssued = new Date();
     const row = [
-      serial, f.dateReceived || '', dateIssued, f.donorName || '', f.donorAddress || '',
-      f.cityProvince || '', f.postalCode || '', f.amount || '', 'active', '', body.issuedBy || '', new Date(),
+      serial,
+      f.dateReceived || '',
+      dateIssued,
+      f.donorName || '',
+      f.donorAddress || '',
+      f.cityProvince || '',
+      f.postalCode || '',
+      f.amount || '',
+      'active',
+      '',
+      body.issuedBy || '',
+      new Date(),
     ];
     sh.appendRow(row);
     return _json({ ok: true, serial: serial, dateIssued: dateIssued.toISOString() });
@@ -131,12 +159,19 @@ function _handleReceipt(body) {
     if (!serial || !data) return _err('missing serial or pdfBase64');
     const folderId = _getProp('RECEIPTS_FOLDER_ID');
     const folder = DriveApp.getFolderById(folderId);
-    const blob = Utilities.newBlob(Utilities.base64Decode(data), 'application/pdf', serial + '.pdf');
+    const blob = Utilities.newBlob(
+      Utilities.base64Decode(data),
+      'application/pdf',
+      serial + '.pdf',
+    );
     const file = folder.createFile(blob);
     // write driveFileId back onto the matching row
     const values = sh.getDataRange().getValues();
     for (let i = 1; i < values.length; i++) {
-      if (values[i][0] === serial) { sh.getRange(i + 1, 10).setValue(file.getId()); break; }
+      if (values[i][0] === serial) {
+        sh.getRange(i + 1, 10).setValue(file.getId());
+        break;
+      }
     }
     return _json({ ok: true, driveFileId: file.getId() });
   }
@@ -147,8 +182,17 @@ function _handleReceipt(body) {
     for (let i = 1; i < values.length; i++) {
       const r = values[i];
       out.push({
-        serial: r[0], dateReceived: r[1], dateIssued: r[2], donorName: r[3], donorAddress: r[4],
-        cityProvince: r[5], postalCode: r[6], amount: r[7], status: r[8], driveFileId: r[9], issuedBy: r[10],
+        serial: r[0],
+        dateReceived: r[1],
+        dateIssued: r[2],
+        donorName: r[3],
+        donorAddress: r[4],
+        cityProvince: r[5],
+        postalCode: r[6],
+        amount: r[7],
+        status: r[8],
+        driveFileId: r[9],
+        issuedBy: r[10],
       });
     }
     return _json({ ok: true, receipts: out });
@@ -158,7 +202,10 @@ function _handleReceipt(body) {
     const serial = body.serial;
     const values = sh.getDataRange().getValues();
     for (let i = 1; i < values.length; i++) {
-      if (values[i][0] === serial) { sh.getRange(i + 1, 9).setValue('cancelled'); return _json({ ok: true }); }
+      if (values[i][0] === serial) {
+        sh.getRange(i + 1, 9).setValue('cancelled');
+        return _json({ ok: true });
+      }
     }
     return _err('serial not found');
   }
@@ -167,17 +214,19 @@ function _handleReceipt(body) {
 }
 
 function _json(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(
+    ContentService.MimeType.JSON,
+  );
 }
 ```
 
 Then, at the very start of the `try {` block inside `doPost`, add:
 
 ```javascript
-    const body = JSON.parse(e.postData.contents || '{}');
-    if (body.action && body.action.indexOf('receipt.') === 0) return _handleReceipt(body);
-    // (existing honeypot + kind logic continues below, reusing `body`)
-    if (body.hp && body.hp.length) return _ok();
+const body = JSON.parse(e.postData.contents || '{}');
+if (body.action && body.action.indexOf('receipt.') === 0) return _handleReceipt(body);
+// (existing honeypot + kind logic continues below, reusing `body`)
+if (body.hp && body.hp.length) return _ok();
 ```
 
 (Remove the now-duplicate `const body = JSON.parse(...)` line further down so `body` is declared once.)
@@ -190,6 +239,7 @@ In `apps-script/README.md`, add:
 ## Receipts add-on
 
 Script Properties to set (Project Settings → Script Properties):
+
 - `RECEIPTS_SECRET` — shared secret; must match the Worker's `APPS_SCRIPT_SHARED_SECRET`.
 - `RECEIPTS_FOLDER_ID` — Drive folder ID (PRIVATE, not shared) for archived receipt PDFs.
 - `serial_2026` — OPTIONAL. Leave unset to start at 2026-0001. To resume from N, set to N-1.
@@ -220,6 +270,7 @@ git commit -m "feat(apps-script): receipt actions — serial reserve, store, lis
 ## Task 2: Worker — serial helper (pure, TDD)
 
 **Files:**
+
 - Create: `decap-oauth-worker/src/lib/serial.js`
 - Test: `tests/unit/receipts/serial.test.ts`
 
@@ -286,6 +337,7 @@ git commit -m "feat(worker): serial formatting helper"
 ## Task 3: Worker — receipt model validation (pure, TDD)
 
 **Files:**
+
 - Create: `decap-oauth-worker/src/lib/receiptModel.js`
 - Test: `tests/unit/receipts/receiptModel.test.ts`
 
@@ -307,7 +359,10 @@ const good = {
 
 describe('buildReceiptModel', () => {
   it('normalises a valid donation and carries fixed charity data', () => {
-    const m = buildReceiptModel(good, { serial: '2026-0001', dateIssued: '2026-05-28T00:00:00.000Z' });
+    const m = buildReceiptModel(good, {
+      serial: '2026-0001',
+      dateIssued: '2026-05-28T00:00:00.000Z',
+    });
     expect(m.donorName).toBe('Jane Donor');
     expect(m.amount).toBe('50.00');
     expect(m.serial).toBe('2026-0001');
@@ -315,13 +370,20 @@ describe('buildReceiptModel', () => {
     expect(CHARITY.address).toContain('N8L 0Z2');
   });
   it('rejects empty donor name', () => {
-    expect(() => buildReceiptModel({ ...good, donorName: '' }, { serial: '2026-0001', dateIssued: 'x' })).toThrow();
+    expect(() =>
+      buildReceiptModel({ ...good, donorName: '' }, { serial: '2026-0001', dateIssued: 'x' }),
+    ).toThrow();
   });
   it('rejects non-numeric amount', () => {
-    expect(() => buildReceiptModel({ ...good, amount: 'abc' }, { serial: '2026-0001', dateIssued: 'x' })).toThrow();
+    expect(() =>
+      buildReceiptModel({ ...good, amount: 'abc' }, { serial: '2026-0001', dateIssued: 'x' }),
+    ).toThrow();
   });
   it('formats amount to two decimals', () => {
-    const m = buildReceiptModel({ ...good, amount: '50' }, { serial: '2026-0001', dateIssued: 'x' });
+    const m = buildReceiptModel(
+      { ...good, amount: '50' },
+      { serial: '2026-0001', dateIssued: 'x' },
+    );
     expect(m.amount).toBe('50.00');
   });
 });
@@ -384,6 +446,7 @@ git commit -m "feat(worker): receipt model validation + fixed charity data"
 ## Task 4: Worker — GitHub identity verification (TDD with mocked fetch)
 
 **Files:**
+
 - Create: `decap-oauth-worker/src/lib/auth.js`
 - Test: `tests/unit/receipts/auth.test.ts`
 
@@ -397,10 +460,14 @@ import { verifyGitHubIdentity } from '../../../decap-oauth-worker/src/lib/auth.j
 afterEach(() => vi.restoreAllMocks());
 
 function mockUser(login: string, status = 200) {
-  vi.stubGlobal('fetch', vi.fn(async () => ({
-    ok: status === 200, status,
-    json: async () => ({ login }),
-  })));
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async () => ({
+      ok: status === 200,
+      status,
+      json: async () => ({ login }),
+    })),
+  );
 }
 
 describe('verifyGitHubIdentity', () => {
@@ -459,7 +526,10 @@ export async function verifyGitHubIdentity(token, allowlist) {
 }
 
 export function parseAllowlist(raw) {
-  return String(raw || '').split(',').map((s) => s.trim()).filter(Boolean);
+  return String(raw || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 ```
 
@@ -480,6 +550,7 @@ git commit -m "feat(worker): GitHub identity verification with allowlist"
 ## Task 5: Worker — PDF renderer with pdf-lib (TDD)
 
 **Files:**
+
 - Modify: `decap-oauth-worker/package.json` (add `pdf-lib`)
 - Create: `decap-oauth-worker/src/lib/renderPdf.js`
 - Test: `tests/unit/receipts/renderPdf.test.ts`
@@ -503,8 +574,14 @@ import { renderReceiptPdf } from '../../../decap-oauth-worker/src/lib/renderPdf.
 import { buildReceiptModel } from '../../../decap-oauth-worker/src/lib/receiptModel.js';
 
 const model = buildReceiptModel(
-  { donorName: 'Jane Donor', donorAddress: '12 King St', cityProvince: 'Windsor, ON',
-    postalCode: 'N9A 1A1', amount: '50.00', dateReceived: '2026-05-28' },
+  {
+    donorName: 'Jane Donor',
+    donorAddress: '12 King St',
+    cityProvince: 'Windsor, ON',
+    postalCode: 'N9A 1A1',
+    amount: '50.00',
+    dateReceived: '2026-05-28',
+  },
   { serial: '2026-0001', dateIssued: '2026-05-28T00:00:00.000Z' },
 );
 
@@ -549,7 +626,13 @@ export async function renderReceiptPdf(model, signaturePngBytes) {
   let y = 740;
 
   const line = (text, opts = {}) => {
-    page.drawText(String(text), { x: opts.x ?? left, y, size: opts.size ?? 11, font: opts.bold ? bold : font, color: ink });
+    page.drawText(String(text), {
+      x: opts.x ?? left,
+      y,
+      size: opts.size ?? 11,
+      font: opts.bold ? bold : font,
+      color: ink,
+    });
     y -= opts.gap ?? 16;
   };
 
@@ -585,7 +668,9 @@ export async function renderReceiptPdf(model, signaturePngBytes) {
       const h = (png.height / png.width) * w;
       page.drawImage(png, { x: left, y: y - h + 10, width: w, height: h });
       y -= h;
-    } catch (_) { /* if signature fails to embed, fall through to text line */ }
+    } catch (_) {
+      /* if signature fails to embed, fall through to text line */
+    }
   }
   page.drawLine({ start: { x: left, y }, end: { x: left + 200, y }, thickness: 0.8, color: ink });
   y -= 14;
@@ -612,6 +697,7 @@ git commit -m "feat(worker): pdf-lib receipt renderer with optional signature"
 ## Task 6: Worker — Apps Script client (helper)
 
 **Files:**
+
 - Create: `decap-oauth-worker/src/lib/appsScript.js`
 
 No unit test (thin fetch wrapper exercised via Task 7 integration + manual E2E).
@@ -646,6 +732,7 @@ git commit -m "feat(worker): apps script client wrapper"
 ## Task 7: Worker — receipts API routes + CORS (TDD)
 
 **Files:**
+
 - Create: `decap-oauth-worker/src/api/receipts.js`
 - Modify: `decap-oauth-worker/src/index.js`
 - Test: `tests/unit/receipts/api.test.ts`
@@ -669,7 +756,12 @@ const env = {
 function req(method: string, path: string, opts: any = {}) {
   return new Request(`https://worker.example${path}`, {
     method,
-    headers: { origin: 'https://javelinfund.ca', authorization: 'Bearer tok', 'content-type': 'application/json', ...(opts.headers || {}) },
+    headers: {
+      origin: 'https://javelinfund.ca',
+      authorization: 'Bearer tok',
+      'content-type': 'application/json',
+      ...(opts.headers || {}),
+    },
     body: opts.body ? JSON.stringify(opts.body) : undefined,
   });
 }
@@ -682,15 +774,26 @@ describe('handleReceiptsRequest', () => {
   });
 
   it('returns 401 when the GitHub identity is not authorized', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, status: 200, json: async () => ({ login: 'stranger' }) })));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: true, status: 200, json: async () => ({ login: 'stranger' }) })),
+    );
     const res = await handleReceiptsRequest(req('GET', '/api/receipts'), env);
     expect(res.status).toBe(401);
   });
 
   it('lists receipts for an authorized user', async () => {
-    const fetchMock = vi.fn()
-      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ login: 'glenjackson' }) }) // /user
-      .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, receipts: [{ serial: '2026-0001' }] }) }); // apps script
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ login: 'glenjackson' }),
+      }) // /user
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ ok: true, receipts: [{ serial: '2026-0001' }] }),
+      }); // apps script
     vi.stubGlobal('fetch', fetchMock);
     const res = await handleReceiptsRequest(req('GET', '/api/receipts'), env);
     expect(res.status).toBe(200);
@@ -699,12 +802,31 @@ describe('handleReceiptsRequest', () => {
   });
 
   it('creates a receipt: reserves serial, renders pdf, stores, returns pdfBase64', async () => {
-    const fetchMock = vi.fn()
-      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ login: 'glenjackson' }) })  // /user
-      .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, serial: '2026-0001', dateIssued: '2026-05-28T00:00:00.000Z' }) }) // reserve
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ login: 'glenjackson' }),
+      }) // /user
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          ok: true,
+          serial: '2026-0001',
+          dateIssued: '2026-05-28T00:00:00.000Z',
+        }),
+      }) // reserve
       .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, driveFileId: 'drv1' }) }); // store
     vi.stubGlobal('fetch', fetchMock);
-    const body = { donorName: 'Jane', donorAddress: '12 King', cityProvince: 'Windsor, ON', postalCode: 'N9A1A1', amount: '50', dateReceived: '2026-05-28' };
+    const body = {
+      donorName: 'Jane',
+      donorAddress: '12 King',
+      cityProvince: 'Windsor, ON',
+      postalCode: 'N9A1A1',
+      amount: '50',
+      dateReceived: '2026-05-28',
+    };
     const res = await handleReceiptsRequest(req('POST', '/api/receipts', { body }), env);
     expect(res.status).toBe(200);
     const json = await res.json();
@@ -752,7 +874,8 @@ function cors(origin) {
 }
 function json(obj, status, origin) {
   return new Response(JSON.stringify(obj), {
-    status, headers: { 'content-type': 'application/json', ...cors(origin) },
+    status,
+    headers: { 'content-type': 'application/json', ...cors(origin) },
   });
 }
 function bytesToBase64(bytes) {
@@ -771,7 +894,8 @@ export async function handleReceiptsRequest(request, env) {
   const url = new URL(request.url);
   const origin = allowOrigin(request.headers.get('origin'));
 
-  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
+  if (request.method === 'OPTIONS')
+    return new Response(null, { status: 204, headers: cors(origin) });
 
   const token = (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
   const id = await verifyGitHubIdentity(token, parseAllowlist(env.RECEIPTS_ALLOWLIST));
@@ -786,12 +910,19 @@ export async function handleReceiptsRequest(request, env) {
     if (request.method === 'POST' && url.pathname === '/api/receipts') {
       const fields = await request.json();
       const reserved = await callAppsScript(env, 'receipt.reserve', { issuedBy: id.login, fields });
-      const model = buildReceiptModel(fields, { serial: reserved.serial, dateIssued: reserved.dateIssued });
+      const model = buildReceiptModel(fields, {
+        serial: reserved.serial,
+        dateIssued: reserved.dateIssued,
+      });
       const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
       const pdf = await renderReceiptPdf(model, sig);
       const pdfBase64 = bytesToBase64(pdf);
       await callAppsScript(env, 'receipt.store', { serial: reserved.serial, pdfBase64 });
-      return json({ ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64 }, 200, origin);
+      return json(
+        { ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64 },
+        200,
+        origin,
+      );
     }
 
     // GET /api/receipts/<serial>/pdf  → regenerate from stored data
@@ -802,13 +933,26 @@ export async function handleReceiptsRequest(request, env) {
       const row = (list.receipts || []).find((r) => r.serial === serial);
       if (!row) return json({ ok: false, error: 'not found' }, 404, origin);
       const model = buildReceiptModel(
-        { donorName: row.donorName, donorAddress: row.donorAddress, cityProvince: row.cityProvince,
-          postalCode: row.postalCode, amount: row.amount, dateReceived: String(row.dateReceived).slice(0, 10) },
+        {
+          donorName: row.donorName,
+          donorAddress: row.donorAddress,
+          cityProvince: row.cityProvince,
+          postalCode: row.postalCode,
+          amount: row.amount,
+          dateReceived: String(row.dateReceived).slice(0, 10),
+        },
         { serial: row.serial, dateIssued: new Date(row.dateIssued).toISOString() },
       );
       const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
       const pdf = await renderReceiptPdf(model, sig);
-      return new Response(pdf, { status: 200, headers: { 'content-type': 'application/pdf', 'content-disposition': `attachment; filename="${serial}.pdf"`, ...cors(origin) } });
+      return new Response(pdf, {
+        status: 200,
+        headers: {
+          'content-type': 'application/pdf',
+          'content-disposition': `attachment; filename="${serial}.pdf"`,
+          ...cors(origin),
+        },
+      });
     }
 
     // POST /api/receipts/<serial>/cancel
@@ -836,10 +980,10 @@ import { handleReceiptsRequest } from './api/receipts.js';
 Inside `async fetch(request, env)`, before the `/auth` check:
 
 ```javascript
-    const u = new URL(request.url);
-    if (u.pathname === '/api/receipts' || u.pathname.startsWith('/api/receipts/')) {
-      return handleReceiptsRequest(request, env);
-    }
+const u = new URL(request.url);
+if (u.pathname === '/api/receipts' || u.pathname.startsWith('/api/receipts/')) {
+  return handleReceiptsRequest(request, env);
+}
 ```
 
 - [ ] **Step 5: Run tests, verify they pass**
@@ -864,6 +1008,7 @@ git commit -m "feat(worker): authenticated /api/receipts routes (create/list/pdf
 ## Task 8: Frontend — browser API client + OAuth popup (TDD where pure)
 
 **Files:**
+
 - Create: `src/lib/receiptsClient.ts`
 - Test: `tests/unit/receipts/receiptsClient.test.ts`
 
@@ -876,7 +1021,8 @@ import { parseOAuthMessage, downloadBlobName } from '../../../src/lib/receiptsCl
 
 describe('parseOAuthMessage', () => {
   it('extracts the token from a Decap success message', () => {
-    const msg = 'authorization:github:success:' + JSON.stringify({ token: 'abc', provider: 'github' });
+    const msg =
+      'authorization:github:success:' + JSON.stringify({ token: 'abc', provider: 'github' });
     expect(parseOAuthMessage(msg)).toBe('abc');
   });
   it('returns null for unrelated messages', () => {
@@ -908,9 +1054,17 @@ const API_BASE = OAUTH_BASE; // same worker hosts /api/receipts
 const SUCCESS_PREFIX = 'authorization:github:success:';
 
 export interface ReceiptRow {
-  serial: string; dateReceived: string; dateIssued: string; donorName: string;
-  donorAddress: string; cityProvince: string; postalCode: string; amount: string;
-  status: string; driveFileId: string; issuedBy: string;
+  serial: string;
+  dateReceived: string;
+  dateIssued: string;
+  donorName: string;
+  donorAddress: string;
+  cityProvince: string;
+  postalCode: string;
+  amount: string;
+  status: string;
+  driveFileId: string;
+  issuedBy: string;
 }
 
 export function parseOAuthMessage(data: unknown): string | null {
@@ -928,9 +1082,15 @@ export function downloadBlobName(serial: string): string {
 }
 
 const TOKEN_KEY = 'jf_receipts_gh_token';
-export function getToken(): string | null { return sessionStorage.getItem(TOKEN_KEY); }
-export function setToken(t: string): void { sessionStorage.setItem(TOKEN_KEY, t); }
-export function clearToken(): void { sessionStorage.removeItem(TOKEN_KEY); }
+export function getToken(): string | null {
+  return sessionStorage.getItem(TOKEN_KEY);
+}
+export function setToken(t: string): void {
+  sessionStorage.setItem(TOKEN_KEY, t);
+}
+export function clearToken(): void {
+  sessionStorage.removeItem(TOKEN_KEY);
+}
 
 // Reuses Decap's popup handshake to obtain a GitHub token.
 export function authorizeWithGitHub(): Promise<string> {
@@ -947,12 +1107,19 @@ export function authorizeWithGitHub(): Promise<string> {
       if (token) {
         window.removeEventListener('message', onMessage);
         setToken(token);
-        try { popup!.close(); } catch { /* noop */ }
+        try {
+          popup!.close();
+        } catch {
+          /* noop */
+        }
         resolve(token);
       }
     }
     window.addEventListener('message', onMessage, false);
-    setTimeout(() => { window.removeEventListener('message', onMessage); reject(new Error('sign-in timed out')); }, 120000);
+    setTimeout(() => {
+      window.removeEventListener('message', onMessage);
+      reject(new Error('sign-in timed out'));
+    }, 120000);
   });
 }
 
@@ -961,19 +1128,28 @@ async function apiFetch(path: string, init: RequestInit = {}): Promise<Response>
   if (!token) throw new Error('not signed in');
   return fetch(`${API_BASE}${path}`, {
     ...init,
-    headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json', ...(init.headers || {}) },
+    headers: {
+      authorization: `Bearer ${token}`,
+      'content-type': 'application/json',
+      ...(init.headers || {}),
+    },
   });
 }
 
 export async function listReceipts(): Promise<ReceiptRow[]> {
   const res = await apiFetch('/api/receipts');
-  if (res.status === 401) { clearToken(); throw new Error('not authorized'); }
+  if (res.status === 401) {
+    clearToken();
+    throw new Error('not authorized');
+  }
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || 'list failed');
   return json.receipts as ReceiptRow[];
 }
 
-export async function createReceipt(fields: Record<string, string>): Promise<{ serial: string; pdfBase64: string }> {
+export async function createReceipt(
+  fields: Record<string, string>,
+): Promise<{ serial: string; pdfBase64: string }> {
   const res = await apiFetch('/api/receipts', { method: 'POST', body: JSON.stringify(fields) });
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || 'create failed');
@@ -1020,6 +1196,7 @@ git commit -m "feat(web): receipts API client + GitHub OAuth popup reuse"
 ## Task 9: Frontend — `/admin/receipts` page
 
 **Files:**
+
 - Create: `src/pages/admin/receipts.astro`
 - Test: `tests/component/receipts-page.test.ts`
 
@@ -1059,6 +1236,7 @@ Expected: FAIL — file not found.
 // src/pages/admin/receipts.astro
 import Base from '../../layouts/Base.astro';
 ---
+
 <Base title="Donation Receipts — Admin">
   <meta slot="head" name="robots" content="noindex, nofollow" />
   <main class="receipts" style="max-width:760px;margin:0 auto;padding:2rem 1rem;">
@@ -1080,14 +1258,24 @@ import Base from '../../layouts/Base.astro';
       <p id="formMsg" role="status"></p>
 
       <h2>Issued receipts</h2>
-      <table id="list"><thead><tr><th>Serial</th><th>Date</th><th>Donor</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody></tbody></table>
+      <table id="list">
+        <thead
+          ><tr><th>Serial</th><th>Date</th><th>Donor</th><th>Amount</th><th>Status</th><th></th></tr
+          ></thead
+        ><tbody></tbody>
+      </table>
     </section>
   </main>
 
   <script>
     import {
-      getToken, authorizeWithGitHub, listReceipts, createReceipt, cancelReceipt,
-      triggerBase64Download, reDownloadUrl,
+      getToken,
+      authorizeWithGitHub,
+      listReceipts,
+      createReceipt,
+      cancelReceipt,
+      triggerBase64Download,
+      reDownloadUrl,
     } from '../../lib/receiptsClient';
 
     const authState = document.getElementById('authState')!;
@@ -1104,29 +1292,48 @@ import Base from '../../layouts/Base.astro';
         for (const r of rows) {
           const tr = document.createElement('tr');
           tr.innerHTML =
-            `<td>${r.serial}</td><td>${String(r.dateIssued).slice(0,10)}</td><td>${r.donorName}</td>` +
+            `<td>${r.serial}</td><td>${String(r.dateIssued).slice(0, 10)}</td><td>${r.donorName}</td>` +
             `<td>$${r.amount}</td><td>${r.status}</td>` +
             `<td><a href="${reDownloadUrl(r.serial)}" target="_blank" rel="noopener">Download</a>` +
-            (r.status === 'active' ? ` · <button data-cancel="${r.serial}">Cancel</button>` : '') + `</td>`;
+            (r.status === 'active' ? ` · <button data-cancel="${r.serial}">Cancel</button>` : '') +
+            `</td>`;
           tbody.appendChild(tr);
         }
         tbody.querySelectorAll('button[data-cancel]').forEach((b) =>
           b.addEventListener('click', async () => {
-            if (!confirm('Cancel this receipt? It cannot be un-cancelled; you must issue a new one.')) return;
+            if (
+              !confirm('Cancel this receipt? It cannot be un-cancelled; you must issue a new one.')
+            )
+              return;
             await cancelReceipt((b as HTMLButtonElement).dataset.cancel!);
             refresh();
-          }));
-      } catch (e) { formMsg.textContent = (e as Error).message; }
+          }),
+        );
+      } catch (e) {
+        formMsg.textContent = (e as Error).message;
+      }
     }
 
-    function showApp() { authState.hidden = true; signinBtn.hidden = true; app.hidden = false; refresh(); }
+    function showApp() {
+      authState.hidden = true;
+      signinBtn.hidden = true;
+      app.hidden = false;
+      refresh();
+    }
 
     if (getToken()) showApp();
-    else { authState.textContent = 'Please sign in to manage receipts.'; signinBtn.hidden = false; }
+    else {
+      authState.textContent = 'Please sign in to manage receipts.';
+      signinBtn.hidden = false;
+    }
 
     signinBtn.addEventListener('click', async () => {
-      try { await authorizeWithGitHub(); showApp(); }
-      catch (e) { authState.textContent = 'Sign-in failed: ' + (e as Error).message; }
+      try {
+        await authorizeWithGitHub();
+        showApp();
+      } catch (e) {
+        authState.textContent = 'Sign-in failed: ' + (e as Error).message;
+      }
     });
 
     form.addEventListener('submit', async (ev) => {
@@ -1140,7 +1347,9 @@ import Base from '../../layouts/Base.astro';
         formMsg.textContent = `Receipt ${serial} created and downloaded.`;
         form.reset();
         refresh();
-      } catch (e) { formMsg.textContent = 'Error: ' + (e as Error).message; }
+      } catch (e) {
+        formMsg.textContent = 'Error: ' + (e as Error).message;
+      }
     });
   </script>
 </Base>
@@ -1188,6 +1397,7 @@ git commit -m "feat(web): /admin/receipts page (sign-in, create, list, download)
 ## Task 10: Link from the CMS landing
 
 **Files:**
+
 - Modify: `public/admin/index.html`
 
 - [ ] **Step 1: Add a link to the receipts tool**
@@ -1196,7 +1406,9 @@ Open `public/admin/index.html`. It currently loads Decap CMS. Add a small banner
 
 ```html
 <div style="padding:.6rem 1rem;background:#0b1f3a;color:#fff;font:14px system-ui;">
-  <a href="/admin/receipts" style="color:#ffd24a;text-decoration:underline;">→ Donation Receipts tool</a>
+  <a href="/admin/receipts" style="color:#ffd24a;text-decoration:underline;"
+    >→ Donation Receipts tool</a
+  >
 </div>
 ```
 
@@ -1217,14 +1429,16 @@ git commit -m "feat(web): link receipts tool from CMS landing"
 ## Task 11: Operator setup doc
 
 **Files:**
+
 - Create: `docs/manual-donation-receipts-setup.md`
 
 - [ ] **Step 1: Write the setup doc**
 
-```markdown
+````markdown
 # Manual Donation Receipts — Operator Setup
 
 ## 1. Apps Script
+
 1. Open the existing Apps Script project (the form handler).
 2. Paste the updated `apps-script/form-handler.gs`.
 3. Project Settings → Script Properties:
@@ -1234,13 +1448,18 @@ git commit -m "feat(web): link receipts tool from CMS landing"
 4. Deploy → Manage deployments → Edit → deploy new version. Copy the `/exec` URL.
 
 ## 2. Signature image
+
 Convert Glen's signature PNG to base64 (keep it OFF the repo):
+
 ```bash
 base64 -w0 "glen's signature.png" > signature.b64   # Linux
 ```
+````
+
 (Source file: glen's signature.png — provided by Glen; never commit it.)
 
 ## 3. Cloudflare Worker secrets (`decap-oauth-worker/`)
+
 ```bash
 cd decap-oauth-worker
 npx wrangler secret put APPS_SCRIPT_RECEIPTS_URL      # the /exec URL from step 1
@@ -1249,9 +1468,11 @@ npx wrangler secret put RECEIPTS_ALLOWLIST            # e.g. "glenjackson" (GitH
 npx wrangler secret put SIGNATURE_PNG_B64             # paste contents of signature.b64
 npx wrangler deploy
 ```
+
 (`GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` are already set from the CMS OAuth setup.)
 
 ## 4. Verify end-to-end
+
 1. Visit https://javelinfund.ca/admin/receipts
 2. Sign in with GitHub (must be an allowlisted account).
 3. Create a test receipt → a PDF downloads and a row appears in the `Receipts` tab + Drive folder.
@@ -1260,16 +1481,18 @@ npx wrangler deploy
 6. Delete the test row + Drive file when done.
 
 ## Notes
+
 - The receipt PDF prints the CURRENT charity address (N8L 0Z2). Confirm CRA has this address on file.
 - Numbering is unique and non-repeating; corrections = cancel + reissue (never silent edit).
-```
+
+````
 
 - [ ] **Step 2: Commit**
 
 ```bash
 git add docs/manual-donation-receipts-setup.md
 git commit -m "docs: operator setup for manual donation receipts"
-```
+````
 
 ---
 
@@ -1292,4 +1515,7 @@ git commit -m "docs: operator setup for manual donation receipts"
 - Cancel & reissue → Tasks 1, 7, 9.
 - No PII / signature in public repo → enforced by design; final verification step.
 - CRA fields on PDF → Tasks 3, 5 (charity data + statements).
+
+```
+
 ```

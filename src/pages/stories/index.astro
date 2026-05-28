@@ -3,9 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 
-const stories = (await getCollection('stories')).sort(
-  (a, b) => +b.data.date - +a.data.date,
-);
+const stories = (await getCollection('stories')).sort((a, b) => +b.data.date - +a.data.date);
 ---
 
 <Base
@@ -15,12 +13,12 @@ const stories = (await getCollection('stories')).sort(
   <section class="container" style="padding:80px 0">
     <p class="eyebrow gold">Stories</p>
     <h1 class="display" style="font-size:64px;letter-spacing:-2px">From the North.</h1>
-    {stories.length === 0 ? (
-      <p style="color:var(--fg-muted);padding:48px 0">No stories yet — check back soon.</p>
-    ) : (
-      <ul class="grid">
-        {
-          stories.map((s) => (
+    {
+      stories.length === 0 ? (
+        <p style="color:var(--fg-muted);padding:48px 0">No stories yet — check back soon.</p>
+      ) : (
+        <ul class="grid">
+          {stories.map((s) => (
             <li class="card">
               <a href={`/stories/${s.id}`}>
                 <Image
@@ -43,10 +41,10 @@ const stories = (await getCollection('stories')).sort(
                 </div>
               </a>
             </li>
-          ))
-        }
-      </ul>
-    )}
+          ))}
+        </ul>
+      )
+    }
   </section>
 </Base>
 

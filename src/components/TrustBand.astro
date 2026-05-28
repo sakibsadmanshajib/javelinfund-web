@@ -1,26 +1,68 @@
 ---
 // src/components/TrustBand.astro
 const items = [
-  { seal: 'CRA',  top: 'Registered Canadian Charity', bottom: 'BN 755722097 RR0001' },
-  { seal: '98¢',  top: 'Of every dollar',             bottom: 'direct to programs' },
-  { seal: '10',   top: 'Years on the ground',         bottom: 'since 2016' },
-  { seal: '📊',  top: 'Audited annual report',       bottom: 'published yearly' },
+  { seal: 'CRA', top: 'Registered Canadian Charity', bottom: 'BN 755722097 RR0001' },
+  { seal: '98¢', top: 'Of every dollar', bottom: 'direct to programs' },
+  { seal: '10', top: 'Years on the ground', bottom: 'since 2016' },
+  { seal: '📊', top: 'Audited annual report', bottom: 'published yearly' },
 ];
 ---
+
 <section class="trust">
   <div class="container row">
-    {items.map((i) => (
-      <div class="item">
-        <div class="seal" aria-hidden="true">{i.seal}</div>
-        <div>{i.top}<br /><strong>{i.bottom}</strong></div>
-      </div>
-    ))}
+    {
+      items.map((i) => (
+        <div class="item">
+          <div class="seal" aria-hidden="true">
+            {i.seal}
+          </div>
+          <div>
+            {i.top}
+            <br />
+            <strong>{i.bottom}</strong>
+          </div>
+        </div>
+      ))
+    }
   </div>
 </section>
 <style>
-  .trust { background: var(--bg-alt); padding: 36px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .row { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
-  .item { display: flex; align-items: center; gap: 14px; font-size: 12px; color: var(--fg-muted); letter-spacing: 1px; text-transform: uppercase; }
-  .item strong { color: var(--fg); font-weight: 800; }
-  .seal { width: 46px; height: 46px; border-radius: 50%; background: var(--gold); color: var(--navy); display: grid; place-items: center; font-size: 11px; font-weight: 900; letter-spacing: 0.5px; }
+  .trust {
+    background: var(--bg-alt);
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    color: var(--fg-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .item strong {
+    color: var(--fg);
+    font-weight: 800;
+  }
+  .seal {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+  }
 </style>

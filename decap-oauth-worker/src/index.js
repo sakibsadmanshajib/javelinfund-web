@@ -60,7 +60,7 @@ async function handleCallback(url, env) {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'accept': 'application/json',
+      accept: 'application/json',
       'user-agent': 'javelinfund-decap-oauth',
     },
     body: JSON.stringify({
@@ -72,7 +72,8 @@ async function handleCallback(url, env) {
   if (!tokenRes.ok) return htmlError(`GitHub token exchange failed: HTTP ${tokenRes.status}`);
 
   const tokenJson = await tokenRes.json();
-  if (tokenJson.error) return htmlError(`GitHub OAuth error: ${tokenJson.error_description || tokenJson.error}`);
+  if (tokenJson.error)
+    return htmlError(`GitHub OAuth error: ${tokenJson.error_description || tokenJson.error}`);
 
   const token = tokenJson.access_token;
   if (!token) return htmlError('No access_token returned by GitHub.');
@@ -124,9 +125,15 @@ function htmlError(msg) {
 <html><head><meta charset="utf-8"><title>CMS sign-in error</title></head>
 <body><h1>Sign-in failed</h1><p>${escapeHtml(msg)}</p>
 <p>Close this window and try again. If it persists, contact the admin.</p></body></html>`;
-  return new Response(html, { status: 400, headers: { 'content-type': 'text/html; charset=utf-8' } });
+  return new Response(html, {
+    status: 400,
+    headers: { 'content-type': 'text/html; charset=utf-8' },
+  });
 }
 
 function escapeHtml(s) {
-  return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  return s.replace(
+    /[&<>"']/g,
+    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+  );
 }

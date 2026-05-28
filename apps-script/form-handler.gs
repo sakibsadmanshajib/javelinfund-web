@@ -18,11 +18,23 @@ const ALLOWED_ORIGINS = [
 
 const RECEIPTS_SHEET = 'Receipts';
 const RECEIPT_HEADERS = [
-  'serial', 'dateReceived', 'dateIssued', 'donorName', 'donorAddress',
-  'cityProvince', 'postalCode', 'amount', 'status', 'driveFileId', 'issuedBy', 'timestamp',
+  'serial',
+  'dateReceived',
+  'dateIssued',
+  'donorName',
+  'donorAddress',
+  'cityProvince',
+  'postalCode',
+  'amount',
+  'status',
+  'driveFileId',
+  'issuedBy',
+  'timestamp',
 ];
 
-function _getProp(key) { return PropertiesService.getScriptProperties().getProperty(key); }
+function _getProp(key) {
+  return PropertiesService.getScriptProperties().getProperty(key);
+}
 
 function _receiptsSheet(ss) {
   let sh = ss.getSheetByName(RECEIPTS_SHEET);
@@ -42,7 +54,7 @@ function _reserveSerial() {
     const key = 'serial_' + year;
     const props = PropertiesService.getScriptProperties();
     const current = parseInt(props.getProperty(key) || '0', 10);
-    const next = current + 1;            // first issued = 1 -> 2026-0001
+    const next = current + 1; // first issued = 1 -> 2026-0001
     if (next > 9999) throw new Error('serial limit reached for the year (9999)');
     props.setProperty(key, String(next));
     return year + '-' + String(next).padStart(4, '0');
@@ -61,8 +73,18 @@ function _handleReceipt(body) {
     const serial = _reserveSerial();
     const dateIssued = new Date();
     const row = [
-      serial, f.dateReceived || '', dateIssued, f.donorName || '', f.donorAddress || '',
-      f.cityProvince || '', f.postalCode || '', f.amount || '', 'active', '', body.issuedBy || '', new Date(),
+      serial,
+      f.dateReceived || '',
+      dateIssued,
+      f.donorName || '',
+      f.donorAddress || '',
+      f.cityProvince || '',
+      f.postalCode || '',
+      f.amount || '',
+      'active',
+      '',
+      body.issuedBy || '',
+      new Date(),
     ];
     sh.appendRow(row);
     return _json({ ok: true, serial: serial, dateIssued: dateIssued.toISOString() });
@@ -77,15 +99,25 @@ function _handleReceipt(body) {
     const values = sh.getDataRange().getValues();
     let rowIndex = -1;
     for (let i = 1; i < values.length; i++) {
-      if (values[i][0] === serial) { rowIndex = i; break; }
+      if (values[i][0] === serial) {
+        rowIndex = i;
+        break;
+      }
     }
     if (rowIndex === -1) return _err('serial not found');
     const folder = DriveApp.getFolderById(folderId);
-    const blob = Utilities.newBlob(Utilities.base64Decode(data), 'application/pdf', serial + '.pdf');
+    const blob = Utilities.newBlob(
+      Utilities.base64Decode(data),
+      'application/pdf',
+      serial + '.pdf',
+    );
     const existing = folder.getFilesByName(serial + '.pdf');
     let file;
-    if (existing.hasNext()) { file = existing.next(); }
-    else { file = folder.createFile(blob); }
+    if (existing.hasNext()) {
+      file = existing.next();
+    } else {
+      file = folder.createFile(blob);
+    }
     sh.getRange(rowIndex + 1, 10).setValue(file.getId());
     return _json({ ok: true, driveFileId: file.getId() });
   }
@@ -96,8 +128,17 @@ function _handleReceipt(body) {
     for (let i = 1; i < values.length; i++) {
       const r = values[i];
       out.push({
-        serial: r[0], dateReceived: r[1], dateIssued: r[2], donorName: r[3], donorAddress: r[4],
-        cityProvince: r[5], postalCode: r[6], amount: r[7], status: r[8], driveFileId: r[9], issuedBy: r[10],
+        serial: r[0],
+        dateReceived: r[1],
+        dateIssued: r[2],
+        donorName: r[3],
+        donorAddress: r[4],
+        cityProvince: r[5],
+        postalCode: r[6],
+        amount: r[7],
+        status: r[8],
+        driveFileId: r[9],
+        issuedBy: r[10],
       });
     }
     return _json({ ok: true, receipts: out });
@@ -120,7 +161,9 @@ function _handleReceipt(body) {
 }
 
 function _json(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(
+    ContentService.MimeType.JSON,
+  );
 }
 
 function doPost(e) {
@@ -141,12 +184,17 @@ function doPost(e) {
     if (!body.kind || !body.fields) return _err('missing kind or fields');
 
     const ss = SpreadsheetApp.openById(SHEET_ID);
-    const sheetName = ({ contact: 'Contact', volunteer: 'Volunteer', newsletter: 'Newsletter' })[body.kind];
+    const sheetName = { contact: 'Contact', volunteer: 'Volunteer', newsletter: 'Newsletter' }[
+      body.kind
+    ];
     if (!sheetName) return _err('unknown kind');
     let sheet = ss.getSheetByName(sheetName);
     if (!sheet) sheet = ss.insertSheet(sheetName);
     const fields = body.fields;
-    const headers = sheet.getRange(1, 1, 1, Math.max(1, sheet.getLastColumn())).getValues()[0].filter(Boolean);
+    const headers = sheet
+      .getRange(1, 1, 1, Math.max(1, sheet.getLastColumn()))
+      .getValues()[0]
+      .filter(Boolean);
     const required = ['timestamp', ...Object.keys(fields)];
     for (const k of required) if (!headers.includes(k)) headers.push(k);
     sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
@@ -158,5 +206,13 @@ function doPost(e) {
   }
 }
 
-function _ok()  { return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON); }
-function _err(m){ return ContentService.createTextOutput(JSON.stringify({ ok: false, error: m })).setMimeType(ContentService.MimeType.JSON); }
+function _ok() {
+  return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(
+    ContentService.MimeType.JSON,
+  );
+}
+function _err(m) {
+  return ContentService.createTextOutput(JSON.stringify({ ok: false, error: m })).setMimeType(
+    ContentService.MimeType.JSON,
+  );
+}

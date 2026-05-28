@@ -14,20 +14,20 @@ Source archive: `javelinsooperior.tar.gz` (cPanel backup, ~1.1 GB compressed; `h
 
 `resources/views/front/pages/`:
 
-| Slug | File | Carry forward? |
-| --- | --- | --- |
-| `/` | `home.blade.php` | Yes (rebuild) |
-| `/about-us` | `about-us.blade.php` | Yes (merged with programs) |
-| `/our-programs` | `our-programs.blade.php` | Yes (merged with about) |
-| `/the-people` | `the-people.blade.php` | Yes (`team` page) |
-| `/the-people/{slug}` | `the-people-detail.blade.php` | Optional (collapse into team) |
-| `/northern-haiti` | `northern-haiti.blade.php` | Folded into home / programs |
-| `/news` | `news-listings.blade.php` | Renamed `/stories` |
-| `/news/{slug}` | `news-listings-detail.blade.php` | Renamed `/stories/{slug}` |
-| `/media` | `media.blade.php` | Folded into `/stories` |
-| `/contact-us` | `contact-us.blade.php` | Yes |
-| `/privacy-policy` | `privacy-policy.blade.php` | Yes |
-| `/terms` | `terms.blade.php` | Yes |
+| Slug                 | File                             | Carry forward?                |
+| -------------------- | -------------------------------- | ----------------------------- |
+| `/`                  | `home.blade.php`                 | Yes (rebuild)                 |
+| `/about-us`          | `about-us.blade.php`             | Yes (merged with programs)    |
+| `/our-programs`      | `our-programs.blade.php`         | Yes (merged with about)       |
+| `/the-people`        | `the-people.blade.php`           | Yes (`team` page)             |
+| `/the-people/{slug}` | `the-people-detail.blade.php`    | Optional (collapse into team) |
+| `/northern-haiti`    | `northern-haiti.blade.php`       | Folded into home / programs   |
+| `/news`              | `news-listings.blade.php`        | Renamed `/stories`            |
+| `/news/{slug}`       | `news-listings-detail.blade.php` | Renamed `/stories/{slug}`     |
+| `/media`             | `media.blade.php`                | Folded into `/stories`        |
+| `/contact-us`        | `contact-us.blade.php`           | Yes                           |
+| `/privacy-policy`    | `privacy-policy.blade.php`       | Yes                           |
+| `/terms`             | `terms.blade.php`                | Yes                           |
 
 ## Admin (CMS) entities found
 

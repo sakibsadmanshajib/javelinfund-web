@@ -3,8 +3,14 @@ import { renderReceiptPdf } from '../../../decap-oauth-worker/src/lib/renderPdf.
 import { buildReceiptModel } from '../../../decap-oauth-worker/src/lib/receiptModel.js';
 
 const model = buildReceiptModel(
-  { donorName: 'Jane Donor', donorAddress: '12 King St', cityProvince: 'Windsor, ON',
-    postalCode: 'N9A 1A1', amount: '50.00', dateReceived: '2026-05-28' },
+  {
+    donorName: 'Jane Donor',
+    donorAddress: '12 King St',
+    cityProvince: 'Windsor, ON',
+    postalCode: 'N9A 1A1',
+    amount: '50.00',
+    dateReceived: '2026-05-28',
+  },
   { serial: '2026-0001', dateIssued: '2026-05-28T00:00:00.000Z' },
 );
 
