@@ -1,0 +1,125 @@
+# Manual Donation Receipts Tool — Design
+
+**Date:** 2026-05-28
+**Project:** javelinfund-web (The Javelin Education & Medical Fund)
+**Status:** Approved (design); pending implementation plan
+
+## Problem
+
+Glen Jackson (President) issues CRA official donation receipts for manual donations
+(cash / family gifts) that do not flow through the automated online donation provider.
+Today he hand-edits a fillable PDF, which is error-prone and gives no record or
+re-download. We want a password-protected admin tool to capture donation data, store it
+in the existing Google Sheet, generate a CRA-compliant receipt PDF identical to his
+current template, archive a copy, and allow re-download later.
+
+## Charity / receipt facts (from existing template)
+
+- **Charity:** The Javelin Education & Medical Fund
+- **Address:** 1074 Lillydale Avenue, RR 1, Belle River, Ontario, N0R 1A0
+- **Registration #:** 75572 2097 RR0001
+- **Signatory:** Glen Jackson, President (one "n")
+- **Existing fillable PDF fields:** Date, Donor Name, Donor Address, City, Postal Code,
+  Sub Total, Total, receipt #, Signature
+- **Receipt statement:** "This is your official receipt for income tax purposes."
+
+## Existing stack (reused, not rebuilt)
+
+- Astro static site → Cloudflare Workers (`javelinfund-web`)
+- Decap CMS at `/admin` using GitHub OAuth via a Worker OAuth proxy
+  (`authorizing:github` handshake)
+- Apps Script web app (`apps-script/form-handler.gs`) writing to Google Sheet
+  `1u5loldYJCDfoI9wgLSGOtlfk8vhnqZevLZqGEWN4IVY` (Contact / Volunteer / Newsletter tabs)
+- Form posting helper at `src/lib/forms.ts` (`PUBLIC_FORMS_ENDPOINT`)
+
+## Approved decisions
+
+| Decision | Choice |
+|---|---|
+| Access lock | Reuse GitHub OAuth (same as Decap); enforced server-side in the Worker |
+| Tool location | `/admin/receipts` — custom Astro page, linked from CMS landing |
+| System of record | Google Sheet, new `Receipts` tab |
+| PDF generation | Client-side `pdf-lib`, filling Glen's existing fillable template (byte-identical) |
+| PDF archival | Store generated PDF copy in a Google Drive folder at issue time; data kept for regeneration |
+| Serial number | `2026-NNNN` — year prefix + 4 digits (max 9999/yr), configurable start, assigned atomically server-side |
+| Signature | Static facsimile signature image baked into the template |
+| Corrections | Mark row `Cancelled` (serial never reused) + issue a fresh receipt |
+
+## Architecture
+
+### 1. Page — `/admin/receipts` (Astro + client JS)
+
+- On load: run the same GitHub OAuth handshake Decap uses (reuse OAuth app + Worker
+  proxy). Exchange code for token; call GitHub `/user`; verify `login` is in an allowlist
+  (Glen). If not authorized, show login / access-denied. Page lock is **cosmetic** — real
+  enforcement is in the Worker.
+- **Create form fields:** Date received, Donor Name, Donor Address, City/Province,
+  Postal Code, Amount. Cash gift → eligible amount = total (no advantage).
+- **Receipts list:** serial, date, donor, amount, status; actions: Download, Re-download,
+  Cancel & reissue.
+- Link added to the CMS landing so it feels like one admin area.
+
+### 2. Cloudflare Worker — `/api/receipts` (security boundary)
+
+- Verifies the GitHub token **server-side on every request** (GitHub `/user` + allowlist).
+- Proxies authorized requests to the Apps Script web app using a shared secret
+  (stored as a Worker secret / env var, never in the repo).
+- Endpoints: `POST` create, `GET` list, `GET` single/regenerate, `POST` cancel.
+- Donor PII flows browser → Worker → Apps Script → Sheet/Drive. It never enters the
+  public Git repo.
+
+### 3. PDF generation — client-side `pdf-lib`
+
+- Fill the existing AcroForm fillable template (kept in repo — it is PII-free letterhead)
+  with donor data + serial + dates. Bake static signature image.
+- On create: send filled PDF bytes (base64) to the Worker → Apps Script → save to a Drive
+  folder; store the Drive file id on the Sheet row.
+- Re-download: refill from authoritative Sheet data on demand (consistent every time);
+  the archived Drive copy is the frozen audit artifact.
+
+### 4. Apps Script — extend `form-handler.gs`
+
+- New `Receipts` sheet/tab.
+- **Create:** acquire `LockService` lock; compute next serial for the current year
+  (configurable start, 4-digit, no gaps/dupes); append row; save Drive PDF copy; return
+  `{ serial, dateIssued, driveFileId, url }`.
+- **List:** return `Receipts` rows for the UI.
+- **Cancel:** set row `status = Cancelled`; serial is never reused.
+- Protected by the shared secret; only the Worker calls it.
+
+## Data model — `Receipts` sheet columns
+
+`serial`, `dateReceived`, `dateIssued`, `donorName`, `donorAddress`, `cityProvince`,
+`postalCode`, `amount`, `status` (active|cancelled), `driveFileId`, `issuedBy` (GitHub
+login), `timestamp`.
+
+## CRA compliance (general information — Glen to confirm with the charity's accountant)
+
+The generated PDF must carry the same mandatory elements already present on Glen's
+template: the statement "official donation receipt for income tax purposes", charity name
+and address, registration # 75572 2097 RR0001, a unique serial number, date the donation
+was received, date the receipt was issued, donor full name and address, the eligible
+amount of the gift, the authorized signature, and the CRA reference
+(`canada.ca/charities-giving`). Numbering must be unique and non-repeating; corrections
+require cancelling and reissuing rather than silent edits. This document replicates Glen's
+existing template verbatim; final wording/fields are Glen's responsibility to confirm.
+
+## Security notes
+
+- Worker is the enforcement point; GitHub allowlist gates all data operations.
+- Apps Script reachable only via the Worker's shared secret.
+- No donor PII committed to the public repo, by design.
+- Minimal logging; no PII in logs.
+
+## Scope cuts (YAGNI)
+
+No donor database/search, no automated email delivery, no multi-user roles, no analytics,
+no in-kind / advantage handling (cash gifts only). Add later only if needed.
+
+## Limitations / risks
+
+- GitHub OAuth token is client-visible → server-side Worker enforcement is mandatory.
+- Apps Script daily quotas are ample at charity volume but are a ceiling.
+- Drive storage growth is negligible at this volume.
+- pdf-lib must reproduce the AcroForm template exactly; verify visual parity against a
+  known-good current receipt during implementation.

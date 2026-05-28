@@ -34,3 +34,6 @@ See [`docs/DECISIONS.md`](../docs/DECISIONS.md) for the full table of 15 brainst
 - **Receipts:** CanadaHelps is the *only* card processor — issues CRA-compliant tax receipts automatically. Direct Stripe rejected to avoid building a receipt issuer.
 - **Featured content mechanic:** Markdown files in `src/content/stories/` and `src/content/donate-tiers/` with `featured: true` + `priority` frontmatter; homepage auto-renders highest-priority featured.
 - **Page scope:** 5 — home, about (incl. programs), stories, team, donate.
+
+## User Preferences
+- Charity president name = "Glen Jackson" (ONE n, not "Glenn"). Use on all receipts/docs. (2026-05-28)
