@@ -46,19 +46,33 @@ import Base from '../../layouts/Base.astro';
         tbody.innerHTML = '';
         for (const r of rows) {
           const tr = document.createElement('tr');
-          tr.innerHTML =
-            `<td>${r.serial}</td><td>${String(r.dateIssued).slice(0,10)}</td><td>${r.donorName}</td>` +
-            `<td>$${r.amount}</td><td>${r.status}</td>` +
-            `<td><a href="${reDownloadUrl(r.serial)}" target="_blank" rel="noopener">Download</a>` +
-            (r.status === 'active' ? ` · <button data-cancel="${r.serial}">Cancel</button>` : '') + `</td>`;
+          const cells = [r.serial, String(r.dateIssued).slice(0, 10), r.donorName, `$${r.amount}`, r.status];
+          for (const value of cells) {
+            const td = document.createElement('td');
+            td.textContent = value;
+            tr.appendChild(td);
+          }
+          const actions = document.createElement('td');
+          const dl = document.createElement('a');
+          dl.href = reDownloadUrl(r.serial);
+          dl.target = '_blank';
+          dl.rel = 'noopener';
+          dl.textContent = 'Download';
+          actions.appendChild(dl);
+          if (r.status === 'active') {
+            actions.appendChild(document.createTextNode(' · '));
+            const cancelBtn = document.createElement('button');
+            cancelBtn.textContent = 'Cancel';
+            cancelBtn.addEventListener('click', async () => {
+              if (!confirm('Cancel this receipt? It cannot be un-cancelled; you must issue a new one.')) return;
+              await cancelReceipt(r.serial);
+              refresh();
+            });
+            actions.appendChild(cancelBtn);
+          }
+          tr.appendChild(actions);
           tbody.appendChild(tr);
         }
-        tbody.querySelectorAll('button[data-cancel]').forEach((b) =>
-          b.addEventListener('click', async () => {
-            if (!confirm('Cancel this receipt? It cannot be un-cancelled; you must issue a new one.')) return;
-            await cancelReceipt((b as HTMLButtonElement).dataset.cancel!);
-            refresh();
-          }));
       } catch (e) { formMsg.textContent = (e as Error).message; }
     }
 
