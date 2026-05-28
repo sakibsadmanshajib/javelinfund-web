@@ -1,0 +1,89 @@
+---
+// src/pages/admin/receipts.astro
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Donation Receipts — Admin">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+  <main class="receipts" style="max-width:760px;margin:0 auto;padding:2rem 1rem;">
+    <h1>Donation Receipts</h1>
+    <p id="authState">Checking sign-in…</p>
+    <button id="signin" type="button" hidden>Sign in with GitHub</button>
+
+    <section id="app" hidden>
+      <h2>New receipt</h2>
+      <form id="receiptForm">
+        <label>Date received <input name="dateReceived" type="date" required /></label>
+        <label>Donor name <input name="donorName" type="text" required /></label>
+        <label>Donor address <input name="donorAddress" type="text" required /></label>
+        <label>City, Province <input name="cityProvince" type="text" required /></label>
+        <label>Postal code <input name="postalCode" type="text" required /></label>
+        <label>Amount (CAD) <input name="amount" type="text" inputmode="decimal" required /></label>
+        <button type="submit">Create &amp; download receipt</button>
+      </form>
+      <p id="formMsg" role="status"></p>
+
+      <h2>Issued receipts</h2>
+      <table id="list"><thead><tr><th>Serial</th><th>Date</th><th>Donor</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody></tbody></table>
+    </section>
+  </main>
+
+  <script>
+    import {
+      getToken, authorizeWithGitHub, listReceipts, createReceipt, cancelReceipt,
+      triggerBase64Download, reDownloadUrl,
+    } from '../../lib/receiptsClient';
+
+    const authState = document.getElementById('authState')!;
+    const signinBtn = document.getElementById('signin') as HTMLButtonElement;
+    const app = document.getElementById('app')!;
+    const form = document.getElementById('receiptForm') as HTMLFormElement;
+    const formMsg = document.getElementById('formMsg')!;
+    const tbody = document.querySelector('#list tbody')!;
+
+    async function refresh() {
+      try {
+        const rows = await listReceipts();
+        tbody.innerHTML = '';
+        for (const r of rows) {
+          const tr = document.createElement('tr');
+          tr.innerHTML =
+            `<td>${r.serial}</td><td>${String(r.dateIssued).slice(0,10)}</td><td>${r.donorName}</td>` +
+            `<td>$${r.amount}</td><td>${r.status}</td>` +
+            `<td><a href="${reDownloadUrl(r.serial)}" target="_blank" rel="noopener">Download</a>` +
+            (r.status === 'active' ? ` · <button data-cancel="${r.serial}">Cancel</button>` : '') + `</td>`;
+          tbody.appendChild(tr);
+        }
+        tbody.querySelectorAll('button[data-cancel]').forEach((b) =>
+          b.addEventListener('click', async () => {
+            if (!confirm('Cancel this receipt? It cannot be un-cancelled; you must issue a new one.')) return;
+            await cancelReceipt((b as HTMLButtonElement).dataset.cancel!);
+            refresh();
+          }));
+      } catch (e) { formMsg.textContent = (e as Error).message; }
+    }
+
+    function showApp() { authState.hidden = true; signinBtn.hidden = true; app.hidden = false; refresh(); }
+
+    if (getToken()) showApp();
+    else { authState.textContent = 'Please sign in to manage receipts.'; signinBtn.hidden = false; }
+
+    signinBtn.addEventListener('click', async () => {
+      try { await authorizeWithGitHub(); showApp(); }
+      catch (e) { authState.textContent = 'Sign-in failed: ' + (e as Error).message; }
+    });
+
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      formMsg.textContent = 'Creating…';
+      const fd = new FormData(form);
+      const fields = Object.fromEntries([...fd.entries()].map(([k, v]) => [k, String(v)]));
+      try {
+        const { serial, pdfBase64 } = await createReceipt(fields);
+        triggerBase64Download(pdfBase64, serial);
+        formMsg.textContent = `Receipt ${serial} created and downloaded.`;
+        form.reset();
+        refresh();
+      } catch (e) { formMsg.textContent = 'Error: ' + (e as Error).message; }
+    });
+  </script>
+</Base>
