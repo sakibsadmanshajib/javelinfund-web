@@ -116,6 +116,38 @@ describe('handleReceiptsRequest', () => {
     expect(json.ok).toBe(true);
   });
 
+  it('refuses a cancelled receipt PDF with 410', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ login: 'glenjackson' }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          ok: true,
+          receipts: [
+            {
+              serial: '2026-0001',
+              status: 'cancelled',
+              donorName: 'X',
+              donorAddress: 'Y',
+              cityProvince: 'Z, ON',
+              postalCode: 'N1N1N1',
+              amount: '50.00',
+              dateReceived: '2026-05-28',
+              dateIssued: '2026-05-28T00:00:00.000Z',
+            },
+          ],
+        }),
+      });
+    vi.stubGlobal('fetch', fetchMock);
+    const res = await handleReceiptsRequest(req('GET', '/api/receipts/2026-0001/pdf'), env);
+    expect(res.status).toBe(410);
+  });
+
   it('omits access-control-allow-origin for a non-allowlisted origin', async () => {
     const res = await handleReceiptsRequest(
       req('OPTIONS', '/api/receipts', { headers: { origin: 'https://evil.example' } }),

@@ -43,6 +43,7 @@ function _reserveSerial() {
     const props = PropertiesService.getScriptProperties();
     const current = parseInt(props.getProperty(key) || '0', 10);
     const next = current + 1;            // first issued = 1 -> 2026-0001
+    if (next > 9999) throw new Error('serial limit reached for the year (9999)');
     props.setProperty(key, String(next));
     return year + '-' + String(next).padStart(4, '0');
   } finally {

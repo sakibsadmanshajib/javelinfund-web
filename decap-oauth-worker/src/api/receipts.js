@@ -75,6 +75,9 @@ export async function handleReceiptsRequest(request, env) {
       const list = await callAppsScript(env, 'receipt.list', {});
       const row = (list.receipts || []).find((r) => r.serial === serial);
       if (!row) return json({ ok: false, error: 'not found' }, 404, origin);
+      if (String(row.status).toLowerCase() === 'cancelled') {
+        return json({ ok: false, error: 'receipt cancelled' }, 410, origin);
+      }
       const model = buildReceiptModel(
         { donorName: row.donorName, donorAddress: row.donorAddress, cityProvince: row.cityProvince,
           postalCode: row.postalCode, amount: row.amount, dateReceived: String(row.dateReceived).slice(0, 10) },

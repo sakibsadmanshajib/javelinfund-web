@@ -12,13 +12,26 @@ function req(v, label) {
   return v.trim();
 }
 
+function validDate(s) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+  const d = new Date(s + 'T00:00:00Z');
+  if (isNaN(d.getTime())) return false;
+  if (d.toISOString().slice(0, 10) !== s) return false; // rejects 2026-13-99 etc.
+  const tomorrow = new Date(Date.now() + 86400000);
+  return d.getTime() <= tomorrow.getTime();
+}
+
 export function buildReceiptModel(fields, issued) {
-  const amountNum = Number(String(fields.amount).replace(/[$,]/g, ''));
-  if (!Number.isFinite(amountNum) || amountNum <= 0) throw new Error('invalid amount');
+  const amountRaw = String(fields.amount == null ? '' : fields.amount).replace(/[$,\s]/g, '');
+  if (!/^\d+(\.\d{1,2})?$/.test(amountRaw)) throw new Error('invalid amount');
+  const amountNum = Number(amountRaw);
+  if (!(amountNum > 0)) throw new Error('invalid amount');
+  const dateReceived = req(fields.dateReceived, 'dateReceived');
+  if (!validDate(dateReceived)) throw new Error('invalid dateReceived');
   return {
     serial: req(issued.serial, 'serial'),
     dateIssued: issued.dateIssued,
-    dateReceived: req(fields.dateReceived, 'dateReceived'),
+    dateReceived,
     donorName: req(fields.donorName, 'donorName'),
     donorAddress: req(fields.donorAddress, 'donorAddress'),
     cityProvince: req(fields.cityProvince, 'cityProvince'),
