@@ -2,20 +2,8 @@ import { verifyGitHubIdentity, parseAllowlist } from '../lib/auth.js';
 import { buildReceiptModel } from '../lib/receiptModel.js';
 import { renderReceiptPdf } from '../lib/renderPdf.js';
 import { callAppsScript } from '../lib/appsScript.js';
+import { allowOrigin } from '../lib/origins.js';
 
-const SITE_ORIGINS = [
-  'https://javelinfund.ca',
-  'https://www.javelinfund.ca',
-  'https://javelinfund-web.sakibsadmanshajib.workers.dev',
-  'https://javelinfund-web.pages.dev',
-  'http://localhost:4321',
-];
-function allowOrigin(origin) {
-  if (!origin) return '';
-  if (SITE_ORIGINS.includes(origin)) return origin;
-  if (origin.endsWith('.javelinfund-web.pages.dev')) return origin;
-  return '';
-}
 function cors(origin) {
   return {
     'access-control-allow-origin': origin || 'null',
@@ -98,6 +86,7 @@ export async function handleReceiptsRequest(request, env) {
 
     return json({ ok: false, error: 'not found' }, 404, origin);
   } catch (e) {
-    return json({ ok: false, error: e instanceof Error ? e.message : 'error' }, 500, origin);
+    console.error('receipts api error:', e instanceof Error ? e.stack || e.message : e);
+    return json({ ok: false, error: 'internal error' }, 500, origin);
   }
 }

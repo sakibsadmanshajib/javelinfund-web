@@ -16,22 +16,7 @@
  */
 
 import { handleReceiptsRequest } from './api/receipts.js';
-
-const ALLOWED_ORIGINS = [
-  'https://javelinfund.ca',
-  'https://www.javelinfund.ca',
-  'https://javelinfund-web.sakibsadmanshajib.workers.dev',
-  'https://javelinfund-web.pages.dev',
-  // Pages preview deployments use *.javelinfund-web.pages.dev — match by suffix below.
-  'http://localhost:4321',
-];
-
-function isAllowedOrigin(origin) {
-  if (!origin) return false;
-  if (ALLOWED_ORIGINS.includes(origin)) return true;
-  if (origin.endsWith('.javelinfund-web.pages.dev')) return true;
-  return false;
-}
+import { isAllowedOrigin } from './lib/origins.js';
 
 const SCOPE = 'repo,user';
 
