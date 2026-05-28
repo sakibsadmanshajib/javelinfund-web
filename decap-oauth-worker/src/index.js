@@ -15,6 +15,8 @@
  *   - GITHUB_CLIENT_SECRET
  */
 
+import { handleReceiptsRequest } from './api/receipts.js';
+
 const ALLOWED_ORIGINS = [
   'https://javelinfund.ca',
   'https://www.javelinfund.ca',
@@ -36,6 +38,9 @@ const SCOPE = 'repo,user';
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === '/api/receipts' || url.pathname.startsWith('/api/receipts/')) {
+      return handleReceiptsRequest(request, env);
+    }
     if (request.method === 'GET' && url.pathname === '/auth') {
       return startAuth(url, env);
     }
