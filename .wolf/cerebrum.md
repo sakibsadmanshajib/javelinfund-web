@@ -37,3 +37,7 @@ See [`docs/DECISIONS.md`](../docs/DECISIONS.md) for the full table of 15 brainst
 
 ## User Preferences
 - Charity president name = "Glen Jackson" (ONE n, not "Glenn"). Use on all receipts/docs. (2026-05-28)
+
+## Key Learning (2026-05-28)
+- Worker `/api/receipts` routes live in `decap-oauth-worker/src/api/receipts.js`, wired in `index.js` before the `/auth` branch (reuses existing `url`). Auth via `verifyGitHubIdentity` + `RECEIPTS_ALLOWLIST`. CORS echoes Origin from `SITE_ORIGINS`.
+- Worker route tests must use `// @vitest-environment node` (not happy-dom) because happy-dom strips the Origin request header.
