@@ -16,7 +16,10 @@ current template, archive a copy, and allow re-download later.
 ## Charity / receipt facts (from existing template)
 
 - **Charity:** The Javelin Education & Medical Fund
-- **Address:** 1074 Lillydale Avenue, RR 1, Belle River, Ontario, N0R 1A0
+- **Address:** 1074 Lilydale Avenue, Belle River, ON, Canada, N8L 0Z2
+  (current, per Glen 2026-05-28; old template showed "1074 Lillydale Avenue, RR 1 ... N0R 1A0").
+  NOTE: the receipt must print the charity address **as on file with CRA** — Glen to confirm
+  CRA record matches this current address, and confirm spelling "Lilydale" vs "Lillydale".
 - **Registration #:** 75572 2097 RR0001
 - **Signatory:** Glen Jackson, President (one "n")
 - **Existing fillable PDF fields:** Date, Donor Name, Donor Address, City, Postal Code,
