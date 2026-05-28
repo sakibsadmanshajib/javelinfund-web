@@ -16,7 +16,6 @@
  */
 
 import { handleReceiptsRequest } from './api/receipts.js';
-import { isAllowedOrigin } from './lib/origins.js';
 
 const SCOPE = 'repo,user';
 

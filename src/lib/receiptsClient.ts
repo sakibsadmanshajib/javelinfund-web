@@ -5,9 +5,17 @@ const API_BASE = OAUTH_BASE; // same worker hosts /api/receipts
 const SUCCESS_PREFIX = 'authorization:github:success:';
 
 export interface ReceiptRow {
-  serial: string; dateReceived: string; dateIssued: string; donorName: string;
-  donorAddress: string; cityProvince: string; postalCode: string; amount: string;
-  status: string; driveFileId: string; issuedBy: string;
+  serial: string;
+  dateReceived: string;
+  dateIssued: string;
+  donorName: string;
+  donorAddress: string;
+  cityProvince: string;
+  postalCode: string;
+  amount: string;
+  status: string;
+  driveFileId: string;
+  issuedBy: string;
 }
 
 export function parseOAuthMessage(data: unknown): string | null {
@@ -25,9 +33,15 @@ export function downloadBlobName(serial: string): string {
 }
 
 const TOKEN_KEY = 'jf_receipts_gh_token';
-export function getToken(): string | null { return sessionStorage.getItem(TOKEN_KEY); }
-export function setToken(t: string): void { sessionStorage.setItem(TOKEN_KEY, t); }
-export function clearToken(): void { sessionStorage.removeItem(TOKEN_KEY); }
+export function getToken(): string | null {
+  return sessionStorage.getItem(TOKEN_KEY);
+}
+export function setToken(t: string): void {
+  sessionStorage.setItem(TOKEN_KEY, t);
+}
+export function clearToken(): void {
+  sessionStorage.removeItem(TOKEN_KEY);
+}
 
 // Reuses Decap's popup handshake to obtain a GitHub token.
 export function authorizeWithGitHub(): Promise<string> {
@@ -43,12 +57,19 @@ export function authorizeWithGitHub(): Promise<string> {
       if (token) {
         window.removeEventListener('message', onMessage);
         setToken(token);
-        try { popup!.close(); } catch { /* noop */ }
+        try {
+          popup!.close();
+        } catch {
+          /* noop */
+        }
         resolve(token);
       }
     }
     window.addEventListener('message', onMessage, false);
-    setTimeout(() => { window.removeEventListener('message', onMessage); reject(new Error('sign-in timed out')); }, 120000);
+    setTimeout(() => {
+      window.removeEventListener('message', onMessage);
+      reject(new Error('sign-in timed out'));
+    }, 120000);
   });
 }
 
@@ -57,19 +78,28 @@ async function apiFetch(path: string, init: RequestInit = {}): Promise<Response>
   if (!token) throw new Error('not signed in');
   return fetch(`${API_BASE}${path}`, {
     ...init,
-    headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json', ...(init.headers || {}) },
+    headers: {
+      authorization: `Bearer ${token}`,
+      'content-type': 'application/json',
+      ...(init.headers || {}),
+    },
   });
 }
 
 export async function listReceipts(): Promise<ReceiptRow[]> {
   const res = await apiFetch('/api/receipts');
-  if (res.status === 401) { clearToken(); throw new Error('not authorized'); }
+  if (res.status === 401) {
+    clearToken();
+    throw new Error('not authorized');
+  }
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || 'list failed');
   return json.receipts as ReceiptRow[];
 }
 
-export async function createReceipt(fields: Record<string, string>): Promise<{ serial: string; pdfBase64: string }> {
+export async function createReceipt(
+  fields: Record<string, string>,
+): Promise<{ serial: string; pdfBase64: string }> {
   const res = await apiFetch('/api/receipts', { method: 'POST', body: JSON.stringify(fields) });
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || 'create failed');
@@ -94,6 +124,18 @@ export function triggerBase64Download(pdfBase64: string, serial: string): void {
   URL.revokeObjectURL(a.href);
 }
 
-export function reDownloadUrl(serial: string): string {
-  return `${API_BASE}/api/receipts/${serial}/pdf`;
+export async function downloadExistingReceipt(serial: string): Promise<void> {
+  const res = await apiFetch(`/api/receipts/${serial}/pdf`);
+  if (res.status === 401) {
+    clearToken();
+    throw new Error('not authorized');
+  }
+  if (!res.ok) throw new Error(`download failed (${res.status})`);
+  const buf = new Uint8Array(await res.arrayBuffer());
+  const blob = new Blob([buf], { type: 'application/pdf' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = downloadBlobName(serial);
+  a.click();
+  URL.revokeObjectURL(a.href);
 }

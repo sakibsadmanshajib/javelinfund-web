@@ -30,7 +30,7 @@ import Base from '../../layouts/Base.astro';
   <script>
     import {
       getToken, authorizeWithGitHub, listReceipts, createReceipt, cancelReceipt,
-      triggerBase64Download, reDownloadUrl,
+      triggerBase64Download, downloadExistingReceipt,
     } from '../../lib/receiptsClient';
 
     const authState = document.getElementById('authState')!;
@@ -53,15 +53,18 @@ import Base from '../../layouts/Base.astro';
             tr.appendChild(td);
           }
           const actions = document.createElement('td');
-          const dl = document.createElement('a');
-          dl.href = reDownloadUrl(r.serial);
-          dl.target = '_blank';
-          dl.rel = 'noopener';
-          dl.textContent = 'Download';
-          actions.appendChild(dl);
+          const dlBtn = document.createElement('button');
+          dlBtn.type = 'button';
+          dlBtn.textContent = 'Download';
+          dlBtn.addEventListener('click', async () => {
+            try { await downloadExistingReceipt(r.serial); }
+            catch (e) { formMsg.textContent = 'Download failed: ' + (e as Error).message; }
+          });
+          actions.appendChild(dlBtn);
           if (r.status === 'active') {
             actions.appendChild(document.createTextNode(' · '));
             const cancelBtn = document.createElement('button');
+            cancelBtn.type = 'button';
             cancelBtn.textContent = 'Cancel';
             cancelBtn.addEventListener('click', async () => {
               if (!confirm('Cancel this receipt? It cannot be un-cancelled; you must issue a new one.')) return;
