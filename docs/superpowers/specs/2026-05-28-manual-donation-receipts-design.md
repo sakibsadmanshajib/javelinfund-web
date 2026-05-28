@@ -17,9 +17,10 @@ current template, archive a copy, and allow re-download later.
 
 - **Charity:** The Javelin Education & Medical Fund
 - **Address:** 1074 Lilydale Avenue, Belle River, ON, Canada, N8L 0Z2
-  (current, per Glen 2026-05-28; old template showed "1074 Lillydale Avenue, RR 1 ... N0R 1A0").
+  (current, per Glen 2026-05-28; spelling "Lilydale" confirmed; old template showed
+  "1074 Lillydale Avenue, RR 1 ... N0R 1A0").
   NOTE: the receipt must print the charity address **as on file with CRA** — Glen to confirm
-  CRA record matches this current address, and confirm spelling "Lilydale" vs "Lillydale".
+  the CRA record matches this current address.
 - **Registration #:** 75572 2097 RR0001
 - **Signatory:** Glen Jackson, President (one "n")
 - **Existing fillable PDF fields:** Date, Donor Name, Donor Address, City, Postal Code,
@@ -42,10 +43,10 @@ current template, archive a copy, and allow re-download later.
 | Access lock | Reuse GitHub OAuth (same as Decap); enforced server-side in the Worker |
 | Tool location | `/admin/receipts` — custom Astro page, linked from CMS landing |
 | System of record | Google Sheet, new `Receipts` tab |
-| PDF generation | Client-side `pdf-lib`, filling Glen's existing fillable template (byte-identical) |
-| PDF archival | Store generated PDF copy in a Google Drive folder at issue time; data kept for regeneration |
-| Serial number | `2026-NNNN` — year prefix + 4 digits (max 9999/yr), configurable start, assigned atomically server-side |
-| Signature | Static facsimile signature image baked into the template |
+| PDF generation | **Worker-side** `pdf-lib`, filling Glen's existing fillable template (byte-identical) |
+| PDF archival | Store generated PDF copy in a **private** Google Drive folder; served only via authenticated Worker; data kept for regeneration |
+| Serial number | `2026-NNNN` — year prefix + 4 digits (max 9999/yr); **start = 2026-0001**; assigned atomically server-side |
+| Signature | Facsimile image stored as a **Cloudflare Worker Secret** (base64); composited server-side; never in repo or browser |
 | Corrections | Mark row `Cancelled` (serial never reused) + issue a fresh receipt |
 
 ## Architecture
@@ -71,14 +72,20 @@ current template, archive a copy, and allow re-download later.
 - Donor PII flows browser → Worker → Apps Script → Sheet/Drive. It never enters the
   public Git repo.
 
-### 3. PDF generation — client-side `pdf-lib`
+### 3. PDF generation — Worker-side `pdf-lib`
 
-- Fill the existing AcroForm fillable template (kept in repo — it is PII-free letterhead)
-  with donor data + serial + dates. Bake static signature image.
-- On create: send filled PDF bytes (base64) to the Worker → Apps Script → save to a Drive
-  folder; store the Drive file id on the Sheet row.
-- Re-download: refill from authoritative Sheet data on demand (consistent every time);
-  the archived Drive copy is the frozen audit artifact.
+- `pdf-lib` runs inside the Cloudflare Worker. The blank fillable AcroForm template
+  (PII-free, **signature-free** letterhead) is kept in the repo / bundled with the Worker.
+- The Worker fills donor data + serial + dates, then composites the **signature image**
+  loaded from a **Cloudflare Worker Secret** (encrypted base64). The signature is never in
+  the repo, never bundled in static assets, and never sent to the browser.
+- Only authenticated requests (GitHub identity verified) reach this code, so an
+  unauthenticated party can neither fetch the signature nor generate a signed receipt.
+- On create: the Worker hands the signed PDF bytes to Apps Script → saved in a **private**
+  Drive folder; Drive file id stored on the Sheet row. Drive files are not publicly shared.
+- Re-download: the Worker regenerates from authoritative Sheet data on demand (consistent
+  every time); the private Drive copy is the frozen audit artifact, fetched only through
+  the authenticated Worker.
 
 ### 4. Apps Script — extend `form-handler.gs`
 
@@ -112,7 +119,20 @@ existing template verbatim; final wording/fields are Glen's responsibility to co
 - Worker is the enforcement point; GitHub allowlist gates all data operations.
 - Apps Script reachable only via the Worker's shared secret.
 - No donor PII committed to the public repo, by design.
-- Minimal logging; no PII in logs.
+- **Signature image** stored as a Cloudflare Worker Secret (base64); never in repo, never
+  in static assets, never sent to the browser. Source asset to import:
+  `C:\Users\sakib\Downloads\glen's signature.png` (load as Worker secret at setup; do NOT
+  commit). Repo can remain public.
+- Archived receipt PDFs (contain the signature) live in a **private** Drive folder and are
+  retrievable only through the authenticated Worker — no public Drive share links.
+- Minimal logging; no PII and no signature bytes in logs.
+
+## Config / setup values
+
+- Serial start: `2026-0001`
+- Charity address (current): 1074 Lilydale Avenue, Belle River, ON, Canada, N8L 0Z2
+- Worker Secrets needed: `SIGNATURE_PNG_B64`, `APPS_SCRIPT_SHARED_SECRET`,
+  GitHub OAuth client id/secret (reuse Decap's), `RECEIPTS_ALLOWLIST` (GitHub logins)
 
 ## Scope cuts (YAGNI)
 
