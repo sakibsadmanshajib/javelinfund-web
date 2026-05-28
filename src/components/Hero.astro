@@ -43,13 +43,13 @@ const { pill = 'Northern Haiti · 2026 Appeal', quote } = Astro.props;
     </div>
     {
       quote && (
-        <aside class="right">
+        <div class="right">
           <div class="quote-card">
             <p class="q">{quote.text}</p>
             <p class="who">— {quote.who}</p>
             <p class="where">{quote.where}</p>
           </div>
-        </aside>
+        </div>
       )
     }
   </div>
