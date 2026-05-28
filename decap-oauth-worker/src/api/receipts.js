@@ -5,12 +5,13 @@ import { callAppsScript } from '../lib/appsScript.js';
 import { allowOrigin } from '../lib/origins.js';
 
 function cors(origin) {
-  return {
-    'access-control-allow-origin': origin || 'null',
+  const h = {
     'access-control-allow-methods': 'GET,POST,OPTIONS',
     'access-control-allow-headers': 'authorization,content-type',
     'access-control-max-age': '86400',
   };
+  if (origin) h['access-control-allow-origin'] = origin;
+  return h;
 }
 function json(obj, status, origin) {
   return new Response(JSON.stringify(obj), {
@@ -54,12 +55,18 @@ export async function handleReceiptsRequest(request, env) {
         return json({ ok: false, error: ve instanceof Error ? ve.message : 'invalid input' }, 400, origin);
       }
       const reserved = await callAppsScript(env, 'receipt.reserve', { issuedBy: id.login, fields });
-      const model = buildReceiptModel(fields, { serial: reserved.serial, dateIssued: reserved.dateIssued });
-      const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
-      const pdf = await renderReceiptPdf(model, sig);
-      const pdfBase64 = bytesToBase64(pdf);
-      await callAppsScript(env, 'receipt.store', { serial: reserved.serial, pdfBase64 });
-      return json({ ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64 }, 200, origin);
+      try {
+        const model = buildReceiptModel(fields, { serial: reserved.serial, dateIssued: reserved.dateIssued });
+        const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
+        const pdf = await renderReceiptPdf(model, sig);
+        const pdfBase64 = bytesToBase64(pdf);
+        await callAppsScript(env, 'receipt.store', { serial: reserved.serial, pdfBase64 });
+        return json({ ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64 }, 200, origin);
+      } catch (postErr) {
+        // best-effort: void the reserved-but-unfinished serial so it isn't left dangling active
+        try { await callAppsScript(env, 'receipt.cancel', { serial: reserved.serial }); } catch (_) { /* swallow */ }
+        throw postErr;
+      }
     }
 
     const pdfMatch = /^\/api\/receipts\/([0-9]{4}-[0-9]{4})\/pdf$/.exec(url.pathname);

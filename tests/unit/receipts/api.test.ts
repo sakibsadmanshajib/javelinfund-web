@@ -95,4 +95,28 @@ describe('handleReceiptsRequest', () => {
     expect(typeof json.pdfBase64).toBe('string');
     expect(json.pdfBase64.length).toBeGreaterThan(100);
   });
+
+  it('cancels a receipt for an authorized user', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ login: 'glenjackson' }),
+      })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true }) });
+    vi.stubGlobal('fetch', fetchMock);
+    const res = await handleReceiptsRequest(req('POST', '/api/receipts/2026-0001/cancel'), env);
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json.ok).toBe(true);
+  });
+
+  it('omits access-control-allow-origin for a non-allowlisted origin', async () => {
+    const res = await handleReceiptsRequest(
+      req('OPTIONS', '/api/receipts', { headers: { origin: 'https://evil.example' } }),
+      env,
+    );
+    expect(res.headers.get('access-control-allow-origin')).toBeNull();
+  });
 });

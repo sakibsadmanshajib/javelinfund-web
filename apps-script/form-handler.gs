@@ -81,7 +81,10 @@ function _handleReceipt(body) {
     if (rowIndex === -1) return _err('serial not found');
     const folder = DriveApp.getFolderById(folderId);
     const blob = Utilities.newBlob(Utilities.base64Decode(data), 'application/pdf', serial + '.pdf');
-    const file = folder.createFile(blob);
+    const existing = folder.getFilesByName(serial + '.pdf');
+    let file;
+    if (existing.hasNext()) { file = existing.next(); }
+    else { file = folder.createFile(blob); }
     sh.getRange(rowIndex + 1, 10).setValue(file.getId());
     return _json({ ok: true, driveFileId: file.getId() });
   }
@@ -103,7 +106,11 @@ function _handleReceipt(body) {
     const serial = body.serial;
     const values = sh.getDataRange().getValues();
     for (let i = 1; i < values.length; i++) {
-      if (values[i][0] === serial) { sh.getRange(i + 1, 9).setValue('cancelled'); return _json({ ok: true }); }
+      if (values[i][0] === serial) {
+        if (values[i][8] === 'cancelled') return _err('already cancelled');
+        sh.getRange(i + 1, 9).setValue('cancelled');
+        return _json({ ok: true });
+      }
     }
     return _err('serial not found');
   }
@@ -119,7 +126,12 @@ function doPost(e) {
   try {
     const origin = e.parameter.origin || (e.headers && e.headers.origin) || '';
     if (ALLOWED_ORIGINS.length && !ALLOWED_ORIGINS.includes(origin)) {
-      // soft-allow for dev, but log
+      // NOTE: This is an observability log only, NOT a security control.
+      // Apps Script web apps cannot enforce CORS at the network layer (the
+      // platform serves a permissive Access-Control-Allow-Origin and there is
+      // no hook to reject by Origin before the handler runs). The shared
+      // RECEIPTS_SECRET is therefore the SOLE security boundary for receipt
+      // actions — origin is logged for diagnostics, never used to allow/deny.
       Logger.log('Unrecognised origin: ' + origin);
     }
     const body = JSON.parse(e.postData.contents || '{}');

@@ -6,6 +6,7 @@ export async function callAppsScript(env, action, payload) {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body,
+    signal: AbortSignal.timeout(25000),
   });
   const json = await res.json().catch(() => ({ ok: false, error: 'bad json' }));
   if (!json.ok) throw new Error(json.error || `apps script ${action} failed`);

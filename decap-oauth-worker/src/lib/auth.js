@@ -8,6 +8,7 @@ export async function verifyGitHubIdentity(token, allowlist) {
         'user-agent': 'javelinfund-receipts',
         accept: 'application/vnd.github+json',
       },
+      signal: AbortSignal.timeout(5000),
     });
   } catch (e) {
     return { ok: false, error: 'github unreachable' };
