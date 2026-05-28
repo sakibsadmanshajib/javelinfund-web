@@ -43,7 +43,7 @@ current template, archive a copy, and allow re-download later.
 | Access lock | Reuse GitHub OAuth (same as Decap); enforced server-side in the Worker |
 | Tool location | `/admin/receipts` — custom Astro page, linked from CMS landing |
 | System of record | Google Sheet, new `Receipts` tab |
-| PDF generation | **Worker-side** `pdf-lib`, filling Glen's existing fillable template (byte-identical) |
+| PDF generation | **Worker-side** `pdf-lib` `drawText`, rendering the receipt fresh — visually faithful to Glen's template layout but using the **corrected current charity details** (NOT a byte-identical fill of the legacy AcroForm, which carried the old N0R 1A0 / Lillydale address) |
 | PDF archival | Store generated PDF copy in a **private** Google Drive folder; served only via authenticated Worker; data kept for regeneration |
 | Serial number | `2026-NNNN` — year prefix + 4 digits (max 9999/yr); **start = 2026-0001**; assigned atomically server-side |
 | Signature | Facsimile image stored as a **Cloudflare Worker Secret** (base64); composited server-side; never in repo or browser |
@@ -74,9 +74,11 @@ current template, archive a copy, and allow re-download later.
 
 ### 3. PDF generation — Worker-side `pdf-lib`
 
-- `pdf-lib` runs inside the Cloudflare Worker. The blank fillable AcroForm template
-  (PII-free, **signature-free** letterhead) is kept in the repo / bundled with the Worker.
-- The Worker fills donor data + serial + dates, then composites the **signature image**
+- `pdf-lib` runs inside the Cloudflare Worker. The receipt is **drawn from scratch with
+  `drawText`** (PII-free, **signature-free** layout), visually faithful to Glen's template
+  but using the corrected current charity details — it does **not** fill the legacy
+  AcroForm template, which carried the old (incorrect) charity address.
+- The Worker draws donor data + serial + dates, then composites the **signature image**
   loaded from a **Cloudflare Worker Secret** (encrypted base64). The signature is never in
   the repo, never bundled in static assets, and never sent to the browser.
 - Only authenticated requests (GitHub identity verified) reach this code, so an
@@ -111,8 +113,9 @@ and address, registration # 75572 2097 RR0001, a unique serial number, date the 
 was received, date the receipt was issued, donor full name and address, the eligible
 amount of the gift, the authorized signature, and the CRA reference
 (`canada.ca/charities-giving`). Numbering must be unique and non-repeating; corrections
-require cancelling and reissuing rather than silent edits. This document replicates Glen's
-existing template verbatim; final wording/fields are Glen's responsibility to confirm.
+require cancelling and reissuing rather than silent edits. This document reproduces the
+mandatory elements of Glen's template (not its byte layout) using the corrected current
+charity details; final wording/fields are Glen's responsibility to confirm.
 
 ## Security notes
 
@@ -144,5 +147,8 @@ no in-kind / advantage handling (cash gifts only). Add later only if needed.
 - GitHub OAuth token is client-visible → server-side Worker enforcement is mandatory.
 - Apps Script daily quotas are ample at charity volume but are a ceiling.
 - Drive storage growth is negligible at this volume.
-- pdf-lib must reproduce the AcroForm template exactly; verify visual parity against a
-  known-good current receipt during implementation.
+- pdf-lib renders the receipt programmatically; visual parity with the legacy template
+  should be confirmed against a known-good current receipt during implementation.
+- PDF is generated programmatically (pdf-lib `drawText`), not by filling the legacy
+  AcroForm, so it carries the current address; visual parity with the legacy template
+  should be confirmed against a known-good sample during operator setup.

@@ -38,3 +38,11 @@ npx wrangler deploy
 ## Notes
 - The receipt PDF prints the CURRENT charity address (N8L 0Z2). Confirm CRA has this address on file.
 - Numbering is unique and non-repeating; corrections = cancel + reissue (never silent edit).
+
+## Privacy & operational notes (general information — not legal advice)
+- **Retention:** the `Receipts` sheet and Drive folder accumulate donor PII indefinitely. Agree a retention schedule with the charity and prune/export per that schedule.
+- **Drive folder:** confirm the archive folder is PRIVATE (shared with no one beyond the charity officers). The Worker serves archived PDFs only to authenticated allowlisted users.
+- **Access:** any allowlisted GitHub user can list and download all receipts. Keep `RECEIPTS_ALLOWLIST` to the minimum set of people who need it.
+- **Secret strength:** `RECEIPTS_SECRET` must be a long random value (32+ random bytes). It is the sole boundary protecting the Apps Script endpoint — Apps Script web apps cannot enforce CORS. Rotate it if it was ever short or shared.
+- **Rate limiting:** the API is intentionally un-rate-limited (single trusted admin, low volume). If the allowlist grows or abuse is a concern, add a Cloudflare rate-limit binding on `/api/receipts`.
+- **Data residency:** Google Sheets/Drive may store data on US servers; confirm acceptable for the charity's privacy obligations (PIPEDA / provincial law).
