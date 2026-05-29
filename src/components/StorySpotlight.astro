@@ -8,12 +8,20 @@ interface Props {
 }
 const { story } = Astro.props;
 ---
+
 <section class="story">
   <div class="container">
     <span class="feat-label"><span class="dot" aria-hidden="true"></span> Featured story</span>
     <div class="grid">
       <div class="photo-wrap">
-        <Image src={story.data.hero} alt={story.data.title} widths={[500, 900]} sizes="(max-width:880px) 100vw, 50vw" class="photo" />
+        <Image
+          src={story.data.hero}
+          alt={story.data.title}
+          widths={[500, 900]}
+          sizes="(max-width:880px) 100vw, 50vw"
+          quality={62}
+          class="photo"
+        />
         <div class="frame" aria-hidden="true"></div>
         {story.data.location && <div class="tag">Story · {story.data.location}</div>}
       </div>
@@ -32,19 +40,109 @@ const { story } = Astro.props;
   </div>
 </section>
 <style>
-  .story { background: var(--ivory); color: var(--navy); padding: 90px 0; }
-  .feat-label { display: inline-flex; align-items: center; gap: 8px; background: var(--red); color: #fff; padding: 5px 12px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; margin-bottom: 24px; }
-  .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
-  .grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 50px; align-items: center; }
-  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
-  .photo-wrap { position: relative; aspect-ratio: 4/5; }
-  .photo { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .frame { position: absolute; inset: 14px; border: 2px solid var(--gold); pointer-events: none; }
-  .tag { position: absolute; left: 24px; bottom: 24px; background: var(--red); color: #fff; padding: 8px 14px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; }
-  .red { color: var(--red); margin-bottom: 14px; }
-  h2.display { font-size: 54px; line-height: 0.95; letter-spacing: -2px; margin: 0 0 18px; }
-  .quote { font-family: var(--font-accent); font-style: italic; font-size: 22px; line-height: 1.45; border-left: 3px solid var(--gold); padding-left: 20px; margin: 0 0 20px; }
-  .who { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; margin: 0; }
-  .where { font-size: 13px; color: rgba(10, 26, 63, 0.6); margin: 2px 0 24px; }
-  .read-more { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 2px solid var(--gold); padding-bottom: 4px; }
+  .story {
+    background: var(--ivory);
+    color: var(--navy);
+    padding: 90px 0;
+  }
+  .feat-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: #fff;
+    padding: 5px 12px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 24px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 50px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .photo-wrap {
+    position: relative;
+    aspect-ratio: 4/5;
+  }
+  .photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .frame {
+    position: absolute;
+    inset: 14px;
+    border: 2px solid var(--gold);
+    pointer-events: none;
+  }
+  .tag {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    background: var(--red);
+    color: #fff;
+    padding: 8px 14px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .red {
+    color: var(--red);
+    margin-bottom: 14px;
+  }
+  h2.display {
+    font-size: 54px;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    margin: 0 0 18px;
+  }
+  .quote {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.45;
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+    margin: 0 0 20px;
+  }
+  .who {
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin: 0;
+  }
+  .where {
+    font-size: 13px;
+    color: rgba(10, 26, 63, 0.72);
+    margin: 2px 0 24px;
+  }
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 4px;
+  }
 </style>

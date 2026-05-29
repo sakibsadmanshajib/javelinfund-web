@@ -13,11 +13,7 @@ const { story } = Astro.props;
 const { Content } = await render(story);
 ---
 
-<Base
-  title={story.data.title}
-  description={story.data.excerpt}
-  ogImage={story.data.hero.src}
->
+<Base title={story.data.title} description={story.data.excerpt} ogImage={story.data.hero.src}>
   <article class="container" style="padding:60px 0 80px;max-width:760px">
     <p class="eyebrow gold">Story · {story.data.location}</p>
     <h1 class="display" style="font-size:54px;letter-spacing:-2px;margin:8px 0 24px">

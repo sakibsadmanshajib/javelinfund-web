@@ -15,12 +15,8 @@ test('home shows hero, motto, programs, donate strip', async ({ page }) => {
   await expect(page.locator('section.stats').getByText('325', { exact: true })).toBeVisible();
 
   // Programs section heading
-  await expect(
-    page.getByRole('heading', { name: /our work,\s*in the north\./i }),
-  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: /our work,\s*in the north\./i })).toBeVisible();
 
   // Sponsor-a-child tier — scope to the donate strip
-  await expect(
-    page.locator('section.donate').getByText(/sponsor a child/i),
-  ).toBeVisible();
+  await expect(page.locator('section.donate').getByText(/sponsor a child/i)).toBeVisible();
 });

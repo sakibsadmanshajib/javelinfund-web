@@ -1,8 +1,23 @@
 /* src/styles/global.css */
+/* Self-hosted fonts — no external Google Fonts request chain.
+   Variable fonts collapse all weights into a single woff2 per family
+   (browser only downloads the latin unicode-range subset), keeping the
+   critical request tree shallow. */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/playfair-display/wght-italic.css';
+@import '@fontsource/archivo-black/latin-400.css';
 @import './tokens.css';
 
-*, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 body {
   font-family: var(--font-body);
   background: var(--bg);
@@ -10,10 +25,35 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
-img { display: block; max-width: 100%; }
-a { color: inherit; text-decoration: none; }
-.container { max-width: var(--container); margin: 0 auto; padding: 0 var(--container-x); }
-.eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 800; }
-.display { font-family: var(--font-display); letter-spacing: -1.5px; text-transform: uppercase; }
-.accent  { font-family: var(--font-accent); font-style: italic; }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+img {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--container-x);
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -1.5px;
+  text-transform: uppercase;
+}
+.accent {
+  font-family: var(--font-accent);
+  font-style: italic;
+}
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}

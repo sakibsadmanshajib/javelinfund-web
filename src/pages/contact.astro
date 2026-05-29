@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ContactForm from '../components/forms/ContactForm.astro';
 ---
+
 <Base title="Contact" description="Get in touch with Javelin Fund.">
   <section class="container contact-page">
     <div>
@@ -10,7 +11,8 @@ import ContactForm from '../components/forms/ContactForm.astro';
         Drop us a line.
       </h1>
       <p class="lede">
-        For partnership, press, volunteering or general questions, drop us a line. We reply within 3 business days.
+        For partnership, press, volunteering or general questions, drop us a line. We reply within 3
+        business days.
       </p>
       <p class="meta">
         <strong>Email:</strong> contact@javelinfund.ca<br />
@@ -28,15 +30,23 @@ import ContactForm from '../components/forms/ContactForm.astro';
     gap: 48px;
     align-items: start;
   }
-  .gold { color: var(--gold); }
+  .gold {
+    color: var(--gold);
+  }
   .lede {
     font-size: 18px;
     color: var(--fg-muted);
     max-width: 480px;
     line-height: 1.55;
   }
-  .meta { color: var(--fg-muted); margin-top: 24px; line-height: 1.7; }
+  .meta {
+    color: var(--fg-muted);
+    margin-top: 24px;
+    line-height: 1.7;
+  }
   @media (max-width: 880px) {
-    .contact-page { grid-template-columns: 1fr; }
+    .contact-page {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

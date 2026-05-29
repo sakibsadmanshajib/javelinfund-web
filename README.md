@@ -26,4 +26,4 @@ See [`docs/`](./docs) for inventory, spec, and decisions.
 
 ---
 
-*L'union fait la force.* — National motto of Haiti
+_L'union fait la force._ — National motto of Haiti

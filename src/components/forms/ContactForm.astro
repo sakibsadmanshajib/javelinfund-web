@@ -1,6 +1,7 @@
 ---
 // src/components/forms/ContactForm.astro
 ---
+
 <form id="contact-form" novalidate>
   <label>Name <input name="name" required autocomplete="name" /></label>
   <label>Email <input name="email" type="email" required autocomplete="email" /></label>
@@ -15,7 +16,11 @@
   <p class="status" role="status" aria-live="polite"></p>
 </form>
 <style>
-  form { display: grid; gap: 16px; max-width: 520px; }
+  form {
+    display: grid;
+    gap: 16px;
+    max-width: 520px;
+  }
   label {
     display: grid;
     gap: 6px;
@@ -25,7 +30,8 @@
     font-weight: 700;
     color: var(--fg-muted);
   }
-  input, textarea {
+  input,
+  textarea {
     font: inherit;
     background: var(--navy-3);
     color: var(--ivory);
@@ -36,11 +42,15 @@
     letter-spacing: 0;
     font-weight: 400;
   }
-  input:focus, textarea:focus {
+  input:focus,
+  textarea:focus {
     outline: none;
     border-color: var(--gold);
   }
-  textarea { resize: vertical; min-height: 140px; }
+  textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
   .hp {
     position: absolute;
     left: -9999px;
@@ -63,7 +73,9 @@
     cursor: pointer;
     justify-self: start;
   }
-  .btn:hover { filter: brightness(0.95); }
+  .btn:hover {
+    filter: brightness(0.95);
+  }
   .status {
     font-size: 13px;
     color: var(--gold);

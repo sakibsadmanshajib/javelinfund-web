@@ -27,20 +27,51 @@ const heroQuote = {
   where: 'Mother of three · Cap-Haïtien',
 };
 ---
+
 <Base title="Home" description="Direct relief and lasting programs for families in Northern Haiti.">
   <Hero quote={heroQuote} />
   <MottoBand />
   <StatsGrid />
   <section class="programs">
     <div class="container">
-      <header class="head">
+      <div class="head">
         <h2 class="display">Our work,<br /><span class="gold">in the North.</span></h2>
-        <p>Three programs running today in Cap-Haïtien and the surrounding villages — long partnerships with local teams.</p>
-      </header>
+        <p>
+          Three programs running today in Cap-Haïtien and the surrounding villages — long
+          partnerships with local teams.
+        </p>
+      </div>
       <div class="grid">
-        <ProgramCard variant="gold"  image={prog1} alt="Students at a Javelin Fund partner school in Cap-Haïtien" tag="Education"    meta="Since 2016 · 325 children"     title="Schools & Scholarships" body="Tuition, supplies, uniforms and a hot lunch for 325 children across our partner schools." href="/about#education" />
-        <ProgramCard variant="red"   image={prog2} alt="Families receiving meals at a Javelin Fund distribution" tag="Food security" meta="Since 2016 · 320+ families"   title="Feeding the Orphans"   body="Daily meals plus weekly rice, beans and oil distributions partnered with women-led cooperatives." href="/about#food" />
-        <ProgramCard variant="ivory" image={prog3} alt="A community water filtration system installed in Northern Haiti" tag="Health & water" meta="Since 2019 · 6 systems"      title="Clean Water & Care"   body="Filtration and rainwater systems plus basic medical visits in villages cut off from municipal services." href="/about#water" />
+        <ProgramCard
+          variant="gold"
+          image={prog1}
+          alt="Students at a Javelin Fund partner school in Cap-Haïtien"
+          tag="Education"
+          meta="Since 2016 · 325 children"
+          title="Schools & Scholarships"
+          body="Tuition, supplies, uniforms and a hot lunch for 325 children across our partner schools."
+          href="/about#education"
+        />
+        <ProgramCard
+          variant="red"
+          image={prog2}
+          alt="Families receiving meals at a Javelin Fund distribution"
+          tag="Food security"
+          meta="Since 2016 · 320+ families"
+          title="Feeding the Orphans"
+          body="Daily meals plus weekly rice, beans and oil distributions partnered with women-led cooperatives."
+          href="/about#food"
+        />
+        <ProgramCard
+          variant="ivory"
+          image={prog3}
+          alt="A community water filtration system installed in Northern Haiti"
+          tag="Health & water"
+          meta="Since 2019 · 6 systems"
+          title="Clean Water & Care"
+          body="Filtration and rainwater systems plus basic medical visits in villages cut off from municipal services."
+          href="/about#water"
+        />
       </div>
     </div>
   </section>
@@ -49,11 +80,42 @@ const heroQuote = {
   <TrustBand />
 </Base>
 <style>
-  .programs { padding: 90px 0; background: var(--bg); }
-  .head { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; flex-wrap: wrap; margin-bottom: 46px; }
-  .head h2 { font-size: 46px; margin: 0; max-width: 600px; line-height: 1; letter-spacing: -1.5px; }
-  .head p  { max-width: 380px; color: var(--fg-muted); font-size: 15px; margin: 0; }
-  .gold { color: var(--gold); }
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+  .programs {
+    padding: 90px 0;
+    background: var(--bg);
+  }
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 46px;
+  }
+  .head h2 {
+    font-size: 46px;
+    margin: 0;
+    max-width: 600px;
+    line-height: 1;
+    letter-spacing: -1.5px;
+  }
+  .head p {
+    max-width: 380px;
+    color: var(--fg-muted);
+    font-size: 15px;
+    margin: 0;
+  }
+  .gold {
+    color: var(--gold);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>

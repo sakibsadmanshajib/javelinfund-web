@@ -1,4 +1,119 @@
-{
-  "version": 1,
-  "bugs": []
-}
+[
+  {
+    "id": "bug-001",
+    "timestamp": "2026-05-28T22:04:57.108Z",
+    "error_message": "Significant refactor of ",
+    "file": "docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+    "root_cause": "7 lines replaced/restructured",
+    "fix": "Rewrote 8→14 lines (7 removed)",
+    "tags": [
+      "auto-detected",
+      "refactor",
+      "md"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-05-28T22:04:57.108Z"
+  },
+  {
+    "id": "bug-002",
+    "timestamp": "2026-05-28T22:12:21.199Z",
+    "error_message": "Incorrect value in code",
+    "file": "docs/superpowers/plans/2026-05-28-manual-donation-receipts.md",
+    "root_cause": "Had `Base.astro`",
+    "fix": "Changed to `noindex`",
+    "tags": [
+      "auto-detected",
+      "wrong-value",
+      "md"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-05-28T22:12:21.199Z"
+  },
+  {
+    "id": "bug-003",
+    "timestamp": "2026-05-28T22:15:39.241Z",
+    "error_message": "Missing guard clause",
+    "file": "apps-script/form-handler.gs",
+    "root_cause": "No early return/throw for edge case: !sh",
+    "fix": "Added guard clause: if (!sh)",
+    "tags": [
+      "auto-detected",
+      "guard-clause",
+      "gs"
+    ],
+    "related_bugs": [],
+    "occurrences": 2,
+    "last_seen": "2026-05-28T22:19:49.733Z"
+  },
+  {
+    "id": "bug-004",
+    "timestamp": "2026-05-28T22:15:46.592Z",
+    "error_message": "Wrong condition in logic",
+    "file": "apps-script/form-handler.gs",
+    "root_cause": "Condition was: if (body.hp && body.hp.length)",
+    "fix": "Changed to: if (body.action && body.action.indexOf('receipt.')",
+    "tags": [
+      "auto-detected",
+      "logic-fix",
+      "gs"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-05-28T22:15:46.592Z"
+  },
+  {
+    "id": "bug-005",
+    "timestamp": "2026-05-28T22:30:57.313Z",
+    "error_message": "Wrong condition in logic",
+    "file": "decap-oauth-worker/src/index.js",
+    "root_cause": "Condition was: if (request.method === 'GET' && url.pathname === '/aut)",
+    "fix": "Changed to: if (url.pathname === '/api/receipts' || url.pathname.s)",
+    "tags": [
+      "auto-detected",
+      "logic-fix",
+      "js"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-05-28T22:30:57.313Z"
+  },
+  {
+    "id": "bug-006",
+    "timestamp": "2026-05-28T18:33:17.032505",
+    "error_message": "CORS preflight test expected 'https://javelinfund.ca' but got 'null'",
+    "file": "tests/unit/receipts/api.test.ts",
+    "root_cause": "happy-dom (vitest default env) strips the Origin header that scripts set per fetch forbidden-header rule, so request.headers.get('origin') returned null; Cloudflare Workers runtime and node/undici do NOT strip it",
+    "fix": "Added '// @vitest-environment node' docblock to api.test.ts so undici preserves Origin, matching prod Worker behavior",
+    "tags": [
+      "happy-dom",
+      "cors",
+      "origin",
+      "vitest",
+      "worker",
+      "forbidden-header"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-05-28T18:33:17.032505"
+  },
+  {
+    "id": "bug-007",
+    "timestamp": "2026-05-28",
+    "error_message": "CI test step: ERR_MODULE_NOT_FOUND pdf-lib (renderPdf.js/receipts.js)",
+    "file": "package.json",
+    "root_cause": "pdf-lib was only in decap-oauth-worker/package.json (sub-package). Root vitest imports worker source; CI runs npm ci at repo root only, so the sub-package node_modules is never installed and pdf-lib fails to resolve. Passed locally because a subagent npm-installed it inside the sub-package.",
+    "fix": "Added pdf-lib to ROOT package.json devDependencies so root npm ci installs it; node resolution walks up to root node_modules. Kept it in the worker package for wrangler deploy.",
+    "tags": [
+      "ci",
+      "monorepo",
+      "module-resolution",
+      "pdf-lib",
+      "vitest"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-05-28"
+  }
+]

@@ -15,8 +15,16 @@ interface Props {
 }
 const { image, alt, tag, meta, title, body, href, variant = 'gold' } = Astro.props;
 ---
+
 <article class={`card v-${variant}`}>
-  <Image src={image} alt={alt} widths={[400, 800]} sizes="(max-width:880px) 100vw, 33vw" class="photo" />
+  <Image
+    src={image}
+    alt={alt}
+    widths={[400, 800]}
+    sizes="(max-width:880px) 100vw, 33vw"
+    quality={52}
+    class="photo"
+  />
   <div class="body">
     <span class="tag">{tag}</span>
     <div class="meta">{meta}</div>
@@ -26,14 +34,68 @@ const { image, alt, tag, meta, title, body, href, variant = 'gold' } = Astro.pro
   </div>
 </article>
 <style>
-  .card { background: var(--navy-3); position: relative; overflow: hidden; }
-  .photo { height: 230px; width: 100%; object-fit: cover; display: block; }
-  .body  { padding: 26px 26px 30px; position: relative; }
-  .tag   { position: absolute; top: -14px; left: 26px; background: var(--gold); color: var(--navy); font-size: 10px; letter-spacing: 2px; padding: 5px 10px; font-weight: 900; text-transform: uppercase; }
-  .v-red .tag    { background: var(--red); color: #fff; }
-  .v-ivory .tag  { background: var(--ivory); color: var(--navy); }
-  .meta  { font-size: 11px; color: var(--fg-muted); letter-spacing: 1px; text-transform: uppercase; margin: 12px 0 12px; }
-  h3.display { font-size: 22px; letter-spacing: -0.5px; margin: 0 0 12px; line-height: 1.1; }
-  p { margin: 0 0 18px; color: var(--fg-muted); font-size: 14px; line-height: 1.6; }
-  .more { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: var(--gold); }
+  .card {
+    background: var(--navy-3);
+    position: relative;
+    overflow: hidden;
+  }
+  .photo {
+    height: 230px;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .body {
+    padding: 26px 26px 30px;
+    position: relative;
+  }
+  .tag {
+    position: absolute;
+    top: -14px;
+    left: 26px;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 5px 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .v-red .tag {
+    background: var(--red);
+    color: #fff;
+  }
+  .v-ivory .tag {
+    background: var(--ivory);
+    color: var(--navy);
+  }
+  .meta {
+    font-size: 11px;
+    color: var(--fg-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 12px 0 12px;
+  }
+  h3.display {
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    margin: 0 0 12px;
+    line-height: 1.1;
+  }
+  p {
+    margin: 0 0 18px;
+    color: var(--fg-muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--gold);
+  }
 </style>

@@ -4,3 +4,8 @@ public/admin
 _source
 .superpowers
 .wolf
+
+# local caches / artifacts
+node-compile-cache
+playwright-transform-cache-*
+test-results

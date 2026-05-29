@@ -4,15 +4,26 @@ import '../styles/global.css';
 import FlagBar from '../components/FlagBar.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+// Preload the latin font subsets actually used above the fold. Marking them as
+// `rel="preload"` removes them from Lighthouse's critical request chain
+// (network-dependency-tree insight) and starts the fetch earlier.
+import interFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import playfairFont from '@fontsource-variable/playfair-display/files/playfair-display-latin-wght-italic.woff2?url';
+import archivoFont from '@fontsource/archivo-black/files/archivo-black-latin-400-normal.woff2?url';
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
 }
-const { title, description = 'Direct relief and lasting programs for families in Northern Haiti.', ogImage } = Astro.props;
+const {
+  title,
+  description = 'Direct relief and lasting programs for families in Northern Haiti.',
+  ogImage,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -23,20 +34,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonical.toString()} />
     <meta property="og:title" content={`${title} · Javelin Fund`} />
     <meta property="og:description" content={description} />
-    {ogImage && (
-      <meta
-        property="og:image"
-        content={new URL(ogImage, Astro.site).toString()}
-      />
-    )}
+    {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />}
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,500;1,700&display=swap"
-    />
+    <link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={playfairFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={archivoFont} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
   </head>
   <body>
     <a href="#main" class="skip">Skip to content</a>

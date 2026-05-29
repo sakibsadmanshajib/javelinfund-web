@@ -47,7 +47,7 @@ The current site stays online until the new site is content-complete and rails a
 - **Motifs:**
   - Three-stripe flag bar at the very top of every page (Navy → Red → Gold).
   - A single, subtle vèvè-inspired SVG ornament in the hero (low opacity, decorative only — not literal vodou symbology).
-  - One motto band per page: *"L'union fait la force."* in Playfair italic + small English gloss + serving-since-2016 line.
+  - One motto band per page: _"L'union fait la force."_ in Playfair italic + small English gloss + serving-since-2016 line.
 - **Imagery rules:**
   - Only Javelin Fund's own photos. Sourced from the legacy archive's `public/uploads/` and `public/assets/images/`.
   - If no photo exists for a section, leave a clearly marked placeholder and surface the gap to the user — never fall back to stock.
@@ -55,16 +55,16 @@ The current site stays online until the new site is content-complete and rails a
 
 ## 5. Information architecture
 
-| Slug | Page | Notes |
-| --- | --- | --- |
-| `/` | Home | Hero, motto band, impact stats, programs preview (3), featured story, donate strip, trust band. |
-| `/about` | About | Mission, story of the founders, programs (long-form), governance, financials link. Folds `/our-programs` and `/northern-haiti` from the legacy site. |
-| `/stories` | Stories | Index of all stories. Renamed from `/news`. Folds `/media` from the legacy site. |
-| `/stories/[slug]` | Story detail | Long-form post with hero image, body markdown, related stories. |
-| `/team` | Team | Roster of board + program leads. Renamed from `/the-people`. Detail pages collapse into the index (no per-person URL in phase 1 — defer until needed). |
-| `/donate` | Donate | All tiers, CanadaHelps embed/button, Interac instructions, receipt info, FAQ. |
-| `/contact` | Contact | Address, email, custom Astro form → Google Apps Script → Sheet. |
-| `/privacy` and `/terms` | Legal | Carried over from legacy. |
+| Slug                    | Page         | Notes                                                                                                                                                  |
+| ----------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/`                     | Home         | Hero, motto band, impact stats, programs preview (3), featured story, donate strip, trust band.                                                        |
+| `/about`                | About        | Mission, story of the founders, programs (long-form), governance, financials link. Folds `/our-programs` and `/northern-haiti` from the legacy site.   |
+| `/stories`              | Stories      | Index of all stories. Renamed from `/news`. Folds `/media` from the legacy site.                                                                       |
+| `/stories/[slug]`       | Story detail | Long-form post with hero image, body markdown, related stories.                                                                                        |
+| `/team`                 | Team         | Roster of board + program leads. Renamed from `/the-people`. Detail pages collapse into the index (no per-person URL in phase 1 — defer until needed). |
+| `/donate`               | Donate       | All tiers, CanadaHelps embed/button, Interac instructions, receipt info, FAQ.                                                                          |
+| `/contact`              | Contact      | Address, email, custom Astro form → Google Apps Script → Sheet.                                                                                        |
+| `/privacy` and `/terms` | Legal        | Carried over from legacy.                                                                                                                              |
 
 ## 6. Content model (Astro content collections)
 
@@ -74,28 +74,30 @@ import { defineCollection, z } from 'astro:content';
 
 const stories = defineCollection({
   type: 'content',
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    excerpt: z.string(),
-    date: z.coerce.date(),
-    hero: image(),
-    featured: z.boolean().default(false),
-    priority: z.number().default(0),
-    location: z.string().optional(),     // e.g. "Cap-Haïtien"
-    person: z.string().optional(),       // e.g. "Marie-Carline P."
-    tags: z.array(z.string()).default([]),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      excerpt: z.string(),
+      date: z.coerce.date(),
+      hero: image(),
+      featured: z.boolean().default(false),
+      priority: z.number().default(0),
+      location: z.string().optional(), // e.g. "Cap-Haïtien"
+      person: z.string().optional(), // e.g. "Marie-Carline P."
+      tags: z.array(z.string()).default([]),
+    }),
 });
 
 const team = defineCollection({
   type: 'content',
-  schema: ({ image }) => z.object({
-    name: z.string(),
-    role: z.string(),
-    photo: image(),
-    order: z.number().default(100),
-    bio: z.string().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      role: z.string(),
+      photo: image(),
+      order: z.number().default(100),
+      bio: z.string().optional(),
+    }),
 });
 
 const donateTiers = defineCollection({
@@ -103,11 +105,11 @@ const donateTiers = defineCollection({
   schema: z.object({
     amount: z.number(),
     frequency: z.enum(['one-time', 'monthly', 'yearly']),
-    label: z.string(),               // "Sponsor a child"
-    sub: z.string(),                 // helper line
+    label: z.string(), // "Sponsor a child"
+    sub: z.string(), // helper line
     featured: z.boolean().default(false),
     priority: z.number().default(0),
-    ribbon: z.string().optional(),   // "Top pick" / "Most asked"
+    ribbon: z.string().optional(), // "Top pick" / "Most asked"
     canada_helps_url: z.string().url().optional(),
   }),
 });
@@ -240,13 +242,13 @@ CanadaHelps does all of this for us at a fee that is comparable to Stripe + a re
 
 ## 13. Risks and open questions
 
-| Risk | Mitigation |
-| --- | --- |
-| CanadaHelps charity URL slug not yet known | Confirm before launch; until then donate buttons link to a coming-soon page. |
-| Interac auto-deposit not yet active on `donate@javelinfund.ca` | Confirm with treasurer before launch. |
-| Newer Javelin Fund photos may exist outside the cPanel archive | Ask the user for a Google Drive share before final QA. |
-| Some legacy stories were written in informal voice that is dated | Hand-edit during migration; do not bulk-rewrite. |
-| Decap CMS needs GitHub OAuth app + Netlify Identity (or Cloudflare Access) for editor auth | Use Cloudflare Access free tier; document in `docs/cms-setup.md`. |
+| Risk                                                                                       | Mitigation                                                                   |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| CanadaHelps charity URL slug not yet known                                                 | Confirm before launch; until then donate buttons link to a coming-soon page. |
+| Interac auto-deposit not yet active on `donate@javelinfund.ca`                             | Confirm with treasurer before launch.                                        |
+| Newer Javelin Fund photos may exist outside the cPanel archive                             | Ask the user for a Google Drive share before final QA.                       |
+| Some legacy stories were written in informal voice that is dated                           | Hand-edit during migration; do not bulk-rewrite.                             |
+| Decap CMS needs GitHub OAuth app + Netlify Identity (or Cloudflare Access) for editor auth | Use Cloudflare Access free tier; document in `docs/cms-setup.md`.            |
 
 ## 14. Out-of-band requests for the user
 

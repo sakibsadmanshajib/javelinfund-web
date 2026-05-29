@@ -12,4 +12,23 @@ This is the Google Apps Script Web App that backs every form on javelinfund.ca.
 
 ## Update
 
-After changes to `form-handler.gs`, re-paste into Code.gs and create a *new* version under Deploy → Manage deployments. The deployment URL stays the same.
+After changes to `form-handler.gs`, re-paste into Code.gs and create a _new_ version under Deploy → Manage deployments. The deployment URL stays the same.
+
+## Receipts add-on
+
+Script Properties to set (Project Settings → Script Properties):
+
+- `RECEIPTS_SECRET` — shared secret; must match the Worker's `APPS_SCRIPT_SHARED_SECRET`.
+- `RECEIPTS_FOLDER_ID` — Drive folder ID (PRIVATE, not shared) for archived receipt PDFs.
+- `serial_2026` — OPTIONAL. Leave unset to start at 2026-0001. To resume from N, set to N-1.
+
+Re-deploy the Web app (Deploy → Manage deployments → Edit → new version) after pasting.
+
+### Manual smoke test (run after deploy)
+
+```bash
+curl -s -XPOST <URL> -H 'content-type: application/json' \
+  -d '{"action":"receipt.reserve","secret":"<SECRET>","issuedBy":"glen","fields":{"donorName":"Test Donor","amount":"50.00","dateReceived":"2026-05-28"}}'
+```
+
+Expected: `{"ok":true,"serial":"2026-0001","dateIssued":"..."}` and a new row in the `Receipts` tab.

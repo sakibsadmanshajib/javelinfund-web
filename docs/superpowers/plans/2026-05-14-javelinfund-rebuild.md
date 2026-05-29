@@ -106,6 +106,7 @@
 ### Task 0.1: Initialize Astro project
 
 **Files:**
+
 - Create: `package.json`, `astro.config.mjs`, `tsconfig.json`, `src/env.d.ts`, `public/favicon.svg`, `public/robots.txt`
 
 - [ ] **Step 1: Create the Astro project non-interactively**
@@ -190,6 +191,7 @@ git commit -m "chore: scaffold Astro project (minimal template + tooling)"
 ### Task 0.2: Vitest config
 
 **Files:**
+
 - Create: `vitest.config.ts`, `tests/unit/example.test.ts`
 
 - [ ] **Step 1: Write vitest config**
@@ -263,6 +265,7 @@ git commit -m "chore: configure vitest with happy-dom"
 ### Task 0.3: Playwright config
 
 **Files:**
+
 - Create: `playwright.config.ts`, `tests/e2e/smoke.spec.ts`
 
 - [ ] **Step 1: Install Playwright browsers**
@@ -332,6 +335,7 @@ git commit -m "chore: configure Playwright smoke harness"
 ### Task 1.1: Design tokens
 
 **Files:**
+
 - Create: `src/styles/tokens.css`, `src/styles/global.css`, `tests/unit/tokens.test.ts`
 
 - [ ] **Step 1: Write the failing test for tokens module presence**
@@ -369,29 +373,29 @@ Expected: fails — `tokens.css` does not exist.
 /* src/styles/tokens.css */
 :root {
   /* palette */
-  --navy:   #0a1a3f;
+  --navy: #0a1a3f;
   --navy-2: #08153a;
   --navy-3: #0e2050;
-  --red:    #d62828;
+  --red: #d62828;
   --red-dark: #a51d1d;
-  --gold:   #ffd60a;
+  --gold: #ffd60a;
   --gold-2: #f5c100;
-  --ivory:  #fafaf7;
-  --sand:   #f1e9d8;
+  --ivory: #fafaf7;
+  --sand: #f1e9d8;
 
   /* roles */
-  --bg:        var(--navy);
-  --bg-alt:    var(--navy-2);
-  --fg:        var(--ivory);
-  --fg-muted:  rgba(250, 250, 247, 0.72);
-  --line:      rgba(250, 250, 247, 0.12);
-  --accent:    var(--gold);
-  --accent-2:  var(--red);
+  --bg: var(--navy);
+  --bg-alt: var(--navy-2);
+  --fg: var(--ivory);
+  --fg-muted: rgba(250, 250, 247, 0.72);
+  --line: rgba(250, 250, 247, 0.12);
+  --accent: var(--gold);
+  --accent-2: var(--red);
 
   /* typography */
   --font-display: 'Archivo Black', system-ui, sans-serif;
-  --font-accent:  'Playfair Display', Georgia, serif;
-  --font-body:    'Inter', -apple-system, system-ui, sans-serif;
+  --font-accent: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, system-ui, sans-serif;
 
   /* spacing scale */
   --space-1: 4px;
@@ -416,8 +420,16 @@ Expected: fails — `tokens.css` does not exist.
 /* src/styles/global.css */
 @import './tokens.css';
 
-*, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 body {
   font-family: var(--font-body);
   background: var(--bg);
@@ -425,13 +437,38 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
-img { display: block; max-width: 100%; }
-a { color: inherit; text-decoration: none; }
-.container { max-width: var(--container); margin: 0 auto; padding: 0 var(--container-x); }
-.eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 800; }
-.display { font-family: var(--font-display); letter-spacing: -1.5px; text-transform: uppercase; }
-.accent  { font-family: var(--font-accent); font-style: italic; }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+img {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--container-x);
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -1.5px;
+  text-transform: uppercase;
+}
+.accent {
+  font-family: var(--font-accent);
+  font-style: italic;
+}
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
 ```
 
 - [ ] **Step 5: Verify the test passes**
@@ -452,6 +489,7 @@ git commit -m "feat(styles): design tokens (Haitian flag palette + Bold Activist
 ### Task 1.2: Base layout + font loading
 
 **Files:**
+
 - Create: `src/layouts/Base.astro`
 
 - [ ] **Step 1: Write `Base.astro`**
@@ -466,9 +504,14 @@ interface Props {
   description?: string;
   ogImage?: string;
 }
-const { title, description = 'Direct relief and lasting programs for families in Northern Haiti.', ogImage } = Astro.props;
+const {
+  title,
+  description = 'Direct relief and lasting programs for families in Northern Haiti.',
+  ogImage,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -490,7 +533,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     />
   </head>
   <body>
-    <a href="#main" class="skip" style="position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--navy);padding:8px 12px;font-weight:800">Skip to content</a>
+    <a
+      href="#main"
+      class="skip"
+      style="position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--navy);padding:8px 12px;font-weight:800"
+      >Skip to content</a
+    >
     <slot name="header" />
     <main id="main"><slot /></main>
     <slot name="footer" />
@@ -504,6 +552,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 import Base from '../layouts/Base.astro';
 ---
+
 <Base title="Home">
   <section class="container" style="padding:48px 0">
     <h1 class="display" style="font-size:48px">Javelin Fund</h1>
@@ -530,6 +579,7 @@ git commit -m "feat(layout): Base.astro with font preconnect and skip link"
 ### Task 1.3: `FlagBar.astro`
 
 **Files:**
+
 - Create: `src/components/FlagBar.astro`, `tests/component/flag-bar.test.ts`
 
 - [ ] **Step 1: Write the failing component test**
@@ -567,14 +617,21 @@ npx vitest run tests/component/flag-bar.test.ts
 ---
 // src/components/FlagBar.astro
 ---
+
 <div class="flag-bar" aria-hidden="true">
   <span style="background: var(--navy)"></span>
   <span style="background: var(--red)"></span>
   <span style="background: var(--gold)"></span>
 </div>
 <style>
-  .flag-bar { height: 6px; display: flex; }
-  .flag-bar span { flex: 1; display: block; }
+  .flag-bar {
+    height: 6px;
+    display: flex;
+  }
+  .flag-bar span {
+    flex: 1;
+    display: block;
+  }
 </style>
 ```
 
@@ -594,6 +651,7 @@ git commit -m "feat(components): FlagBar"
 ### Task 1.4: `Nav.astro`
 
 **Files:**
+
 - Create: `src/components/Nav.astro`, `tests/e2e/nav.spec.ts`
 
 - [ ] **Step 1: Implement `Nav.astro`**
@@ -608,6 +666,7 @@ const links = [
   { href: '/contact', label: 'Contact' },
 ];
 ---
+
 <nav class="top">
   <div class="container row">
     <a href="/" class="logo" aria-label="Javelin Fund — home">
@@ -621,16 +680,63 @@ const links = [
   </div>
 </nav>
 <style>
-  .top { position: sticky; top: 0; z-index: 50; background: rgba(10, 26, 63, 0.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
-  .row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 20px; }
-  .logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; }
-  .links { display: flex; gap: 28px; align-items: center; font-size: 13px; font-weight: 600; }
-  .links a { opacity: 0.88; }
-  .links a:hover { opacity: 1; color: var(--gold); }
-  .btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 12px; letter-spacing: 1.5px; padding: 12px 22px; border: none; cursor: pointer; text-transform: uppercase; }
-  .btn-gold { background: var(--gold); color: var(--navy); }
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 26, 63, 0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    gap: 20px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+  .links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .links a {
+    opacity: 0.88;
+  }
+  .links a:hover {
+    opacity: 1;
+    color: var(--gold);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    padding: 12px 22px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+  }
   @media (max-width: 720px) {
-    .links a:not(.btn) { display: none; }
+    .links a:not(.btn) {
+      display: none;
+    }
   }
 </style>
 ```
@@ -685,6 +791,7 @@ git commit -m "feat(components): Nav + wire into Base layout"
 ### Task 1.5: `Footer.astro`
 
 **Files:**
+
 - Create: `src/components/Footer.astro`, `tests/e2e/footer.spec.ts`
 
 - [ ] **Step 1: Implement `Footer.astro`**
@@ -694,11 +801,15 @@ git commit -m "feat(components): Nav + wire into Base layout"
 // src/components/Footer.astro
 const year = new Date().getFullYear();
 ---
+
 <footer class="footer">
   <div class="container row">
     <div>
       <div class="logo">JAVELIN FUND</div>
-      <p class="muted">Direct relief and lasting programs for families in Northern Haiti — together with the people who live there.</p>
+      <p class="muted">
+        Direct relief and lasting programs for families in Northern Haiti — together with the people
+        who live there.
+      </p>
       <p class="motto">L'union fait la force.</p>
     </div>
     <div>
@@ -721,20 +832,74 @@ const year = new Date().getFullYear();
   </div>
   <div class="container bottom">
     <span>© {year} Javelin Fund · BN 755722097 RR0001</span>
-    <span><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · Made in Canada · For Haiti</span>
+    <span
+      ><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · Made in Canada · For Haiti</span
+    >
   </div>
 </footer>
 <style>
-  .footer { background: var(--bg-alt); padding: 60px 0 24px; border-top: 1px solid var(--line); }
-  .row { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
-  @media (max-width: 720px) { .row { grid-template-columns: 1fr 1fr; } }
-  .logo { font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; margin-bottom: 12px; }
-  .muted { color: var(--fg-muted); font-size: 14px; max-width: 320px; }
-  .motto { font-family: var(--font-accent); font-style: italic; color: var(--gold); margin-top: 14px; }
-  h4 { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: var(--gold); margin: 0 0 14px; }
-  .footer a { display: block; color: var(--fg-muted); font-size: 13px; padding: 5px 0; }
-  .footer a:hover { color: var(--gold); }
-  .bottom { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--fg-muted); flex-wrap: wrap; gap: 12px; }
+  .footer {
+    background: var(--bg-alt);
+    padding: 60px 0 24px;
+    border-top: 1px solid var(--line);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  @media (max-width: 720px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .muted {
+    color: var(--fg-muted);
+    font-size: 14px;
+    max-width: 320px;
+  }
+  .motto {
+    font-family: var(--font-accent);
+    font-style: italic;
+    color: var(--gold);
+    margin-top: 14px;
+  }
+  h4 {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--gold);
+    margin: 0 0 14px;
+  }
+  .footer a {
+    display: block;
+    color: var(--fg-muted);
+    font-size: 13px;
+    padding: 5px 0;
+  }
+  .footer a:hover {
+    color: var(--gold);
+  }
+  .bottom {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
 </style>
 ```
 
@@ -769,6 +934,7 @@ git commit -m "feat(components): Footer with charity number + Haitian motto"
 ### Task 1.6: `MottoBand.astro` + `TrustBand.astro`
 
 **Files:**
+
 - Create: `src/components/MottoBand.astro`, `src/components/TrustBand.astro`
 
 - [ ] **Step 1: Implement `MottoBand.astro`**
@@ -777,6 +943,7 @@ git commit -m "feat(components): Footer with charity number + Haitian motto"
 ---
 // src/components/MottoBand.astro
 ---
+
 <section class="motto-band">
   <div class="container row">
     <span class="fr">L'union fait la force.</span>
@@ -787,11 +954,39 @@ git commit -m "feat(components): Footer with charity number + Haitian motto"
   </div>
 </section>
 <style>
-  .motto-band { background: var(--red); color: #fff; padding: 18px 0; border-top: 6px solid var(--gold); border-bottom: 6px solid var(--gold); }
-  .row { display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap; text-align: center; }
-  .fr { font-family: var(--font-accent); font-style: italic; font-size: 22px; letter-spacing: 0.5px; }
-  .en { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; font-weight: 700; }
-  .div { width: 1px; height: 24px; background: rgba(255, 255, 255, 0.4); }
+  .motto-band {
+    background: var(--red);
+    color: #fff;
+    padding: 18px 0;
+    border-top: 6px solid var(--gold);
+    border-bottom: 6px solid var(--gold);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  .fr {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+  }
+  .en {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    font-weight: 700;
+  }
+  .div {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.4);
+  }
 </style>
 ```
 
@@ -801,28 +996,70 @@ git commit -m "feat(components): Footer with charity number + Haitian motto"
 ---
 // src/components/TrustBand.astro
 const items = [
-  { seal: 'CRA',  top: 'Registered Canadian Charity', bottom: 'BN 755722097 RR0001' },
-  { seal: '98¢',  top: 'Of every dollar',             bottom: 'direct to programs' },
-  { seal: '10',   top: 'Years on the ground',         bottom: 'since 2016' },
-  { seal: '📊',  top: 'Audited annual report',       bottom: 'published yearly' },
+  { seal: 'CRA', top: 'Registered Canadian Charity', bottom: 'BN 755722097 RR0001' },
+  { seal: '98¢', top: 'Of every dollar', bottom: 'direct to programs' },
+  { seal: '10', top: 'Years on the ground', bottom: 'since 2016' },
+  { seal: '📊', top: 'Audited annual report', bottom: 'published yearly' },
 ];
 ---
+
 <section class="trust">
   <div class="container row">
-    {items.map((i) => (
-      <div class="item">
-        <div class="seal" aria-hidden="true">{i.seal}</div>
-        <div>{i.top}<br /><strong>{i.bottom}</strong></div>
-      </div>
-    ))}
+    {
+      items.map((i) => (
+        <div class="item">
+          <div class="seal" aria-hidden="true">
+            {i.seal}
+          </div>
+          <div>
+            {i.top}
+            <br />
+            <strong>{i.bottom}</strong>
+          </div>
+        </div>
+      ))
+    }
   </div>
 </section>
 <style>
-  .trust { background: var(--bg-alt); padding: 36px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .row { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
-  .item { display: flex; align-items: center; gap: 14px; font-size: 12px; color: var(--fg-muted); letter-spacing: 1px; text-transform: uppercase; }
-  .item strong { color: var(--fg); font-weight: 800; }
-  .seal { width: 46px; height: 46px; border-radius: 50%; background: var(--gold); color: var(--navy); display: grid; place-items: center; font-size: 11px; font-weight: 900; letter-spacing: 0.5px; }
+  .trust {
+    background: var(--bg-alt);
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    color: var(--fg-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .item strong {
+    color: var(--fg);
+    font-weight: 800;
+  }
+  .seal {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+  }
 </style>
 ```
 
@@ -848,6 +1085,7 @@ git commit -m "feat(components): MottoBand + TrustBand"
 ### Task 2.1: Define collections
 
 **Files:**
+
 - Create: `src/content/config.ts`, `src/lib/featured.ts`, `tests/unit/featured.test.ts`
 
 - [ ] **Step 1: Write `src/content/config.ts`**
@@ -918,9 +1156,7 @@ export interface FeaturedItem {
 }
 
 export function pickFeatured<T extends FeaturedItem>(items: T[]): T | undefined {
-  return items
-    .filter((i) => i.data.featured)
-    .sort((a, b) => b.data.priority - a.data.priority)[0];
+  return items.filter((i) => i.data.featured).sort((a, b) => b.data.priority - a.data.priority)[0];
 }
 
 export function pickFeaturedAll<T extends FeaturedItem>(items: T[]): T[] {
@@ -935,7 +1171,10 @@ export function pickFeaturedAll<T extends FeaturedItem>(items: T[]): T[] {
 import { describe, it, expect } from 'vitest';
 import { pickFeatured, pickFeaturedAll } from '../../src/lib/featured';
 
-const mk = (featured: boolean, priority: number, id: string) => ({ id, data: { featured, priority } });
+const mk = (featured: boolean, priority: number, id: string) => ({
+  id,
+  data: { featured, priority },
+});
 
 describe('pickFeatured', () => {
   it('returns highest-priority featured item', () => {
@@ -974,6 +1213,7 @@ git commit -m "feat(content): collections + featured selector"
 ### Task 2.2: Seed first story + first team member + tiers
 
 **Files:**
+
 - Create:
   - `src/content/stories/meet-marie-carline.md`
   - `src/content/team/founder.md`
@@ -996,7 +1236,7 @@ cp _source/extracted/javelinsooperior/homedir/public_html/public/assets/images/f
 
 - [ ] **Step 2: Write `meet-marie-carline.md`**
 
-````md
+```md
 ---
 title: 'The week that changed everything'
 excerpt: '"My oldest went back to school the same week the rice came. For the first time in two years, I slept the whole night."'
@@ -1011,8 +1251,8 @@ tags: ['food', 'education']
 
 When the Javelin Fund team first met Marie-Carline, the rains had not come for the planting season and the school year had already started two weeks late.
 
-> *(Body content to be written by the editorial team. Use Decap CMS or commit directly. This file is a seed — replace with the real story before launch.)*
-````
+> _(Body content to be written by the editorial team. Use Decap CMS or commit directly. This file is a seed — replace with the real story before launch.)_
+```
 
 - [ ] **Step 3: Write `founder.md`**
 
@@ -1077,10 +1317,11 @@ canada_helps_url: https://www.canadahelps.org/en/charities/javelin-fund/
 - [ ] **Step 5: Write the three page markdowns**
 
 ```md
-<!-- src/content/pages/about.md -->
----
+## <!-- src/content/pages/about.md -->
+
 title: 'About Javelin Fund'
 description: 'Mission, programs and governance.'
+
 ---
 
 (Body content to be finalised before launch.)
@@ -1110,6 +1351,7 @@ git commit -m "feat(content): seed first story, team member, donate tiers and pa
 ### Task 3.1: `Hero.astro`
 
 **Files:**
+
 - Create: `src/components/Hero.astro`
 - Copy: `src/assets/images/hero.jpg`
 
@@ -1133,14 +1375,28 @@ interface Props {
 }
 const { pill = 'Northern Haiti · 2026 Appeal', quote } = Astro.props;
 ---
+
 <section class="hero">
-  <Image src={hero} alt="Children in a Javelin Fund partner school in Northern Haiti" class="bg" widths={[800, 1200, 1800]} sizes="100vw" loading="eager" />
+  <Image
+    src={hero}
+    alt="Children in a Javelin Fund partner school in Northern Haiti"
+    class="bg"
+    widths={[800, 1200, 1800]}
+    sizes="100vw"
+    loading="eager"
+  />
   <div class="scrim" aria-hidden="true"></div>
   <div class="container content">
     <div class="left">
       <span class="pill"><span class="dot" aria-hidden="true"></span>{pill}</span>
-      <h1 class="display">Hope is<br /><span class="accent gold">a</span> <span class="gold">plan.</span></h1>
-      <p class="lede">Javelin Fund delivers direct relief and long-term programs to families in Cap-Haïtien and the villages of the North. Every dollar shipped. Every family known by name.</p>
+      <h1 class="display">
+        Hope is<br /><span class="accent gold">a</span>
+        <span class="gold">plan.</span>
+      </h1>
+      <p class="lede">
+        Javelin Fund delivers direct relief and long-term programs to families in Cap-Haïtien and
+        the villages of the North. Every dollar shipped. Every family known by name.
+      </p>
       <div class="cta">
         <a class="btn btn-red" href="/donate">Donate now →</a>
         <a class="btn btn-ghost" href="/stories">Read the stories</a>
@@ -1151,40 +1407,175 @@ const { pill = 'Northern Haiti · 2026 Appeal', quote } = Astro.props;
         <span><span class="check" aria-hidden="true">✓</span> Since 2016</span>
       </div>
     </div>
-    {quote && (
-      <aside class="right">
-        <div class="quote-card">
-          <p class="q">{quote.text}</p>
-          <p class="who">— {quote.who}</p>
-          <p class="where">{quote.where}</p>
-        </div>
-      </aside>
-    )}
+    {
+      quote && (
+        <aside class="right">
+          <div class="quote-card">
+            <p class="q">{quote.text}</p>
+            <p class="who">— {quote.who}</p>
+            <p class="where">{quote.where}</p>
+          </div>
+        </aside>
+      )
+    }
   </div>
 </section>
 <style>
-  .hero { position: relative; min-height: 88vh; overflow: hidden; }
-  .bg   { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
-  .scrim { position: absolute; inset: 0; background: linear-gradient(110deg, rgba(8, 21, 58, 0.95) 0%, rgba(8, 21, 58, 0.78) 45%, rgba(8, 21, 58, 0.28) 100%); }
-  .content { position: relative; padding: 80px 0 100px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; min-height: 88vh; }
-  @media (max-width: 880px) { .content { grid-template-columns: 1fr; padding: 60px 0; } }
-  .left { display: flex; flex-direction: column; gap: 24px; max-width: 620px; }
-  .pill { display: inline-flex; align-items: center; gap: 8px; background: var(--red); color: #fff; font-size: 11px; letter-spacing: 2px; padding: 6px 14px; font-weight: 800; text-transform: uppercase; width: fit-content; }
-  .dot  { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; }
-  h1.display { font-size: clamp(48px, 7.5vw, 108px); line-height: 0.86; letter-spacing: -3px; margin: 0; }
-  .gold { color: var(--gold); }
-  .lede { font-size: 17px; color: var(--fg-muted); max-width: 520px; margin: 0; }
-  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 12px; letter-spacing: 1.5px; padding: 14px 24px; border: none; cursor: pointer; text-transform: uppercase; }
-  .btn-red { background: var(--red); color: #fff; }
-  .btn-ghost { background: transparent; color: var(--fg); border: 1px solid rgba(255, 255, 255, 0.4); }
-  .trust { display: flex; gap: 20px; align-items: center; font-size: 12px; color: var(--fg-muted); flex-wrap: wrap; }
-  .check { width: 18px; height: 18px; border-radius: 50%; background: rgba(255, 214, 10, 0.18); color: var(--gold); display: inline-grid; place-items: center; font-size: 11px; font-weight: 900; }
-  .right { display: flex; justify-content: flex-end; }
-  .quote-card { background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px solid var(--line); padding: 26px 28px; max-width: 340px; border-left: 3px solid var(--gold); }
-  .q { font-family: var(--font-accent); font-style: italic; font-size: 18px; line-height: 1.45; margin: 0; }
-  .who { margin: 14px 0 0; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); font-weight: 800; }
-  .where { font-size: 12px; color: var(--fg-muted); margin: 2px 0 0; }
+  .hero {
+    position: relative;
+    min-height: 88vh;
+    overflow: hidden;
+  }
+  .bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      rgba(8, 21, 58, 0.95) 0%,
+      rgba(8, 21, 58, 0.78) 45%,
+      rgba(8, 21, 58, 0.28) 100%
+    );
+  }
+  .content {
+    position: relative;
+    padding: 80px 0 100px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: center;
+    min-height: 88vh;
+  }
+  @media (max-width: 880px) {
+    .content {
+      grid-template-columns: 1fr;
+      padding: 60px 0;
+    }
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 620px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  h1.display {
+    font-size: clamp(48px, 7.5vw, 108px);
+    line-height: 0.86;
+    letter-spacing: -3px;
+    margin: 0;
+  }
+  .gold {
+    color: var(--gold);
+  }
+  .lede {
+    font-size: 17px;
+    color: var(--fg-muted);
+    max-width: 520px;
+    margin: 0;
+  }
+  .cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    padding: 14px 24px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .btn-red {
+    background: var(--red);
+    color: #fff;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+  .trust {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--fg-muted);
+    flex-wrap: wrap;
+  }
+  .check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(255, 214, 10, 0.18);
+    color: var(--gold);
+    display: inline-grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 900;
+  }
+  .right {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .quote-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    padding: 26px 28px;
+    max-width: 340px;
+    border-left: 3px solid var(--gold);
+  }
+  .q {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.45;
+    margin: 0;
+  }
+  .who {
+    margin: 14px 0 0;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 800;
+  }
+  .where {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin: 2px 0 0;
+  }
 </style>
 ```
 
@@ -1198,6 +1589,7 @@ git commit -m "feat(components): Hero with optimized image and quote card"
 ### Task 3.2: `StatsGrid.astro`
 
 **Files:**
+
 - Create: `src/components/StatsGrid.astro`
 
 - [ ] **Step 1: Implement `StatsGrid.astro`**
@@ -1206,39 +1598,113 @@ git commit -m "feat(components): Hero with optimized image and quote card"
 ---
 // src/components/StatsGrid.astro
 const stats = [
-  { num: '325',    label: 'Children in school' },
+  { num: '325', label: 'Children in school' },
   { num: '12,400', label: 'Meals served · 2025' },
-  { num: '98¢',    label: 'Of every $1 to programs' },
+  { num: '98¢', label: 'Of every $1 to programs' },
   { num: '10 yrs', label: 'On the ground since 2016' },
 ];
 ---
+
 <section class="stats">
   <div class="container">
     <p class="eyebrow gold">Our impact · 2025</p>
     <h2 class="display">Receipts, not promises.</h2>
-    <p class="lede">Our annual report is audited and published every March. The numbers below are what the year actually delivered.</p>
+    <p class="lede">
+      Our annual report is audited and published every March. The numbers below are what the year
+      actually delivered.
+    </p>
     <div class="grid">
-      {stats.map((s, i) => (
-        <div class={`stat n-${i}`}><div class="num">{s.num}</div><div class="lbl">{s.label}</div></div>
-      ))}
+      {
+        stats.map((s, i) => (
+          <div class={`stat n-${i}`}>
+            <>
+              <div class="num">{s.num}</div>
+              <div class="lbl">{s.label}</div>
+            </>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>
 <style>
-  .stats { background: var(--bg-alt); padding: 70px 0; position: relative; overflow: hidden; }
-  .stats::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--navy) 0% 33.3%, var(--red) 33.3% 66.6%, var(--gold) 66.6% 100%); }
-  .gold { color: var(--gold); margin: 0 0 8px; }
-  h2.display { font-size: 42px; letter-spacing: -1.5px; margin: 0 0 8px; }
-  .lede { color: var(--fg-muted); margin: 0 0 48px; max-width: 640px; }
-  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-  @media (max-width: 880px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
-  .stat { padding: 28px 24px; background: var(--navy-3); border-top: 4px solid var(--gold); }
-  .stat.n-1 { border-top-color: var(--red); }
-  .stat.n-3 { border-top-color: var(--ivory); }
-  .num { font-family: var(--font-display); font-size: 54px; line-height: 1; color: var(--gold); letter-spacing: -2px; }
-  .stat.n-1 .num { color: var(--red); }
-  .stat.n-3 .num { color: var(--ivory); }
-  .lbl { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fg-muted); font-weight: 700; margin-top: 10px; }
+  .stats {
+    background: var(--bg-alt);
+    padding: 70px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .stats::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--navy) 0% 33.3%,
+      var(--red) 33.3% 66.6%,
+      var(--gold) 66.6% 100%
+    );
+  }
+  .gold {
+    color: var(--gold);
+    margin: 0 0 8px;
+  }
+  h2.display {
+    font-size: 42px;
+    letter-spacing: -1.5px;
+    margin: 0 0 8px;
+  }
+  .lede {
+    color: var(--fg-muted);
+    margin: 0 0 48px;
+    max-width: 640px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+  .stat {
+    padding: 28px 24px;
+    background: var(--navy-3);
+    border-top: 4px solid var(--gold);
+  }
+  .stat.n-1 {
+    border-top-color: var(--red);
+  }
+  .stat.n-3 {
+    border-top-color: var(--ivory);
+  }
+  .num {
+    font-family: var(--font-display);
+    font-size: 54px;
+    line-height: 1;
+    color: var(--gold);
+    letter-spacing: -2px;
+  }
+  .stat.n-1 .num {
+    color: var(--red);
+  }
+  .stat.n-3 .num {
+    color: var(--ivory);
+  }
+  .lbl {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-weight: 700;
+    margin-top: 10px;
+  }
 </style>
 ```
 
@@ -1252,6 +1718,7 @@ git commit -m "feat(components): StatsGrid"
 ### Task 3.3: `ProgramCard.astro` + programs data
 
 **Files:**
+
 - Create: `src/components/ProgramCard.astro`, `src/content/donate-tiers/programs.json` (drop — not used). Programs are inlined data on the home page for phase 1.
 - Modify: home page in phase 3 wires three cards.
 
@@ -1274,8 +1741,15 @@ interface Props {
 }
 const { image, tag, meta, title, body, href, variant = 'gold' } = Astro.props;
 ---
+
 <article class={`card v-${variant}`}>
-  <Image src={image} alt="" widths={[400, 800]} sizes="(max-width:880px) 100vw, 33vw" class="photo" />
+  <Image
+    src={image}
+    alt=""
+    widths={[400, 800]}
+    sizes="(max-width:880px) 100vw, 33vw"
+    class="photo"
+  />
   <div class="body">
     <span class="tag">{tag}</span>
     <div class="meta">{meta}</div>
@@ -1285,16 +1759,70 @@ const { image, tag, meta, title, body, href, variant = 'gold' } = Astro.props;
   </div>
 </article>
 <style>
-  .card { background: var(--navy-3); position: relative; overflow: hidden; }
-  .photo { height: 230px; width: 100%; object-fit: cover; display: block; }
-  .body  { padding: 26px 26px 30px; position: relative; }
-  .tag   { position: absolute; top: -14px; left: 26px; background: var(--gold); color: var(--navy); font-size: 10px; letter-spacing: 2px; padding: 5px 10px; font-weight: 900; text-transform: uppercase; }
-  .v-red .tag    { background: var(--red); color: #fff; }
-  .v-ivory .tag  { background: var(--ivory); color: var(--navy); }
-  .meta  { font-size: 11px; color: var(--fg-muted); letter-spacing: 1px; text-transform: uppercase; margin: 12px 0 12px; }
-  h3.display { font-size: 22px; letter-spacing: -0.5px; margin: 0 0 12px; line-height: 1.1; }
-  p { margin: 0 0 18px; color: var(--fg-muted); font-size: 14px; line-height: 1.6; }
-  .more { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: var(--gold); }
+  .card {
+    background: var(--navy-3);
+    position: relative;
+    overflow: hidden;
+  }
+  .photo {
+    height: 230px;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .body {
+    padding: 26px 26px 30px;
+    position: relative;
+  }
+  .tag {
+    position: absolute;
+    top: -14px;
+    left: 26px;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 5px 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .v-red .tag {
+    background: var(--red);
+    color: #fff;
+  }
+  .v-ivory .tag {
+    background: var(--ivory);
+    color: var(--navy);
+  }
+  .meta {
+    font-size: 11px;
+    color: var(--fg-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 12px 0 12px;
+  }
+  h3.display {
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    margin: 0 0 12px;
+    line-height: 1.1;
+  }
+  p {
+    margin: 0 0 18px;
+    color: var(--fg-muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--gold);
+  }
 </style>
 ```
 
@@ -1308,6 +1836,7 @@ git commit -m "feat(components): ProgramCard"
 ### Task 3.4: `StorySpotlight.astro` (consumes featured story)
 
 **Files:**
+
 - Create: `src/components/StorySpotlight.astro`
 
 - [ ] **Step 1: Implement `StorySpotlight.astro`**
@@ -1323,12 +1852,19 @@ interface Props {
 }
 const { story } = Astro.props;
 ---
+
 <section class="story">
   <div class="container">
     <span class="feat-label"><span class="dot" aria-hidden="true"></span> Featured story</span>
     <div class="grid">
       <div class="photo-wrap">
-        <Image src={story.data.hero} alt={story.data.title} widths={[500, 900]} sizes="(max-width:880px) 100vw, 50vw" class="photo" />
+        <Image
+          src={story.data.hero}
+          alt={story.data.title}
+          widths={[500, 900]}
+          sizes="(max-width:880px) 100vw, 50vw"
+          class="photo"
+        />
         <div class="frame" aria-hidden="true"></div>
         {story.data.location && <div class="tag">Story · {story.data.location}</div>}
       </div>
@@ -1344,21 +1880,111 @@ const { story } = Astro.props;
   </div>
 </section>
 <style>
-  .story { background: var(--ivory); color: var(--navy); padding: 90px 0; }
-  .feat-label { display: inline-flex; align-items: center; gap: 8px; background: var(--red); color: #fff; padding: 5px 12px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; margin-bottom: 24px; }
-  .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
-  .grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 50px; align-items: center; }
-  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
-  .photo-wrap { position: relative; aspect-ratio: 4/5; }
-  .photo { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .frame { position: absolute; inset: 14px; border: 2px solid var(--gold); pointer-events: none; }
-  .tag { position: absolute; left: 24px; bottom: 24px; background: var(--red); color: #fff; padding: 8px 14px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; }
-  .red { color: var(--red); margin-bottom: 14px; }
-  h2.display { font-size: 54px; line-height: 0.95; letter-spacing: -2px; margin: 0 0 18px; }
-  .quote { font-family: var(--font-accent); font-style: italic; font-size: 22px; line-height: 1.45; border-left: 3px solid var(--gold); padding-left: 20px; margin: 0 0 20px; }
-  .who { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; margin: 0; }
-  .where { font-size: 13px; color: rgba(10, 26, 63, 0.6); margin: 2px 0 24px; }
-  .read-more { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 2px solid var(--gold); padding-bottom: 4px; }
+  .story {
+    background: var(--ivory);
+    color: var(--navy);
+    padding: 90px 0;
+  }
+  .feat-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: #fff;
+    padding: 5px 12px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 24px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 50px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .photo-wrap {
+    position: relative;
+    aspect-ratio: 4/5;
+  }
+  .photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .frame {
+    position: absolute;
+    inset: 14px;
+    border: 2px solid var(--gold);
+    pointer-events: none;
+  }
+  .tag {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    background: var(--red);
+    color: #fff;
+    padding: 8px 14px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .red {
+    color: var(--red);
+    margin-bottom: 14px;
+  }
+  h2.display {
+    font-size: 54px;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    margin: 0 0 18px;
+  }
+  .quote {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.45;
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+    margin: 0 0 20px;
+  }
+  .who {
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin: 0;
+  }
+  .where {
+    font-size: 13px;
+    color: rgba(10, 26, 63, 0.6);
+    margin: 2px 0 24px;
+  }
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 4px;
+  }
 </style>
 ```
 
@@ -1372,6 +1998,7 @@ git commit -m "feat(components): StorySpotlight"
 ### Task 3.5: `DonateStrip.astro` (consumes featured tiers)
 
 **Files:**
+
 - Create: `src/components/DonateStrip.astro`
 
 - [ ] **Step 1: Implement `DonateStrip.astro`**
@@ -1392,19 +2019,27 @@ function formatAmount(amount: number | 'custom') {
 }
 function formatFrequency(freq: string) {
   switch (freq) {
-    case 'yearly':   return 'Per year';
-    case 'monthly':  return 'Per month';
-    case 'one-time': return 'One-time';
-    default:         return 'Any amount';
+    case 'yearly':
+      return 'Per year';
+    case 'monthly':
+      return 'Per month';
+    case 'one-time':
+      return 'One-time';
+    default:
+      return 'Any amount';
   }
 }
 ---
+
 <section class="donate">
   <div class="container row">
     <div>
       <p class="eyebrow red">Give today</p>
       <h2 class="display">Receipts,<br /><span class="accent">not</span> promises.</h2>
-      <p>Pick any amount. Instant tax receipt via CanadaHelps. Monthly giving = 3× the impact per dollar.</p>
+      <p>
+        Pick any amount. Instant tax receipt via CanadaHelps. Monthly giving = 3× the impact per
+        dollar.
+      </p>
       <div class="pay-row">
         <span class="chip">💳 Card</span>
         <span class="chip">🍁 Interac e-Transfer</span>
@@ -1413,34 +2048,118 @@ function formatFrequency(freq: string) {
       </div>
     </div>
     <div class="tiers">
-      {tiers.map((t) => (
-        <a class={`tier ${t.data.featured ? 'featured' : ''}`} href={t.data.canada_helps_url ?? '/donate'}>
-          {t.data.ribbon && <span class="ribbon">{t.data.ribbon}</span>}
-          <span class="amt">{formatAmount(t.data.amount)}</span>
-          <span class="freq">{formatFrequency(t.data.frequency)}</span>
-          <span class="what">{t.data.label}</span>
-          <span class="sub">{t.data.sub}</span>
-        </a>
-      ))}
+      {
+        tiers.map((t) => (
+          <a
+            class={`tier ${t.data.featured ? 'featured' : ''}`}
+            href={t.data.canada_helps_url ?? '/donate'}
+          >
+            {t.data.ribbon && <span class="ribbon">{t.data.ribbon}</span>}
+            <span class="amt">{formatAmount(t.data.amount)}</span>
+            <span class="freq">{formatFrequency(t.data.frequency)}</span>
+            <span class="what">{t.data.label}</span>
+            <span class="sub">{t.data.sub}</span>
+          </a>
+        ))
+      }
     </div>
   </div>
 </section>
 <style>
-  .donate { background: var(--gold); color: var(--navy); padding: 70px 0; }
-  .row { display: grid; grid-template-columns: 1fr 1.15fr; gap: 50px; align-items: center; }
-  @media (max-width: 880px) { .row { grid-template-columns: 1fr; } }
-  h2.display { font-size: 48px; line-height: 0.95; letter-spacing: -1.5px; margin: 0 0 16px; }
-  .red { color: var(--red); margin-bottom: 14px; }
-  .pay-row { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
-  .chip { background: var(--navy); color: var(--ivory); font-size: 11px; letter-spacing: 1.5px; padding: 8px 12px; text-transform: uppercase; font-weight: 700; }
-  .tiers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  .tier { background: var(--navy); color: var(--ivory); padding: 24px 22px; display: flex; flex-direction: column; gap: 6px; border-left: 3px solid var(--gold); position: relative; }
-  .tier.featured { background: var(--red); border-left-color: var(--gold); }
-  .ribbon { position: absolute; top: 0; right: 0; background: var(--gold); color: var(--navy); font-size: 9px; letter-spacing: 1.5px; padding: 3px 8px; font-weight: 900; text-transform: uppercase; }
-  .amt { font-family: var(--font-display); font-size: 30px; color: var(--gold); letter-spacing: -1px; }
-  .freq { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--fg-muted); font-weight: 700; }
-  .what { font-size: 14px; font-weight: 700; margin-top: 6px; }
-  .sub  { font-size: 12px; color: var(--fg-muted); }
+  .donate {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 70px 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 50px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
+  h2.display {
+    font-size: 48px;
+    line-height: 0.95;
+    letter-spacing: -1.5px;
+    margin: 0 0 16px;
+  }
+  .red {
+    color: var(--red);
+    margin-bottom: 14px;
+  }
+  .pay-row {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    background: var(--navy);
+    color: var(--ivory);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 8px 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .tier {
+    background: var(--navy);
+    color: var(--ivory);
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-left: 3px solid var(--gold);
+    position: relative;
+  }
+  .tier.featured {
+    background: var(--red);
+    border-left-color: var(--gold);
+  }
+  .ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    padding: 3px 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .amt {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--gold);
+    letter-spacing: -1px;
+  }
+  .freq {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-weight: 700;
+  }
+  .what {
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+  .sub {
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
 </style>
 ```
 
@@ -1454,6 +2173,7 @@ git commit -m "feat(components): DonateStrip consuming featured tiers"
 ### Task 3.6: Assemble homepage
 
 **Files:**
+
 - Modify: `src/pages/index.astro`
 - Copy: `src/assets/images/prog-1.jpg`, `src/assets/images/prog-2.jpg`, `src/assets/images/prog-3.jpg`
 
@@ -1497,6 +2217,7 @@ const heroQuote = {
   where: 'Mother of three · Cap-Haïtien',
 };
 ---
+
 <Base title="Home" description="Direct relief and lasting programs for families in Northern Haiti.">
   <Hero quote={heroQuote} />
   <MottoBand />
@@ -1505,12 +2226,39 @@ const heroQuote = {
     <div class="container">
       <header class="head">
         <h2 class="display">Our work,<br /><span class="gold">in the North.</span></h2>
-        <p>Three programs running today in Cap-Haïtien and the surrounding villages — long partnerships with local teams.</p>
+        <p>
+          Three programs running today in Cap-Haïtien and the surrounding villages — long
+          partnerships with local teams.
+        </p>
       </header>
       <div class="grid">
-        <ProgramCard variant="gold"  image={prog1} tag="Education"    meta="Since 2016 · 325 children"     title="Schools & Scholarships" body="Tuition, supplies, uniforms and a hot lunch for 325 children across our partner schools." href="/about#education" />
-        <ProgramCard variant="red"   image={prog2} tag="Food security" meta="Since 2016 · 320+ families"   title="Feeding the Orphans"   body="Daily meals plus weekly rice, beans and oil distributions partnered with women-led cooperatives." href="/about#food" />
-        <ProgramCard variant="ivory" image={prog3} tag="Health & water" meta="Since 2019 · 6 systems"      title="Clean Water & Care"   body="Filtration and rainwater systems plus basic medical visits in villages cut off from municipal services." href="/about#water" />
+        <ProgramCard
+          variant="gold"
+          image={prog1}
+          tag="Education"
+          meta="Since 2016 · 325 children"
+          title="Schools & Scholarships"
+          body="Tuition, supplies, uniforms and a hot lunch for 325 children across our partner schools."
+          href="/about#education"
+        />
+        <ProgramCard
+          variant="red"
+          image={prog2}
+          tag="Food security"
+          meta="Since 2016 · 320+ families"
+          title="Feeding the Orphans"
+          body="Daily meals plus weekly rice, beans and oil distributions partnered with women-led cooperatives."
+          href="/about#food"
+        />
+        <ProgramCard
+          variant="ivory"
+          image={prog3}
+          tag="Health & water"
+          meta="Since 2019 · 6 systems"
+          title="Clean Water & Care"
+          body="Filtration and rainwater systems plus basic medical visits in villages cut off from municipal services."
+          href="/about#water"
+        />
       </div>
     </div>
   </section>
@@ -1519,13 +2267,44 @@ const heroQuote = {
   <TrustBand />
 </Base>
 <style>
-  .programs { padding: 90px 0; background: var(--bg); }
-  .head { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; flex-wrap: wrap; margin-bottom: 46px; }
-  .head h2 { font-size: 46px; margin: 0; max-width: 600px; line-height: 1; letter-spacing: -1.5px; }
-  .head p  { max-width: 380px; color: var(--fg-muted); font-size: 15px; margin: 0; }
-  .gold { color: var(--gold); }
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+  .programs {
+    padding: 90px 0;
+    background: var(--bg);
+  }
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 46px;
+  }
+  .head h2 {
+    font-size: 46px;
+    margin: 0;
+    max-width: 600px;
+    line-height: 1;
+    letter-spacing: -1.5px;
+  }
+  .head p {
+    max-width: 380px;
+    color: var(--fg-muted);
+    font-size: 15px;
+    margin: 0;
+  }
+  .gold {
+    color: var(--gold);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 ```
 
@@ -1568,6 +2347,7 @@ git commit -m "feat(home): assemble homepage with featured story + tiers"
 ### Task 4.1: `/about` page
 
 **Files:**
+
 - Modify: `src/pages/about.astro`
 
 - [ ] **Step 1: Write `about.astro`**
@@ -1582,6 +2362,7 @@ import { getEntry } from 'astro:content';
 const about = await getEntry('pages', 'about');
 const { Content } = await about.render();
 ---
+
 <Base title={about.data.title} description={about.data.description}>
   <section class="container" style="padding:80px 0">
     <h1 class="display" style="font-size:64px;letter-spacing:-2px">{about.data.title}</h1>
@@ -1593,9 +2374,21 @@ const { Content } = await about.render();
   <TrustBand />
 </Base>
 <style>
-  .prose { max-width: 720px; font-size: 17px; line-height: 1.7; color: var(--fg-muted); }
-  .prose :global(h2) { font-family: var(--font-display); font-size: 32px; color: var(--ivory); margin-top: 48px; }
-  .prose :global(p)  { margin: 18px 0; }
+  .prose {
+    max-width: 720px;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--fg-muted);
+  }
+  .prose :global(h2) {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--ivory);
+    margin-top: 48px;
+  }
+  .prose :global(p) {
+    margin: 18px 0;
+  }
 </style>
 ```
 
@@ -1609,6 +2402,7 @@ git commit -m "feat(pages): /about consuming pages collection"
 ### Task 4.2: `/stories` index
 
 **Files:**
+
 - Create: `src/pages/stories/index.astro`
 
 - [ ] **Step 1: Write the page**
@@ -1621,37 +2415,89 @@ import { Image } from 'astro:assets';
 
 const stories = (await getCollection('stories')).sort((a, b) => +b.data.date - +a.data.date);
 ---
-<Base title="Stories" description="Stories from the families and communities served by Javelin Fund in Northern Haiti.">
+
+<Base
+  title="Stories"
+  description="Stories from the families and communities served by Javelin Fund in Northern Haiti."
+>
   <section class="container" style="padding:80px 0">
     <p class="eyebrow gold">Stories</p>
     <h1 class="display" style="font-size:64px;letter-spacing:-2px">From the North.</h1>
     <ul class="grid">
-      {stories.map((s) => (
-        <li class="card">
-          <a href={`/stories/${s.slug}`}>
-            <Image src={s.data.hero} alt={s.data.title} widths={[400, 800]} sizes="(max-width:880px) 100vw, 33vw" class="photo" />
-            <div class="body">
-              <p class="meta">{s.data.location} · {s.data.date.toLocaleDateString('en-CA', { month: 'long', year: 'numeric' })}</p>
-              <h2 class="display">{s.data.title}</h2>
-              <p>{s.data.excerpt}</p>
-              <span class="more">Read →</span>
-            </div>
-          </a>
-        </li>
-      ))}
+      {
+        stories.map((s) => (
+          <li class="card">
+            <a href={`/stories/${s.slug}`}>
+              <Image
+                src={s.data.hero}
+                alt={s.data.title}
+                widths={[400, 800]}
+                sizes="(max-width:880px) 100vw, 33vw"
+                class="photo"
+              />
+              <div class="body">
+                <p class="meta">
+                  {s.data.location} ·{' '}
+                  {s.data.date.toLocaleDateString('en-CA', { month: 'long', year: 'numeric' })}
+                </p>
+                <h2 class="display">{s.data.title}</h2>
+                <p>{s.data.excerpt}</p>
+                <span class="more">Read →</span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </section>
 </Base>
 <style>
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; list-style: none; padding: 48px 0 0; margin: 0; }
-  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
-  .card { background: var(--navy-3); }
-  .photo { width: 100%; height: 220px; object-fit: cover; }
-  .body  { padding: 24px; }
-  .meta  { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fg-muted); }
-  h2.display { font-size: 22px; letter-spacing: -0.5px; margin: 10px 0 12px; line-height: 1.1; }
-  .more  { color: var(--gold); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 12px; }
-  .gold  { color: var(--gold); }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    list-style: none;
+    padding: 48px 0 0;
+    margin: 0;
+  }
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .card {
+    background: var(--navy-3);
+  }
+  .photo {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+  .body {
+    padding: 24px;
+  }
+  .meta {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  h2.display {
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    margin: 10px 0 12px;
+    line-height: 1.1;
+  }
+  .more {
+    color: var(--gold);
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+  .gold {
+    color: var(--gold);
+  }
 </style>
 ```
 
@@ -1665,6 +2511,7 @@ git commit -m "feat(pages): /stories index"
 ### Task 4.3: `/stories/[slug]` detail
 
 **Files:**
+
 - Create: `src/pages/stories/[...slug].astro`
 
 - [ ] **Step 1: Write the dynamic route**
@@ -1684,23 +2531,59 @@ export async function getStaticPaths() {
 const { story } = Astro.props;
 const { Content } = await story.render();
 ---
+
 <Base title={story.data.title} description={story.data.excerpt} ogImage={story.data.hero.src}>
   <article class="container" style="padding:60px 0 80px;max-width:760px">
     <p class="eyebrow gold">Story · {story.data.location}</p>
-    <h1 class="display" style="font-size:54px;letter-spacing:-2px;margin:8px 0 24px">{story.data.title}</h1>
-    <Image src={story.data.hero} alt={story.data.title} widths={[800, 1400]} sizes="100vw" class="hero" />
+    <h1 class="display" style="font-size:54px;letter-spacing:-2px;margin:8px 0 24px">
+      {story.data.title}
+    </h1>
+    <Image
+      src={story.data.hero}
+      alt={story.data.title}
+      widths={[800, 1400]}
+      sizes="100vw"
+      class="hero"
+    />
     <p class="lede">{story.data.excerpt}</p>
     <div class="prose"><Content /></div>
   </article>
   <MottoBand />
 </Base>
 <style>
-  .gold { color: var(--gold); }
-  .hero { width: 100%; height: 420px; object-fit: cover; margin: 0 0 32px; }
-  .lede { font-size: 19px; line-height: 1.6; color: var(--fg-muted); font-family: var(--font-accent); font-style: italic; border-left: 3px solid var(--gold); padding-left: 16px; margin: 0 0 32px; }
-  .prose { font-size: 17px; line-height: 1.75; color: var(--fg-muted); }
-  .prose :global(h2) { font-family: var(--font-display); font-size: 30px; color: var(--ivory); margin: 40px 0 16px; }
-  .prose :global(p)  { margin: 18px 0; }
+  .gold {
+    color: var(--gold);
+  }
+  .hero {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    margin: 0 0 32px;
+  }
+  .lede {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--fg-muted);
+    font-family: var(--font-accent);
+    font-style: italic;
+    border-left: 3px solid var(--gold);
+    padding-left: 16px;
+    margin: 0 0 32px;
+  }
+  .prose {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--fg-muted);
+  }
+  .prose :global(h2) {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--ivory);
+    margin: 40px 0 16px;
+  }
+  .prose :global(p) {
+    margin: 18px 0;
+  }
 </style>
 ```
 
@@ -1726,6 +2609,7 @@ git commit -m "feat(pages): /stories/:slug story detail"
 ### Task 5.1: `/team` page
 
 **Files:**
+
 - Create: `src/pages/team.astro`
 
 - [ ] **Step 1: Write the page**
@@ -1738,31 +2622,77 @@ import { Image } from 'astro:assets';
 
 const members = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 ---
+
 <Base title="The People" description="The team behind Javelin Fund.">
   <section class="container" style="padding:80px 0">
     <p class="eyebrow gold">The People</p>
     <h1 class="display" style="font-size:64px;letter-spacing:-2px">The hands behind the work.</h1>
     <ul class="grid">
-      {members.map((m) => (
-        <li class="card">
-          <Image src={m.data.photo} alt={m.data.name} widths={[300, 600]} sizes="(max-width:880px) 50vw, 25vw" class="photo" />
-          <h2 class="display">{m.data.name}</h2>
-          <p class="role">{m.data.role}</p>
-          {m.data.bio && <p class="bio">{m.data.bio}</p>}
-        </li>
-      ))}
+      {
+        members.map((m) => (
+          <li class="card">
+            <Image
+              src={m.data.photo}
+              alt={m.data.name}
+              widths={[300, 600]}
+              sizes="(max-width:880px) 50vw, 25vw"
+              class="photo"
+            />
+            <h2 class="display">{m.data.name}</h2>
+            <p class="role">{m.data.role}</p>
+            {m.data.bio && <p class="bio">{m.data.bio}</p>}
+          </li>
+        ))
+      }
     </ul>
   </section>
 </Base>
 <style>
-  .gold { color: var(--gold); }
-  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; list-style: none; padding: 48px 0 0; margin: 0; }
-  @media (max-width: 880px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  .card { background: var(--navy-3); padding: 0 0 20px; }
-  .photo { width: 100%; aspect-ratio: 4/5; object-fit: cover; margin-bottom: 14px; }
-  h2.display { font-size: 18px; letter-spacing: -0.3px; margin: 0 16px 4px; }
-  .role { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin: 0 16px 8px; font-weight: 800; }
-  .bio  { font-size: 13px; color: var(--fg-muted); margin: 0 16px; line-height: 1.5; }
+  .gold {
+    color: var(--gold);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    list-style: none;
+    padding: 48px 0 0;
+    margin: 0;
+  }
+  @media (max-width: 880px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .card {
+    background: var(--navy-3);
+    padding: 0 0 20px;
+  }
+  .photo {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    margin-bottom: 14px;
+  }
+  h2.display {
+    font-size: 18px;
+    letter-spacing: -0.3px;
+    margin: 0 16px 4px;
+  }
+  .role {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 16px 8px;
+    font-weight: 800;
+  }
+  .bio {
+    font-size: 13px;
+    color: var(--fg-muted);
+    margin: 0 16px;
+    line-height: 1.5;
+  }
 </style>
 ```
 
@@ -1776,6 +2706,7 @@ git commit -m "feat(pages): /team consuming team collection"
 ### Task 5.2: `/donate` page
 
 **Files:**
+
 - Create: `src/pages/donate.astro`
 
 - [ ] **Step 1: Write the page**
@@ -1786,52 +2717,158 @@ import Base from '../layouts/Base.astro';
 import TrustBand from '../components/TrustBand.astro';
 import { getCollection } from 'astro:content';
 
-const tiers = (await getCollection('donateTiers')).sort((a, b) => b.data.priority - a.data.priority);
+const tiers = (await getCollection('donateTiers')).sort(
+  (a, b) => b.data.priority - a.data.priority,
+);
 const charity_url = 'https://www.canadahelps.org/en/charities/javelin-fund/';
 ---
+
 <Base title="Donate" description="Support Javelin Fund. Tax receipts issued automatically.">
   <section class="container" style="padding:80px 0">
     <p class="eyebrow red">Give today</p>
     <h1 class="display" style="font-size:64px;letter-spacing:-2px">Receipts,<br />not promises.</h1>
-    <p class="lede">Pick any amount. Instant CRA tax receipt via CanadaHelps. Monthly giving = 3× the impact per dollar.</p>
+    <p class="lede">
+      Pick any amount. Instant CRA tax receipt via CanadaHelps. Monthly giving = 3× the impact per
+      dollar.
+    </p>
 
     <div class="tiers">
-      {tiers.map((t) => (
-        <a class={`tier ${t.data.featured ? 'featured' : ''}`} href={t.data.canada_helps_url ?? charity_url}>
-          {t.data.ribbon && <span class="ribbon">{t.data.ribbon}</span>}
-          <span class="amt">{t.data.amount === 'custom' ? 'Custom' : `$${(t.data.amount as number).toLocaleString('en-CA')}`}</span>
-          <span class="freq">{t.data.frequency === 'yearly' ? 'Per year' : t.data.frequency === 'monthly' ? 'Per month' : t.data.frequency === 'one-time' ? 'One-time' : 'Any amount'}</span>
-          <span class="what">{t.data.label}</span>
-          <span class="sub">{t.data.sub}</span>
-        </a>
-      ))}
+      {
+        tiers.map((t) => (
+          <a
+            class={`tier ${t.data.featured ? 'featured' : ''}`}
+            href={t.data.canada_helps_url ?? charity_url}
+          >
+            {t.data.ribbon && <span class="ribbon">{t.data.ribbon}</span>}
+            <span class="amt">
+              {t.data.amount === 'custom'
+                ? 'Custom'
+                : `$${(t.data.amount as number).toLocaleString('en-CA')}`}
+            </span>
+            <span class="freq">
+              {t.data.frequency === 'yearly'
+                ? 'Per year'
+                : t.data.frequency === 'monthly'
+                  ? 'Per month'
+                  : t.data.frequency === 'one-time'
+                    ? 'One-time'
+                    : 'Any amount'}
+            </span>
+            <span class="what">{t.data.label}</span>
+            <span class="sub">{t.data.sub}</span>
+          </a>
+        ))
+      }
     </div>
 
-    <h2 class="display" id="interac" style="margin-top:80px;font-size:32px">Prefer Interac e-Transfer?</h2>
-    <p class="interac">Send your gift to <strong>donate@javelinfund.ca</strong>. Auto-deposit is on, so no security question is needed. We email a tax receipt within 5 business days.</p>
+    <h2 class="display" id="interac" style="margin-top:80px;font-size:32px">
+      Prefer Interac e-Transfer?
+    </h2>
+    <p class="interac">
+      Send your gift to <strong>donate@javelinfund.ca</strong>. Auto-deposit is on, so no security
+      question is needed. We email a tax receipt within 5 business days.
+    </p>
 
     <h2 class="display" style="margin-top:80px;font-size:32px">Frequently asked</h2>
-    <details><summary>How are tax receipts issued?</summary><p>CanadaHelps issues your CRA-compliant receipt instantly by email. Interac receipts are issued manually within 5 business days.</p></details>
-    <details><summary>What does my donation pay for?</summary><p>98¢ of every dollar goes directly to programs in Northern Haiti — schooling, food, water and health. Our audited annual report is published every March.</p></details>
-    <details><summary>Can I cancel a monthly gift?</summary><p>Yes, anytime — through your CanadaHelps account or by emailing contact@javelinfund.ca.</p></details>
+    <details>
+      <summary>How are tax receipts issued?</summary><p>
+        CanadaHelps issues your CRA-compliant receipt instantly by email. Interac receipts are
+        issued manually within 5 business days.
+      </p>
+    </details>
+    <details>
+      <summary>What does my donation pay for?</summary><p>
+        98¢ of every dollar goes directly to programs in Northern Haiti — schooling, food, water and
+        health. Our audited annual report is published every March.
+      </p>
+    </details>
+    <details>
+      <summary>Can I cancel a monthly gift?</summary><p>
+        Yes, anytime — through your CanadaHelps account or by emailing contact@javelinfund.ca.
+      </p>
+    </details>
   </section>
   <TrustBand />
 </Base>
 <style>
-  .red { color: var(--red); }
-  .lede { font-size: 18px; color: var(--fg-muted); max-width: 600px; margin: 12px 0 32px; }
-  .tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  @media (max-width: 880px) { .tiers { grid-template-columns: 1fr 1fr; } }
-  .tier { background: var(--navy-3); color: var(--ivory); padding: 24px 22px; display: flex; flex-direction: column; gap: 6px; border-left: 3px solid var(--gold); position: relative; }
-  .tier.featured { background: var(--red); }
-  .ribbon { position: absolute; top: 0; right: 0; background: var(--gold); color: var(--navy); font-size: 9px; letter-spacing: 1.5px; padding: 3px 8px; font-weight: 900; text-transform: uppercase; }
-  .amt { font-family: var(--font-display); font-size: 30px; color: var(--gold); }
-  .freq { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--fg-muted); font-weight: 700; }
-  .what { font-size: 14px; font-weight: 700; margin-top: 6px; }
-  .sub  { font-size: 12px; color: var(--fg-muted); }
-  details { border-top: 1px solid var(--line); padding: 16px 0; }
-  summary { cursor: pointer; font-weight: 700; font-size: 16px; }
-  .interac { font-size: 17px; color: var(--fg-muted); }
+  .red {
+    color: var(--red);
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--fg-muted);
+    max-width: 600px;
+    margin: 12px 0 32px;
+  }
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 880px) {
+    .tiers {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .tier {
+    background: var(--navy-3);
+    color: var(--ivory);
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-left: 3px solid var(--gold);
+    position: relative;
+  }
+  .tier.featured {
+    background: var(--red);
+  }
+  .ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    padding: 3px 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .amt {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--gold);
+  }
+  .freq {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-weight: 700;
+  }
+  .what {
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+  .sub {
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  details {
+    border-top: 1px solid var(--line);
+    padding: 16px 0;
+  }
+  summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .interac {
+    font-size: 17px;
+    color: var(--fg-muted);
+  }
 </style>
 ```
 
@@ -1862,6 +2899,7 @@ git commit -m "feat(pages): /donate with tiers + Interac + FAQ"
 ### Task 5.3: `/contact` with form
 
 **Files:**
+
 - Create: `src/lib/forms.ts`, `src/components/forms/ContactForm.astro`, `src/pages/contact.astro`, `tests/unit/forms.test.ts`
 
 - [ ] **Step 1: Write `src/lib/forms.ts`**
@@ -1929,7 +2967,10 @@ describe('submitForm', () => {
     vi.stubGlobal('fetch', fetchMock);
     const res = await submitForm({ kind: 'contact', fields: { name: 'x' } });
     expect(res.ok).toBe(true);
-    expect(fetchMock).toHaveBeenCalledWith('https://example.test/handler', expect.objectContaining({ method: 'POST' }));
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://example.test/handler',
+      expect.objectContaining({ method: 'POST' }),
+    );
   });
 });
 ```
@@ -1946,24 +2987,67 @@ npx vitest run tests/unit/forms.test.ts
 ---
 // src/components/forms/ContactForm.astro
 ---
+
 <form id="contact-form" novalidate>
   <label>Name <input name="name" required autocomplete="name" /></label>
   <label>Email <input name="email" type="email" required autocomplete="email" /></label>
   <label>Message <textarea name="message" rows="6" required></textarea></label>
   <!-- honeypot — hidden from humans -->
-  <label class="hp" aria-hidden="true" tabindex="-1"><input name="hp" tabindex="-1" autocomplete="off" /></label>
+  <label class="hp" aria-hidden="true" tabindex="-1"
+    ><input name="hp" tabindex="-1" autocomplete="off" /></label
+  >
   <button class="btn btn-gold" type="submit">Send →</button>
   <p class="status" role="status" aria-live="polite"></p>
 </form>
 <style>
-  form { display: grid; gap: 16px; max-width: 520px; }
-  label { display: grid; gap: 6px; font-size: 13px; letter-spacing: 0.5px; }
-  input, textarea { font: inherit; background: var(--navy-3); color: var(--fg); border: 1px solid var(--line); padding: 12px 14px; }
-  input:focus, textarea:focus { outline: 2px solid var(--gold); outline-offset: 2px; }
-  .hp { position: absolute; left: -9999px; top: -9999px; }
-  .btn { font-weight: 800; font-size: 12px; letter-spacing: 1.5px; padding: 14px 24px; border: none; cursor: pointer; text-transform: uppercase; align-self: start; }
-  .btn-gold { background: var(--gold); color: var(--navy); }
-  .status { font-size: 13px; color: var(--gold); min-height: 1em; }
+  form {
+    display: grid;
+    gap: 16px;
+    max-width: 520px;
+  }
+  label {
+    display: grid;
+    gap: 6px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  input,
+  textarea {
+    font: inherit;
+    background: var(--navy-3);
+    color: var(--fg);
+    border: 1px solid var(--line);
+    padding: 12px 14px;
+  }
+  input:focus,
+  textarea:focus {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .hp {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+  }
+  .btn {
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    padding: 14px 24px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    align-self: start;
+  }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .status {
+    font-size: 13px;
+    color: var(--gold);
+    min-height: 1em;
+  }
 </style>
 <script>
   import { submitForm } from '../../lib/forms';
@@ -1977,7 +3061,9 @@ npx vitest run tests/unit/forms.test.ts
     delete fields.hp;
     status.textContent = 'Sending…';
     const res = await submitForm({ kind: 'contact', fields, hp });
-    status.textContent = res.ok ? 'Thank you. We will be in touch.' : `Sorry — ${res.error ?? 'something went wrong'}.`;
+    status.textContent = res.ok
+      ? 'Thank you. We will be in touch.'
+      : `Sorry — ${res.error ?? 'something went wrong'}.`;
     if (res.ok) form.reset();
   });
 </script>
@@ -1990,21 +3076,34 @@ npx vitest run tests/unit/forms.test.ts
 import Base from '../layouts/Base.astro';
 import ContactForm from '../components/forms/ContactForm.astro';
 ---
+
 <Base title="Contact" description="Get in touch with Javelin Fund.">
-  <section class="container" style="padding:80px 0;display:grid;grid-template-columns:1fr 1fr;gap:48px">
+  <section
+    class="container"
+    style="padding:80px 0;display:grid;grid-template-columns:1fr 1fr;gap:48px"
+  >
     <div>
       <p class="eyebrow gold">Contact</p>
       <h1 class="display" style="font-size:54px;letter-spacing:-2px">Let's talk.</h1>
-      <p style="color:var(--fg-muted);font-size:17px;max-width:480px">For partnership, press, volunteering or general questions, drop us a line. We reply within 3 business days.</p>
-      <p style="color:var(--fg-muted);margin-top:24px"><strong>Email:</strong> contact@javelinfund.ca<br /><strong>Charity:</strong> BN 755722097 RR0001</p>
+      <p style="color:var(--fg-muted);font-size:17px;max-width:480px">
+        For partnership, press, volunteering or general questions, drop us a line. We reply within 3
+        business days.
+      </p>
+      <p style="color:var(--fg-muted);margin-top:24px">
+        <strong>Email:</strong> contact@javelinfund.ca<br /><strong>Charity:</strong> BN 755722097 RR0001
+      </p>
     </div>
     <ContactForm />
   </section>
 </Base>
 <style>
-  .gold { color: var(--gold); }
+  .gold {
+    color: var(--gold);
+  }
   @media (max-width: 880px) {
-    section { grid-template-columns: 1fr !important; }
+    section {
+      grid-template-columns: 1fr !important;
+    }
   }
 </style>
 ```
@@ -2037,6 +3136,7 @@ git commit -m "feat(forms): ContactForm + /contact + submit helper + tests"
 ### Task 5.4: Legal pages
 
 **Files:**
+
 - Create: `src/pages/privacy.astro`, `src/pages/terms.astro`
 
 - [ ] **Step 1: Write `privacy.astro`** (mirror `about.astro` but read `pages/privacy`).
@@ -2048,6 +3148,7 @@ import { getEntry } from 'astro:content';
 const page = await getEntry('pages', 'privacy');
 const { Content } = await page.render();
 ---
+
 <Base title={page.data.title} description={page.data.description}>
   <section class="container" style="padding:80px 0;max-width:760px">
     <h1 class="display" style="font-size:48px;letter-spacing:-1.5px">{page.data.title}</h1>
@@ -2055,7 +3156,11 @@ const { Content } = await page.render();
   </section>
 </Base>
 <style>
-  .prose { font-size: 16px; line-height: 1.7; color: var(--fg-muted); }
+  .prose {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--fg-muted);
+  }
 </style>
 ```
 
@@ -2075,6 +3180,7 @@ git commit -m "feat(pages): /privacy and /terms"
 ### Task 6.1: MySQL → markdown importer
 
 **Files:**
+
 - Create: `scripts/migrate-mysql.mjs`
 
 - [ ] **Step 1: Install one-shot deps**
@@ -2098,12 +3204,12 @@ import yaml from 'yaml';
 const DUMP = '_source/extracted/javelinsooperior/homedir/public_html/mysql/javelins_funds_db.sql';
 const UPLOADS = '_source/extracted/javelinsooperior/homedir/public_html/public/uploads';
 const OUT_STORIES = 'src/content/stories';
-const OUT_TEAM    = 'src/content/team';
-const OUT_ASSETS  = 'src/assets/images';
+const OUT_TEAM = 'src/content/team';
+const OUT_ASSETS = 'src/assets/images';
 
 mkdirSync(OUT_STORIES, { recursive: true });
-mkdirSync(OUT_TEAM,    { recursive: true });
-mkdirSync(OUT_ASSETS,  { recursive: true });
+mkdirSync(OUT_TEAM, { recursive: true });
+mkdirSync(OUT_ASSETS, { recursive: true });
 
 const sql = readFileSync(DUMP, 'utf8');
 
@@ -2123,18 +3229,47 @@ function extractInserts(table) {
 function parseTuple(t) {
   // Parses 'NULL, 1, \'foo, bar\', \'2024-01-01\', ...' into an array.
   const out = [];
-  let i = 0, cur = '', inStr = false;
+  let i = 0,
+    cur = '',
+    inStr = false;
   while (i < t.length) {
     const c = t[i];
     if (inStr) {
-      if (c === '\\') { cur += t[i + 1]; i += 2; continue; }
-      if (c === "'") { out.push(cur); cur = ''; inStr = false; i++; continue; }
-      cur += c; i++; continue;
+      if (c === '\\') {
+        cur += t[i + 1];
+        i += 2;
+        continue;
+      }
+      if (c === "'") {
+        out.push(cur);
+        cur = '';
+        inStr = false;
+        i++;
+        continue;
+      }
+      cur += c;
+      i++;
+      continue;
     }
-    if (c === "'") { inStr = true; i++; continue; }
-    if (c === ',') { if (cur.length) { out.push(cur === 'NULL' ? null : isNaN(+cur) ? cur : +cur); cur = ''; } i++; continue; }
-    if (c === ' ') { i++; continue; }
-    cur += c; i++;
+    if (c === "'") {
+      inStr = true;
+      i++;
+      continue;
+    }
+    if (c === ',') {
+      if (cur.length) {
+        out.push(cur === 'NULL' ? null : isNaN(+cur) ? cur : +cur);
+        cur = '';
+      }
+      i++;
+      continue;
+    }
+    if (c === ' ') {
+      i++;
+      continue;
+    }
+    cur += c;
+    i++;
   }
   if (cur.length) out.push(cur === 'NULL' ? null : isNaN(+cur) ? cur : +cur);
   return out;
@@ -2224,9 +3359,9 @@ npx astro check
 If any imported story fails the schema (missing required fields, bad image path), fix the script and re-run rather than hand-editing every file.
 
 - [ ] **Step 6: Hand-curate**
-   - Open `src/content/stories/` and assign `featured: true` + a `priority` to the 1-2 stories you want on the homepage.
-   - Fill in `location` and `person` fields where obvious.
-   - Replace the body text where the legacy copy is dated.
+  - Open `src/content/stories/` and assign `featured: true` + a `priority` to the 1-2 stories you want on the homepage.
+  - Fill in `location` and `person` fields where obvious.
+  - Replace the body text where the legacy copy is dated.
 
 - [ ] **Step 7: Commit in two atomic steps**
 
@@ -2245,6 +3380,7 @@ git commit -m "feat(content): migrate legacy stories and team from MySQL dump"
 ### Task 7.1: Apps Script source-in-repo
 
 **Files:**
+
 - Create: `apps-script/form-handler.gs`, `apps-script/README.md`
 
 - [ ] **Step 1: Write `apps-script/form-handler.gs`**
@@ -2275,12 +3411,17 @@ function doPost(e) {
     if (!body.kind || !body.fields) return _err('missing kind or fields');
 
     const ss = SpreadsheetApp.openById(SHEET_ID);
-    const sheetName = ({ contact: 'Contact', volunteer: 'Volunteer', newsletter: 'Newsletter' })[body.kind];
+    const sheetName = { contact: 'Contact', volunteer: 'Volunteer', newsletter: 'Newsletter' }[
+      body.kind
+    ];
     if (!sheetName) return _err('unknown kind');
     let sheet = ss.getSheetByName(sheetName);
     if (!sheet) sheet = ss.insertSheet(sheetName);
     const fields = body.fields;
-    const headers = sheet.getRange(1, 1, 1, Math.max(1, sheet.getLastColumn())).getValues()[0].filter(Boolean);
+    const headers = sheet
+      .getRange(1, 1, 1, Math.max(1, sheet.getLastColumn()))
+      .getValues()[0]
+      .filter(Boolean);
     const required = ['timestamp', ...Object.keys(fields)];
     for (const k of required) if (!headers.includes(k)) headers.push(k);
     sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
@@ -2292,8 +3433,16 @@ function doPost(e) {
   }
 }
 
-function _ok()  { return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON); }
-function _err(m){ return ContentService.createTextOutput(JSON.stringify({ ok: false, error: m })).setMimeType(ContentService.MimeType.JSON); }
+function _ok() {
+  return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(
+    ContentService.MimeType.JSON,
+  );
+}
+function _err(m) {
+  return ContentService.createTextOutput(JSON.stringify({ ok: false, error: m })).setMimeType(
+    ContentService.MimeType.JSON,
+  );
+}
 ```
 
 - [ ] **Step 2: Write `apps-script/README.md`**
@@ -2313,7 +3462,7 @@ This is the Google Apps Script Web App that backs every form on javelinfund.ca.
 
 ## Update
 
-After changes to `form-handler.gs`, re-paste into Code.gs and create a *new* version under Deploy → Manage deployments. The deployment URL stays the same.
+After changes to `form-handler.gs`, re-paste into Code.gs and create a _new_ version under Deploy → Manage deployments. The deployment URL stays the same.
 ```
 
 - [ ] **Step 3: Commit**
@@ -2330,6 +3479,7 @@ git commit -m "feat(apps-script): form handler source + deploy guide"
 ### Task 8.1: Decap CMS at `/admin`
 
 **Files:**
+
 - Create: `public/admin/index.html`, `public/admin/config.yml`
 
 - [ ] **Step 1: Write `public/admin/index.html`**
@@ -2337,14 +3487,14 @@ git commit -m "feat(apps-script): form handler source + deploy guide"
 ```html
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Javelin Fund · CMS</title>
-</head>
-<body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Javelin Fund · CMS</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </body>
 </html>
 ```
 
@@ -2446,6 +3596,7 @@ git commit -m "docs(cms): document GitHub OAuth proxy setup"
 ### Task 9.1: GitHub Actions CI
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 
 - [ ] **Step 1: Write the workflow**
@@ -2488,6 +3639,7 @@ git commit -m "ci: lint, type-check, unit + e2e tests, and build on PR/push"
 ### Task 9.2: Lighthouse CI budget
 
 **Files:**
+
 - Create: `.lighthouserc.cjs`
 
 - [ ] **Step 1: Write the config**
@@ -2496,14 +3648,17 @@ git commit -m "ci: lint, type-check, unit + e2e tests, and build on PR/push"
 // .lighthouserc.cjs
 module.exports = {
   ci: {
-    collect: { staticDistDir: 'dist', url: ['http://localhost/index.html', 'http://localhost/donate/index.html'] },
+    collect: {
+      staticDistDir: 'dist',
+      url: ['http://localhost/index.html', 'http://localhost/donate/index.html'],
+    },
     assert: {
       preset: 'lighthouse:no-pwa',
       assertions: {
-        'categories:performance':    ['error', { minScore: 0.9 }],
-        'categories:accessibility':  ['error', { minScore: 0.95 }],
+        'categories:performance': ['error', { minScore: 0.9 }],
+        'categories:accessibility': ['error', { minScore: 0.95 }],
         'categories:best-practices': ['error', { minScore: 0.95 }],
-        'categories:seo':            ['error', { minScore: 0.95 }],
+        'categories:seo': ['error', { minScore: 0.95 }],
       },
     },
   },
@@ -2515,16 +3670,16 @@ module.exports = {
 Append to `.github/workflows/ci.yml`:
 
 ```yaml
-  lighthouse:
-    needs: ci
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20', cache: 'npm' }
-      - run: npm ci
-      - run: npm run build
-      - run: npx lhci autorun
+lighthouse:
+  needs: ci
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with: { node-version: '20', cache: 'npm' }
+    - run: npm ci
+    - run: npm run build
+    - run: npx lhci autorun
 ```
 
 - [ ] **Step 3: Commit**
@@ -2537,6 +3692,7 @@ git commit -m "ci: Lighthouse budgets (perf 90, a11y 95, BP 95, SEO 95)"
 ### Task 9.3: Accessibility audit via axe-core
 
 **Files:**
+
 - Create: `tests/e2e/a11y.spec.ts`
 
 - [ ] **Step 1: Write the test**
@@ -2599,6 +3755,7 @@ git commit -m "docs(deploy): Cloudflare Pages connect + DNS cutover guide"
 ### Task 9.5: Pre-launch QA checklist
 
 **Files:**
+
 - Create: `docs/launch-checklist.md`
 
 - [ ] **Step 1: Write the checklist**
@@ -2607,6 +3764,7 @@ git commit -m "docs(deploy): Cloudflare Pages connect + DNS cutover guide"
 # Launch checklist
 
 ## Content
+
 - [ ] Home hero copy proofread and approved.
 - [ ] Featured story selected with `featured: true` + the highest `priority`.
 - [ ] Featured tiers verified ($400/yr Sponsor a child, $1500/mo Feed the orphans).
@@ -2615,27 +3773,32 @@ git commit -m "docs(deploy): Cloudflare Pages connect + DNS cutover guide"
 - [ ] At least 6 stories live; at least 4 team members live.
 
 ## Donations
+
 - [ ] CanadaHelps charity page URL substituted in `src/content/donate-tiers/*.yaml`.
 - [ ] One real $5 test donation through each tier confirms receipt arrives within 1 hour.
 - [ ] Interac e-Transfer to `donate@javelinfund.ca` auto-deposits and triggers manual receipt template.
 
 ## Forms
+
 - [ ] Apps Script Web App deployed; `PUBLIC_FORMS_ENDPOINT` set in Cloudflare Pages env.
 - [ ] Contact submission lands in the Contact tab of the Google Sheet within 10 seconds.
 - [ ] Honeypot field rejects bot submissions.
 
 ## Quality
+
 - [ ] `npm test` and `npm run test:e2e` pass on `main`.
 - [ ] Lighthouse CI budgets met.
 - [ ] Real-device check on iPhone Safari, Android Chrome, desktop Chrome and Firefox.
 
 ## Infra
+
 - [ ] DNS for `javelinfund.ca` apex + `www` cut to Cloudflare.
 - [ ] TLS issued, redirect from `http` → `https` works.
 - [ ] `robots.txt` allows production, blocks staging.
 - [ ] Sitemap reachable at `/sitemap-index.xml`.
 
 ## Post-launch
+
 - [ ] Submit sitemap to Google Search Console.
 - [ ] Take down legacy Laravel site OR redirect it to the new pages 1:1.
 ```

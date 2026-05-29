@@ -22,8 +22,8 @@
 
   /* typography */
   --font-display: 'Archivo Black', system-ui, sans-serif;
-  --font-accent: 'Playfair Display', Georgia, serif;
-  --font-body: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-accent: 'Playfair Display Variable', Georgia, serif;
+  --font-body: 'Inter Variable', -apple-system, system-ui, sans-serif;
 
   /* spacing scale */
   --space-1: 4px;
