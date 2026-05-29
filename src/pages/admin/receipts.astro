@@ -5,31 +5,146 @@ import Base from '../../layouts/Base.astro';
 
 <Base title="Donation Receipts — Admin">
   <meta slot="head" name="robots" content="noindex, nofollow" />
-  <main class="receipts" style="max-width:760px;margin:0 auto;padding:2rem 1rem;">
-    <h1>Donation Receipts</h1>
-    <p id="authState">Checking sign-in…</p>
-    <button id="signin" type="button" hidden>Sign in with GitHub</button>
+  <main class="rcpt">
+    <header class="rcpt-head">
+      <p class="rcpt-eyebrow">Admin · Official receipts</p>
+      <h1 class="rcpt-title">Donation Receipts</h1>
+      <p class="rcpt-sub">
+        Issue CRA official donation receipts for manual gifts. Each is numbered, archived, and
+        re-downloadable.
+      </p>
+      <p class="rcpt-reg">
+        The Javelin Education &amp; Medical Fund · BN&nbsp;75572&nbsp;2097&nbsp;RR0001
+      </p>
+    </header>
 
-    <section id="app" hidden>
-      <h2>New receipt</h2>
-      <form id="receiptForm">
-        <label>Date received <input name="dateReceived" type="date" required /></label>
-        <label>Donor name <input name="donorName" type="text" required /></label>
-        <label>Donor address <input name="donorAddress" type="text" required /></label>
-        <label>City, Province <input name="cityProvince" type="text" required /></label>
-        <label>Postal code <input name="postalCode" type="text" required /></label>
-        <label>Amount (CAD) <input name="amount" type="text" inputmode="decimal" required /></label>
-        <button type="submit">Create &amp; download receipt</button>
-      </form>
-      <p id="formMsg" role="status"></p>
+    <!-- Auth gate -->
+    <section id="authGate" class="rcpt-gate" aria-live="polite">
+      <div class="rcpt-gate-card">
+        <svg
+          class="rcpt-lock"
+          viewBox="0 0 24 24"
+          width="28"
+          height="28"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="4" y="11" width="16" height="9" rx="2"></rect>
+          <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+        </svg>
+        <p id="authState" class="rcpt-gate-msg">Checking sign-in…</p>
+        <button id="signin" type="button" class="rcpt-btn rcpt-btn-primary" hidden>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <path
+              d="M12 .5a11.5 11.5 0 0 0-3.64 22.42c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.69.42.37.8 1.1.8 2.22v3.29c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"
+            ></path>
+          </svg>
+          Sign in with GitHub
+        </button>
+      </div>
+    </section>
 
-      <h2>Issued receipts</h2>
-      <table id="list">
-        <thead
-          ><tr><th>Serial</th><th>Date</th><th>Donor</th><th>Amount</th><th>Status</th><th></th></tr
-          ></thead
-        ><tbody></tbody>
-      </table>
+    <!-- App -->
+    <section id="app" class="rcpt-app" hidden>
+      <article class="rcpt-card">
+        <div class="rcpt-card-head">
+          <h2 class="rcpt-card-title">New receipt</h2>
+          <span class="rcpt-card-note">Cash / family gift</span>
+        </div>
+
+        <form id="receiptForm" class="rcpt-form" novalidate>
+          <label class="rcpt-field">
+            <span class="rcpt-label">Date received <i aria-hidden="true">*</i></span>
+            <input name="dateReceived" type="date" required />
+          </label>
+          <label class="rcpt-field">
+            <span class="rcpt-label">Amount (CAD) <i aria-hidden="true">*</i></span>
+            <span class="rcpt-money">
+              <span class="rcpt-money-sign" aria-hidden="true">$</span>
+              <input
+                name="amount"
+                type="text"
+                inputmode="decimal"
+                placeholder="0.00"
+                autocomplete="off"
+                required
+              />
+            </span>
+          </label>
+          <label class="rcpt-field rcpt-col-2">
+            <span class="rcpt-label">Donor name <i aria-hidden="true">*</i></span>
+            <input name="donorName" type="text" autocomplete="off" required />
+          </label>
+          <label class="rcpt-field rcpt-col-2">
+            <span class="rcpt-label">Donor address <i aria-hidden="true">*</i></span>
+            <input name="donorAddress" type="text" autocomplete="off" required />
+          </label>
+          <label class="rcpt-field">
+            <span class="rcpt-label">City, Province <i aria-hidden="true">*</i></span>
+            <input
+              name="cityProvince"
+              type="text"
+              autocomplete="off"
+              placeholder="Belle River, ON"
+              required
+            />
+          </label>
+          <label class="rcpt-field">
+            <span class="rcpt-label">Postal code <i aria-hidden="true">*</i></span>
+            <input
+              name="postalCode"
+              type="text"
+              autocomplete="off"
+              placeholder="N8L 0Z2"
+              required
+            />
+          </label>
+
+          <div class="rcpt-actions">
+            <button type="submit" class="rcpt-btn rcpt-btn-primary">
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 3v12m0 0 4-4m-4 4-4-4"></path><path
+                  d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path>
+              </svg>
+              Create &amp; download receipt
+            </button>
+            <p id="formMsg" class="rcpt-msg" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </article>
+
+      <article class="rcpt-card">
+        <div class="rcpt-card-head">
+          <h2 class="rcpt-card-title">Issued receipts</h2>
+        </div>
+        <div class="rcpt-table-wrap">
+          <table id="list" class="rcpt-table">
+            <thead>
+              <tr>
+                <th>Serial</th><th>Date</th><th>Donor</th>
+                <th class="rcpt-num">Amount</th><th>Status</th><th class="rcpt-th-actions"
+                  >Actions</th
+                >
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </article>
     </section>
   </main>
 
@@ -44,6 +159,7 @@ import Base from '../../layouts/Base.astro';
       downloadExistingReceipt,
     } from '../../lib/receiptsClient';
 
+    const authGate = document.getElementById('authGate')!;
     const authState = document.getElementById('authState')!;
     const signinBtn = document.getElementById('signin') as HTMLButtonElement;
     const app = document.getElementById('app')!;
@@ -51,40 +167,66 @@ import Base from '../../layouts/Base.astro';
     const formMsg = document.getElementById('formMsg')!;
     const tbody = document.querySelector('#list tbody')!;
 
+    function setMsg(text: string, kind: '' | 'ok' | 'err' | 'pending' = '') {
+      formMsg.textContent = text;
+      formMsg.className = 'rcpt-msg' + (kind ? ' is-' + kind : '');
+    }
+
+    function emptyRow(text: string) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 6;
+      td.className = 'rcpt-empty';
+      td.textContent = text;
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+    }
+
     async function refresh() {
       try {
         const rows = await listReceipts();
         tbody.innerHTML = '';
+        if (!rows.length) {
+          emptyRow('No receipts issued yet. Create your first one above.');
+          return;
+        }
         for (const r of rows) {
           const tr = document.createElement('tr');
-          const cells = [
-            r.serial,
-            String(r.dateIssued).slice(0, 10),
-            r.donorName,
-            `$${r.amount}`,
-            r.status,
-          ];
-          for (const value of cells) {
+          const cells = [r.serial, String(r.dateIssued).slice(0, 10), r.donorName, `$${r.amount}`];
+          cells.forEach((value, i) => {
             const td = document.createElement('td');
             td.textContent = value;
+            if (i === 0) td.className = 'rcpt-serial';
+            if (i === 3) td.className = 'rcpt-num';
             tr.appendChild(td);
-          }
+          });
+
+          const statusTd = document.createElement('td');
+          const badge = document.createElement('span');
+          const cancelled = r.status === 'cancelled';
+          badge.className = 'rcpt-badge ' + (cancelled ? 'is-cancelled' : 'is-active');
+          badge.textContent = cancelled ? 'Cancelled' : 'Active';
+          statusTd.appendChild(badge);
+          tr.appendChild(statusTd);
+
           const actions = document.createElement('td');
+          actions.className = 'rcpt-row-actions';
           const dlBtn = document.createElement('button');
           dlBtn.type = 'button';
+          dlBtn.className = 'rcpt-btn rcpt-btn-ghost';
           dlBtn.textContent = 'Download';
           dlBtn.addEventListener('click', async () => {
             try {
               await downloadExistingReceipt(r.serial);
             } catch (e) {
-              formMsg.textContent = 'Download failed: ' + (e as Error).message;
+              setMsg('Download failed: ' + (e as Error).message, 'err');
             }
           });
           actions.appendChild(dlBtn);
-          if (r.status === 'active') {
-            actions.appendChild(document.createTextNode(' · '));
+          if (!cancelled) {
             const cancelBtn = document.createElement('button');
             cancelBtn.type = 'button';
+            cancelBtn.className = 'rcpt-btn rcpt-btn-danger';
             cancelBtn.textContent = 'Cancel';
             cancelBtn.addEventListener('click', async () => {
               if (
@@ -97,7 +239,7 @@ import Base from '../../layouts/Base.astro';
                 await cancelReceipt(r.serial);
                 refresh();
               } catch (e) {
-                formMsg.textContent = 'Cancel failed: ' + (e as Error).message;
+                setMsg('Cancel failed: ' + (e as Error).message, 'err');
               }
             });
             actions.appendChild(cancelBtn);
@@ -106,46 +248,414 @@ import Base from '../../layouts/Base.astro';
           tbody.appendChild(tr);
         }
       } catch (e) {
-        formMsg.textContent = (e as Error).message;
+        tbody.innerHTML = '';
+        emptyRow('Could not load receipts: ' + (e as Error).message);
       }
     }
 
     function showApp() {
-      authState.hidden = true;
-      signinBtn.hidden = true;
+      authGate.hidden = true;
       app.hidden = false;
       refresh().catch(() => {});
     }
 
     if (getToken()) showApp();
     else {
-      authState.textContent = 'Please sign in to manage receipts.';
+      authState.textContent = 'Sign in with your GitHub account to manage receipts.';
       signinBtn.hidden = false;
     }
 
     signinBtn.addEventListener('click', async () => {
+      authState.textContent = 'Opening GitHub sign-in…';
       try {
         await authorizeWithGitHub();
         showApp();
       } catch (e) {
         authState.textContent = 'Sign-in failed: ' + (e as Error).message;
+        signinBtn.hidden = false;
       }
     });
 
     form.addEventListener('submit', async (ev) => {
       ev.preventDefault();
-      formMsg.textContent = 'Creating…';
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      submitBtn.disabled = true;
+      setMsg('Creating receipt…', 'pending');
       const fd = new FormData(form);
       const fields = Object.fromEntries([...fd.entries()].map(([k, v]) => [k, String(v)]));
       try {
         const { serial, pdfBase64 } = await createReceipt(fields);
         triggerBase64Download(pdfBase64, serial);
-        formMsg.textContent = `Receipt ${serial} created and downloaded.`;
+        setMsg(`Receipt ${serial} created and downloaded.`, 'ok');
         form.reset();
         refresh();
       } catch (e) {
-        formMsg.textContent = 'Error: ' + (e as Error).message;
+        setMsg('Error: ' + (e as Error).message, 'err');
+      } finally {
+        submitBtn.disabled = false;
       }
     });
   </script>
+
+  <style>
+    .rcpt {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: clamp(28px, 6vw, 64px) var(--container-x) var(--space-20);
+    }
+
+    /* Header */
+    .rcpt-head {
+      margin-bottom: var(--space-8);
+    }
+    .rcpt-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 0 0 var(--space-3);
+    }
+    .rcpt-title {
+      font-family: var(--font-accent);
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.05;
+      margin: 0 0 var(--space-3);
+      color: var(--fg);
+    }
+    .rcpt-sub {
+      max-width: 56ch;
+      color: var(--fg-muted);
+      font-size: 1.02rem;
+      line-height: 1.6;
+      margin: 0 0 var(--space-4);
+    }
+    .rcpt-reg {
+      font-size: 12.5px;
+      letter-spacing: 0.04em;
+      color: rgba(250, 250, 247, 0.55);
+      margin: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Cards */
+    .rcpt-card {
+      background: linear-gradient(180deg, var(--navy-3), var(--navy-2));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: clamp(20px, 3vw, 32px);
+      box-shadow: 0 18px 50px -28px rgba(0, 0, 0, 0.85);
+    }
+    .rcpt-card + .rcpt-card {
+      margin-top: var(--space-6);
+    }
+    .rcpt-card-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--line);
+    }
+    .rcpt-card-title {
+      font-family: var(--font-accent);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--fg);
+    }
+    .rcpt-card-note {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: var(--gold);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    /* Form */
+    .rcpt-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4) var(--space-6);
+    }
+    .rcpt-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .rcpt-col-2 {
+      grid-column: 1 / -1;
+    }
+    .rcpt-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(250, 250, 247, 0.92);
+    }
+    .rcpt-label i {
+      color: var(--gold);
+      font-style: normal;
+    }
+    .rcpt-form input {
+      width: 100%;
+      min-height: 46px;
+      padding: 11px 14px;
+      font: inherit;
+      font-size: 15px;
+      color: var(--fg);
+      background: var(--navy);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color-scheme: dark;
+      transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background 160ms ease;
+    }
+    .rcpt-form input::placeholder {
+      color: rgba(250, 250, 247, 0.38);
+    }
+    .rcpt-form input:hover {
+      border-color: rgba(250, 250, 247, 0.28);
+    }
+    .rcpt-form input:focus-visible {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(255, 214, 10, 0.28);
+      background: var(--navy-2);
+    }
+    .rcpt-money {
+      position: relative;
+      display: block;
+    }
+    .rcpt-money-sign {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--fg-muted);
+      font-size: 15px;
+      pointer-events: none;
+    }
+    .rcpt-money input {
+      padding-left: 28px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Actions + message */
+    .rcpt-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-4);
+      margin-top: var(--space-2);
+    }
+    .rcpt-msg {
+      margin: 0;
+      font-size: 14px;
+      color: var(--fg-muted);
+      min-height: 1.2em;
+    }
+    .rcpt-msg.is-ok {
+      color: #7ee0a6;
+    }
+    .rcpt-msg.is-err {
+      color: #ff9b9b;
+    }
+    .rcpt-msg.is-pending {
+      color: var(--gold);
+    }
+
+    /* Buttons */
+    .rcpt-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        transform 80ms ease;
+    }
+    .rcpt-btn:active {
+      transform: translateY(1px);
+    }
+    .rcpt-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 214, 10, 0.45);
+    }
+    .rcpt-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    .rcpt-btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 12px 20px;
+      font-size: 15px;
+    }
+    .rcpt-btn-primary:hover:not(:disabled) {
+      background: var(--gold-2);
+    }
+    .rcpt-btn-ghost {
+      background: transparent;
+      color: var(--fg);
+      border-color: var(--line);
+      padding: 7px 13px;
+      font-size: 13px;
+    }
+    .rcpt-btn-ghost:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .rcpt-btn-danger {
+      background: transparent;
+      color: #ff9b9b;
+      border-color: rgba(214, 40, 40, 0.4);
+      padding: 7px 13px;
+      font-size: 13px;
+    }
+    .rcpt-btn-danger:hover {
+      background: rgba(214, 40, 40, 0.16);
+      border-color: var(--red);
+      color: #ffc4c4;
+    }
+
+    /* Auth gate */
+    .rcpt-gate-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--space-4);
+      max-width: 420px;
+      margin: 0 auto;
+      padding: clamp(28px, 5vw, 48px);
+      background: linear-gradient(180deg, var(--navy-3), var(--navy-2));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    .rcpt-lock {
+      color: var(--gold);
+    }
+    .rcpt-gate-msg {
+      margin: 0;
+      color: var(--fg-muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* Table */
+    .rcpt-table-wrap {
+      overflow-x: auto;
+      margin: 0 calc(-1 * clamp(20px, 3vw, 32px)) calc(-1 * clamp(20px, 3vw, 32px));
+      padding: 0 clamp(20px, 3vw, 32px) clamp(20px, 3vw, 32px);
+    }
+    .rcpt-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      min-width: 640px;
+    }
+    .rcpt-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(250, 250, 247, 0.6);
+      padding: 0 14px 10px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+    .rcpt-table td {
+      padding: 13px 14px;
+      border-bottom: 1px solid rgba(250, 250, 247, 0.07);
+      color: var(--fg);
+      vertical-align: middle;
+    }
+    .rcpt-table tbody tr {
+      transition: background 140ms ease;
+    }
+    .rcpt-table tbody tr:hover {
+      background: rgba(255, 214, 10, 0.05);
+    }
+    .rcpt-serial {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .rcpt-num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .rcpt-th-actions {
+      text-align: right;
+    }
+    .rcpt-row-actions {
+      text-align: right;
+      white-space: nowrap;
+    }
+    .rcpt-row-actions .rcpt-btn + .rcpt-btn {
+      margin-left: 8px;
+    }
+    .rcpt-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .rcpt-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .rcpt-badge.is-active {
+      color: #7ee0a6;
+      background: rgba(126, 224, 166, 0.14);
+    }
+    .rcpt-badge.is-cancelled {
+      color: #ff9b9b;
+      background: rgba(214, 40, 40, 0.16);
+    }
+    .rcpt-empty {
+      text-align: center;
+      color: var(--fg-muted);
+      padding: var(--space-12) var(--space-4);
+      font-size: 14.5px;
+    }
+
+    @media (max-width: 600px) {
+      .rcpt-form {
+        grid-template-columns: 1fr;
+      }
+      .rcpt-btn-primary {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .rcpt-btn,
+      .rcpt-form input,
+      .rcpt-table tbody tr {
+        transition: none;
+      }
+    }
+  </style>
 </Base>
