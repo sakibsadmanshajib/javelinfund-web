@@ -18,13 +18,13 @@
       "first_read": "2026-05-28T22:29:47.485Z"
     },
     "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js": {
-      "count": 6,
-      "tokens": 1354,
+      "count": 8,
+      "tokens": 1532,
       "first_read": "2026-05-28T22:36:52.270Z"
     },
     "/home/sakib/javelinefund/src/layouts/Base.astro": {
-      "count": 1,
-      "tokens": 0,
+      "count": 2,
+      "tokens": 535,
       "first_read": "2026-05-28T22:41:36.501Z"
     },
     "/home/sakib/javelinefund/astro.config.mjs": {
@@ -48,18 +48,18 @@
       "first_read": "2026-05-28T22:53:20.633Z"
     },
     "/home/sakib/javelinefund/decap-oauth-worker/src/lib/serial.js": {
-      "count": 2,
-      "tokens": 106,
+      "count": 4,
+      "tokens": 134,
       "first_read": "2026-05-28T22:56:33.012Z"
     },
     "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js": {
-      "count": 4,
-      "tokens": 327,
+      "count": 6,
+      "tokens": 518,
       "first_read": "2026-05-28T22:56:33.407Z"
     },
     "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js": {
-      "count": 4,
-      "tokens": 260,
+      "count": 6,
+      "tokens": 315,
       "first_read": "2026-05-28T22:56:34.850Z"
     },
     "/home/sakib/javelinefund/decap-oauth-worker/src/lib/origins.js": {
@@ -73,8 +73,8 @@
       "first_read": "2026-05-28T22:56:36.022Z"
     },
     "/home/sakib/javelinefund/decap-oauth-worker/src/lib/renderPdf.js": {
-      "count": 3,
-      "tokens": 626,
+      "count": 5,
+      "tokens": 624,
       "first_read": "2026-05-28T22:56:49.123Z"
     },
     "/home/sakib/javelinefund/tests/unit/receipts/receiptsClient.test.ts": {
@@ -83,8 +83,8 @@
       "first_read": "2026-05-28T22:57:16.735Z"
     },
     "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts": {
-      "count": 5,
-      "tokens": 1239,
+      "count": 7,
+      "tokens": 1829,
       "first_read": "2026-05-28T22:57:17.175Z"
     },
     "/home/sakib/javelinefund/tests/unit/receipts/auth.test.ts": {
@@ -93,18 +93,18 @@
       "first_read": "2026-05-28T22:57:18.074Z"
     },
     "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts": {
-      "count": 3,
-      "tokens": 372,
+      "count": 6,
+      "tokens": 692,
       "first_read": "2026-05-28T22:57:25.907Z"
     },
     "/home/sakib/javelinefund/tests/unit/receipts/serial.test.ts": {
-      "count": 2,
-      "tokens": 187,
+      "count": 4,
+      "tokens": 220,
       "first_read": "2026-05-28T22:57:26.479Z"
     },
     "/home/sakib/javelinefund/tests/unit/receipts/renderPdf.test.ts": {
-      "count": 2,
-      "tokens": 299,
+      "count": 4,
+      "tokens": 354,
       "first_read": "2026-05-28T22:57:26.967Z"
     },
     "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md": {
@@ -121,6 +121,41 @@
       "count": 1,
       "tokens": 473,
       "first_read": "2026-05-28T23:13:37.289Z"
+    },
+    "/home/sakib/javelinefund/src/styles/global.css": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-05-28T23:49:28.353Z"
+    },
+    "/home/sakib/javelinefund/src/components/MottoBand.astro": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-05-28T23:49:28.839Z"
+    },
+    "/home/sakib/javelinefund/src/components/DonateStrip.astro": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-05-28T23:49:29.318Z"
+    },
+    "/home/sakib/javelinefund/src/components/StorySpotlight.astro": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-05-28T23:49:30.303Z"
+    },
+    "/home/sakib/javelinefund/src/components/Hero.astro": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-05-28T23:49:54.537Z"
+    },
+    "/home/sakib/javelinefund/src/pages/index.astro": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-05-28T23:49:55.006Z"
+    },
+    "/home/sakib/javelinefund/src/pages/donate.astro": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-05-28T23:52:34.166Z"
     }
   },
   "files_written": [
@@ -555,6 +590,132 @@
       "action": "edit",
       "tokens": 288,
       "at": "2026-05-28T23:25:55.621Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/components/MottoBand.astro",
+      "action": "edit",
+      "tokens": 22,
+      "at": "2026-05-28T23:50:32.552Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/components/DonateStrip.astro",
+      "action": "edit",
+      "tokens": 18,
+      "at": "2026-05-28T23:50:39.661Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/components/DonateStrip.astro",
+      "action": "edit",
+      "tokens": 47,
+      "at": "2026-05-28T23:50:46.017Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/components/StorySpotlight.astro",
+      "action": "edit",
+      "tokens": 27,
+      "at": "2026-05-28T23:51:05.021Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/components/Hero.astro",
+      "action": "edit",
+      "tokens": 18,
+      "at": "2026-05-28T23:51:12.662Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/components/Hero.astro",
+      "action": "edit",
+      "tokens": 23,
+      "at": "2026-05-28T23:51:18.432Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/pages/index.astro",
+      "action": "edit",
+      "tokens": 7,
+      "at": "2026-05-28T23:51:24.441Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/pages/index.astro",
+      "action": "edit",
+      "tokens": 15,
+      "at": "2026-05-28T23:51:30.153Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/pages/donate.astro",
+      "action": "edit",
+      "tokens": 21,
+      "at": "2026-05-28T23:52:45.369Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/src/pages/donate.astro",
+      "action": "edit",
+      "tokens": 47,
+      "at": "2026-05-28T23:52:51.963Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+      "action": "edit",
+      "tokens": 71,
+      "at": "2026-05-29T00:01:57.823Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+      "action": "edit",
+      "tokens": 78,
+      "at": "2026-05-29T00:02:05.969Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/renderPdf.js",
+      "action": "edit",
+      "tokens": 85,
+      "at": "2026-05-29T00:02:12.544Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js",
+      "action": "edit",
+      "tokens": 106,
+      "at": "2026-05-29T00:02:21.463Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js",
+      "action": "edit",
+      "tokens": 100,
+      "at": "2026-05-29T00:02:28.494Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/serial.js",
+      "action": "edit",
+      "tokens": 82,
+      "at": "2026-05-29T00:02:39.942Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+      "action": "edit",
+      "tokens": 37,
+      "at": "2026-05-29T00:03:35.976Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+      "action": "edit",
+      "tokens": 313,
+      "at": "2026-05-29T00:03:46.939Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/tests/unit/receipts/renderPdf.test.ts",
+      "action": "edit",
+      "tokens": 99,
+      "at": "2026-05-29T00:03:56.121Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/tests/unit/receipts/serial.test.ts",
+      "action": "edit",
+      "tokens": 64,
+      "at": "2026-05-29T00:04:04.352Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts",
+      "action": "edit",
+      "tokens": 60,
+      "at": "2026-05-29T00:04:38.259Z"
     }
   ],
   "edit_counts": {
@@ -562,17 +723,17 @@
     "docs/superpowers/plans/2026-05-28-manual-donation-receipts.md": 2,
     "apps-script/form-handler.gs": 7,
     "apps-script/README.md": 1,
-    "tests/unit/receipts/serial.test.ts": 1,
-    "decap-oauth-worker/src/lib/serial.js": 1,
-    "tests/unit/receipts/receiptModel.test.ts": 2,
-    "decap-oauth-worker/src/lib/receiptModel.js": 2,
+    "tests/unit/receipts/serial.test.ts": 2,
+    "decap-oauth-worker/src/lib/serial.js": 2,
+    "tests/unit/receipts/receiptModel.test.ts": 3,
+    "decap-oauth-worker/src/lib/receiptModel.js": 3,
     "tests/unit/receipts/auth.test.ts": 1,
-    "decap-oauth-worker/src/lib/auth.js": 2,
-    "tests/unit/receipts/renderPdf.test.ts": 1,
-    "decap-oauth-worker/src/lib/renderPdf.js": 1,
+    "decap-oauth-worker/src/lib/auth.js": 3,
+    "tests/unit/receipts/renderPdf.test.ts": 2,
+    "decap-oauth-worker/src/lib/renderPdf.js": 2,
     "decap-oauth-worker/src/lib/appsScript.js": 2,
-    "tests/unit/receipts/api.test.ts": 5,
-    "decap-oauth-worker/src/api/receipts.js": 6,
+    "tests/unit/receipts/api.test.ts": 7,
+    "decap-oauth-worker/src/api/receipts.js": 8,
     "decap-oauth-worker/src/index.js": 6,
     "decap-oauth-worker/src/lib/origins.js": 1,
     "tests/unit/receipts/receiptsClient.test.ts": 3,
@@ -582,11 +743,17 @@
     "src/pages/admin/receipts.astro": 6,
     "astro.config.mjs": 1,
     "public/admin/index.html": 1,
-    "docs/manual-donation-receipts-setup.md": 2
+    "docs/manual-donation-receipts-setup.md": 2,
+    "src/components/MottoBand.astro": 1,
+    "src/components/DonateStrip.astro": 2,
+    "src/components/StorySpotlight.astro": 1,
+    "src/components/Hero.astro": 2,
+    "src/pages/index.astro": 2,
+    "src/pages/donate.astro": 2
   },
   "anatomy_hits": 19,
-  "anatomy_misses": 5,
-  "repeated_reads_warned": 56,
+  "anatomy_misses": 12,
+  "repeated_reads_warned": 76,
   "cerebrum_warnings": 0,
   "stop_count": 6
 }

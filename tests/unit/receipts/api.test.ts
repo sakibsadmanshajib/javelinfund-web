@@ -11,7 +11,8 @@ const env = {
   RECEIPTS_ALLOWLIST: 'glenjackson',
   APPS_SCRIPT_RECEIPTS_URL: 'https://script.example/exec',
   APPS_SCRIPT_SHARED_SECRET: 's3cret',
-  SIGNATURE_PNG_B64: '',
+  SIGNATURE_PNG_B64:
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
 };
 
 function req(
@@ -98,6 +99,41 @@ describe('handleReceiptsRequest', () => {
     expect(json.serial).toBe('2026-0001');
     expect(typeof json.pdfBase64).toBe('string');
     expect(json.pdfBase64.length).toBeGreaterThan(100);
+  });
+
+  it('rejects creation with 500 when no signature is configured', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ login: 'glenjackson' }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          ok: true,
+          serial: '2026-0001',
+          dateIssued: '2026-05-28T00:00:00.000Z',
+        }),
+      })
+      .mockResolvedValue({ ok: true, json: async () => ({ ok: true }) });
+    vi.stubGlobal('fetch', fetchMock);
+    const body = {
+      donorName: 'Jane',
+      donorAddress: '12 King',
+      cityProvince: 'Windsor, ON',
+      postalCode: 'N9A1A1',
+      amount: '50',
+      dateReceived: '2026-05-28',
+    };
+    const res = await handleReceiptsRequest(req('POST', '/api/receipts', { body }), {
+      ...env,
+      SIGNATURE_PNG_B64: '',
+    });
+    expect(res.status).toBe(500);
+    const json = await res.json();
+    expect(json.error).toBe('signature not configured');
   });
 
   it('cancels a receipt for an authorized user', async () => {

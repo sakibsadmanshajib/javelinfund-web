@@ -28,4 +28,7 @@ describe('renderReceiptPdf', () => {
     const bytes = await renderReceiptPdf(model, null);
     expect(bytes.length).toBeGreaterThan(800);
   });
+  it('throws when the signature bytes cannot be embedded', async () => {
+    await expect(renderReceiptPdf(model, new Uint8Array([1, 2, 3]))).rejects.toThrow();
+  });
 });

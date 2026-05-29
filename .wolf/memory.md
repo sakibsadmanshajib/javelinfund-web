@@ -89,3 +89,25 @@
 | 19:25 | Edited apps-script/form-handler.gs | added 1 condition(s) | ~85 |
 | 19:25 | Edited tests/unit/receipts/receiptModel.test.ts | modified for() | ~254 |
 | 19:25 | Edited tests/unit/receipts/api.test.ts | expanded (+32 lines) | ~288 |
+| 19:50 | Edited src/components/MottoBand.astro | 4→3 lines | ~21 |
+| 19:50 | Edited src/components/DonateStrip.astro | 4→4 lines | ~17 |
+| 19:50 | Edited src/components/DonateStrip.astro | 4→8 lines | ~44 |
+| 19:51 | Edited src/components/StorySpotlight.astro | 5→5 lines | ~26 |
+| 19:51 | Edited src/components/Hero.astro | 2→2 lines | ~17 |
+| 19:51 | Edited src/components/Hero.astro | 3→3 lines | ~21 |
+| 19:51 | Edited src/pages/index.astro | inline fix | ~7 |
+| 19:51 | Edited src/pages/index.astro | 3→3 lines | ~14 |
+| 19:52 | Edited src/pages/donate.astro | 5→5 lines | ~20 |
+| 19:52 | Edited src/pages/donate.astro | 4→8 lines | ~44 |
+| 19:53 | fix WCAG AA contrast (motto/eyebrow/story/donate) + landmark nesting | MottoBand,DonateStrip,StorySpotlight,Hero,donate.astro,index.astro | a11y 6/6 0 violations; vitest 45/45; fmt clean; build ok; commit 5d690b0 | ~6k |
+| 20:01 | Edited decap-oauth-worker/src/api/receipts.js | added 1 condition(s) | ~71 |
+| 20:02 | Edited decap-oauth-worker/src/api/receipts.js | added 1 condition(s) | ~78 |
+| 20:02 | Edited decap-oauth-worker/src/lib/renderPdf.js | modified if() | ~85 |
+| 20:02 | Edited decap-oauth-worker/src/lib/auth.js | added error handling | ~106 |
+| 20:02 | Edited decap-oauth-worker/src/lib/receiptModel.js | added 1 condition(s) | ~100 |
+| 20:02 | Edited decap-oauth-worker/src/lib/serial.js | added 1 condition(s) | ~82 |
+| 20:03 | Edited tests/unit/receipts/api.test.ts | 2→3 lines | ~37 |
+| 20:03 | Edited tests/unit/receipts/api.test.ts | expanded (+35 lines) | ~313 |
+| 20:03 | Edited tests/unit/receipts/renderPdf.test.ts | 5→8 lines | ~99 |
+| 20:04 | Edited tests/unit/receipts/serial.test.ts | 4→7 lines | ~64 |
+| 20:04 | Edited tests/unit/receipts/receiptModel.test.ts | 4→9 lines | ~60 |

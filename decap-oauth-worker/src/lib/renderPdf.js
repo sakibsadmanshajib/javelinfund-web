@@ -42,15 +42,11 @@ export async function renderReceiptPdf(model, signaturePngBytes) {
   line(model.charity.craLine, { size: 9, gap: 40 });
 
   if (signaturePngBytes) {
-    try {
-      const png = await doc.embedPng(signaturePngBytes);
-      const w = 140;
-      const h = (png.height / png.width) * w;
-      page.drawImage(png, { x: left, y: y - h + 10, width: w, height: h });
-      y -= h;
-    } catch (_) {
-      /* if signature fails to embed, fall through to text line */
-    }
+    const png = await doc.embedPng(signaturePngBytes); // let a bad signature throw — never silently issue unsigned
+    const w = 140;
+    const h = (png.height / png.width) * w;
+    page.drawImage(png, { x: left, y: y - h + 10, width: w, height: h });
+    y -= h;
   }
   page.drawLine({ start: { x: left, y }, end: { x: left + 200, y }, thickness: 0.8, color: ink });
   y -= 14;

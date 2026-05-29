@@ -11,6 +11,7 @@
 - Use superpowers (brainstorming, plans, TDD), ECC reviewers/builders, claude-mem, graphify, OpenWolf in concert.
 - Static-site stack preference: **Astro + Markdown + Decap CMS + Cloudflare Pages**.
 - Forms via Google Apps Script → Google Sheets. No PayPal in new build; use CanadaHelps + Interac e-Transfer.
+- Charity president name = "Glen Jackson" (ONE n, not "Glenn"). Use on all receipts/docs. (2026-05-28)
 
 ## Key Learnings
 
@@ -19,6 +20,9 @@
 - **Content language:** English only for phase 1. Keep "L'union fait la force" motto band as cultural anchor; everything else English.
 - **Current stat:** 325 children in school.
 - **Featured donate tiers:** $400 / year — Sponsor a child · $1,500 / month — Feed the orphans.
+- Worker `/api/receipts` routes live in `decap-oauth-worker/src/api/receipts.js`, wired in `index.js` before the `/auth` branch (reuses existing `url`). Auth via `verifyGitHubIdentity` + `RECEIPTS_ALLOWLIST`. CORS echoes Origin from `SITE_ORIGINS`. (2026-05-28)
+- Worker route tests must use `// @vitest-environment node` (not happy-dom) because happy-dom strips the Origin request header. (2026-05-28)
+- Root-run vitest importing `decap-oauth-worker/src` needs any worker runtime dep (e.g. pdf-lib) ALSO in ROOT package.json devDependencies — CI runs `npm ci` only at repo root; the sub-package node_modules is never installed in CI. Verify by hiding decap-oauth-worker/node_modules and running the test. (2026-05-28)
 
 ## Do-Not-Repeat
 
@@ -34,13 +38,3 @@ See [`docs/DECISIONS.md`](../docs/DECISIONS.md) for the full table of 15 brainst
 - **Receipts:** CanadaHelps is the *only* card processor — issues CRA-compliant tax receipts automatically. Direct Stripe rejected to avoid building a receipt issuer.
 - **Featured content mechanic:** Markdown files in `src/content/stories/` and `src/content/donate-tiers/` with `featured: true` + `priority` frontmatter; homepage auto-renders highest-priority featured.
 - **Page scope:** 5 — home, about (incl. programs), stories, team, donate.
-
-## User Preferences
-- Charity president name = "Glen Jackson" (ONE n, not "Glenn"). Use on all receipts/docs. (2026-05-28)
-
-## Key Learning (2026-05-28)
-- Worker `/api/receipts` routes live in `decap-oauth-worker/src/api/receipts.js`, wired in `index.js` before the `/auth` branch (reuses existing `url`). Auth via `verifyGitHubIdentity` + `RECEIPTS_ALLOWLIST`. CORS echoes Origin from `SITE_ORIGINS`.
-- Worker route tests must use `// @vitest-environment node` (not happy-dom) because happy-dom strips the Origin request header.
-
-## Key Learnings
-- Root-run vitest importing `decap-oauth-worker/src` needs any worker runtime dep (e.g. pdf-lib) ALSO in ROOT package.json devDependencies — CI runs `npm ci` only at repo root; the sub-package node_modules is never installed in CI. Verify by hiding decap-oauth-worker/node_modules and running the test. (2026-05-28)

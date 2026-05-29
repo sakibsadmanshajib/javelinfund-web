@@ -28,9 +28,11 @@ export function buildReceiptModel(fields, issued) {
   if (!(amountNum > 0)) throw new Error('invalid amount');
   const dateReceived = req(fields.dateReceived, 'dateReceived');
   if (!validDate(dateReceived)) throw new Error('invalid dateReceived');
+  const dateIssued = req(issued.dateIssued, 'dateIssued');
+  if (isNaN(new Date(dateIssued).getTime())) throw new Error('invalid dateIssued');
   return {
     serial: req(issued.serial, 'serial'),
-    dateIssued: issued.dateIssued,
+    dateIssued,
     dateReceived,
     donorName: req(fields.donorName, 'donorName'),
     donorAddress: req(fields.donorAddress, 'donorAddress'),

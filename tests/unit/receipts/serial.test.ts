@@ -16,4 +16,7 @@ describe('parseSerial', () => {
   it('round-trips', () => {
     expect(parseSerial('2026-0042')).toEqual({ year: 2026, num: 42 });
   });
+  it('rejects an out-of-range serial number', () => {
+    expect(() => parseSerial('2026-0000')).toThrow();
+  });
 });

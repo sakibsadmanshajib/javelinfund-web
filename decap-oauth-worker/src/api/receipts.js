@@ -66,7 +66,10 @@ export async function handleReceiptsRequest(request, env) {
           serial: reserved.serial,
           dateIssued: reserved.dateIssued,
         });
-        const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
+        if (!env.SIGNATURE_PNG_B64) {
+          return json({ ok: false, error: 'signature not configured' }, 500, origin);
+        }
+        const sig = base64ToBytes(env.SIGNATURE_PNG_B64);
         const pdf = await renderReceiptPdf(model, sig);
         const pdfBase64 = bytesToBase64(pdf);
         await callAppsScript(env, 'receipt.store', { serial: reserved.serial, pdfBase64 });
@@ -106,7 +109,10 @@ export async function handleReceiptsRequest(request, env) {
         },
         { serial: row.serial, dateIssued: new Date(row.dateIssued).toISOString() },
       );
-      const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
+      if (!env.SIGNATURE_PNG_B64) {
+        return json({ ok: false, error: 'signature not configured' }, 500, origin);
+      }
+      const sig = base64ToBytes(env.SIGNATURE_PNG_B64);
       const pdf = await renderReceiptPdf(model, sig);
       return new Response(pdf, {
         status: 200,

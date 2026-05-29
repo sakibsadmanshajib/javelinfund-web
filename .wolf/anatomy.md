@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-05-28T23:25:55.610Z
-> Files: 531 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-05-29T00:04:38.250Z
+> Files: 537 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -923,16 +923,16 @@
 
 ## decap-oauth-worker/src/api/
 
-- `receipts.js` — API routes: GET (2 endpoints) (~1396 tok)
+- `receipts.js` — API routes: GET (2 endpoints) (~1532 tok)
 
 ## decap-oauth-worker/src/lib/
 
 - `appsScript.js` — decap-oauth-worker/src/lib/appsScript.js (~186 tok)
-- `auth.js` — Exports verifyGitHubIdentity, parseAllowlist (~272 tok)
+- `auth.js` — Exports verifyGitHubIdentity, parseAllowlist (~315 tok)
 - `origins.js` — Single source of truth for cross-origin allowlisting. (~183 tok)
-- `receiptModel.js` — Exports CHARITY, buildReceiptModel (~483 tok)
-- `renderPdf.js` — Draws a receipt mirroring Glen's template layout, with the current charity address. (~626 tok)
-- `serial.js` — Exports formatSerial, parseSerial (~106 tok)
+- `receiptModel.js` — Exports CHARITY, buildReceiptModel (~518 tok)
+- `renderPdf.js` — Draws a receipt mirroring Glen's template layout, with the current charity address. (~624 tok)
+- `serial.js` — Exports formatSerial, parseSerial (~134 tok)
 
 ## docs/
 
@@ -950,6 +950,13 @@
 
 - `index.html` — Javelin Fund · CMS (~131 tok)
 
+## src/components/
+
+- `DonateStrip.astro` — src/components/DonateStrip.astro (~999 tok)
+- `Hero.astro` — src/components/Hero.astro (~1292 tok)
+- `MottoBand.astro` — src/components/MottoBand.astro (~282 tok)
+- `StorySpotlight.astro` — src/components/StorySpotlight.astro (~917 tok)
+
 ## src/layouts/
 
 - `Base.astro` — src/layouts/Base.astro (~535 tok)
@@ -957,6 +964,11 @@
 ## src/lib/
 
 - `receiptsClient.ts` — Browser-side client for the receipts API. The Worker (not this file) is the security boundary. (~1512 tok)
+
+## src/pages/
+
+- `donate.astro` — Astro: donate (~1418 tok)
+- `index.astro` — Astro: index (~991 tok)
 
 ## src/pages/admin/
 
@@ -968,9 +980,9 @@
 
 ## tests/unit/receipts/
 
-- `api.test.ts` — Node's undici preserves the Origin header that scripts set; happy-dom strips it (~1506 tok)
+- `api.test.ts` — Node's undici preserves the Origin header that scripts set; happy-dom strips it (~1829 tok)
 - `auth.test.ts` — Declares mockUser (~342 tok)
-- `receiptModel.test.ts` — Declares good (~570 tok)
+- `receiptModel.test.ts` — Declares good (~692 tok)
 - `receiptsClient.test.ts` — Declares msg (~600 tok)
-- `renderPdf.test.ts` — Declares model (~299 tok)
-- `serial.test.ts` (~187 tok)
+- `renderPdf.test.ts` — Declares model (~354 tok)
+- `serial.test.ts` (~220 tok)
