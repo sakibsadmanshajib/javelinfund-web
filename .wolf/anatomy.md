@@ -1,12 +1,12 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-05-29T00:04:38.250Z
-> Files: 537 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-05-29T02:01:53.647Z
+> Files: 541 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
 - `.gitignore` — Git ignore rules (~117 tok)
-- `astro.config.mjs` (~83 tok)
+- `astro.config.mjs` (~130 tok)
 - `CLAUDE.md` — OpenWolf (~983 tok)
 - `README.md` — Project documentation (~265 tok)
 
@@ -914,16 +914,16 @@
 
 ## apps-script/
 
-- `form-handler.gs` — Javelin Fund form handler. (~1814 tok)
+- `form-handler.gs` — Javelin Fund form handler. (~2148 tok)
 - `README.md` — Project documentation (~364 tok)
 
 ## decap-oauth-worker/src/
 
-- `index.js` — Decap CMS OAuth handler for Cloudflare Workers. (~1490 tok)
+- `index.js` — Decap CMS OAuth handler for Cloudflare Workers. (~1398 tok)
 
 ## decap-oauth-worker/src/api/
 
-- `receipts.js` — API routes: GET (2 endpoints) (~1532 tok)
+- `receipts.js` — API routes: GET (2 endpoints) (~1580 tok)
 
 ## decap-oauth-worker/src/lib/
 
@@ -931,7 +931,7 @@
 - `auth.js` — Exports verifyGitHubIdentity, parseAllowlist (~315 tok)
 - `origins.js` — Single source of truth for cross-origin allowlisting. (~183 tok)
 - `receiptModel.js` — Exports CHARITY, buildReceiptModel (~518 tok)
-- `renderPdf.js` — Draws a receipt mirroring Glen's template layout, with the current charity address. (~624 tok)
+- `renderPdf.js` — Draws a receipt mirroring Glen's template layout, with the current charity address. (~644 tok)
 - `serial.js` — Exports formatSerial, parseSerial (~134 tok)
 
 ## docs/
@@ -940,11 +940,11 @@
 
 ## docs/superpowers/plans/
 
-- `2026-05-28-manual-donation-receipts.md` — Manual Donation Receipts — Implementation Plan (~12325 tok)
+- `2026-05-28-manual-donation-receipts.md` — Manual Donation Receipts — Implementation Plan (~12922 tok)
 
 ## docs/superpowers/specs/
 
-- `2026-05-28-manual-donation-receipts-design.md` — Manual Donation Receipts Tool — Design (~2185 tok)
+- `2026-05-28-manual-donation-receipts-design.md` — Manual Donation Receipts Tool — Design (~2643 tok)
 
 ## public/admin/
 
@@ -952,37 +952,47 @@
 
 ## src/components/
 
-- `DonateStrip.astro` — src/components/DonateStrip.astro (~999 tok)
-- `Hero.astro` — src/components/Hero.astro (~1292 tok)
+- `DonateStrip.astro` — src/components/DonateStrip.astro (~967 tok)
+- `Hero.astro` — src/components/Hero.astro (~1643 tok)
 - `MottoBand.astro` — src/components/MottoBand.astro (~282 tok)
-- `StorySpotlight.astro` — src/components/StorySpotlight.astro (~917 tok)
+- `ProgramCard.astro` — src/components/ProgramCard.astro (~543 tok)
+- `StorySpotlight.astro` — src/components/StorySpotlight.astro (~923 tok)
 
 ## src/layouts/
 
-- `Base.astro` — src/layouts/Base.astro (~535 tok)
+- `Base.astro` — src/layouts/Base.astro (~643 tok)
 
 ## src/lib/
 
-- `receiptsClient.ts` — Browser-side client for the receipts API. The Worker (not this file) is the security boundary. (~1512 tok)
+- `receiptsClient.ts` — Browser-side client for the receipts API. The Worker (not this file) is the security boundary. (~1538 tok)
 
 ## src/pages/
 
-- `donate.astro` — Astro: donate (~1418 tok)
+- `donate.astro` — Astro: donate (~1386 tok)
 - `index.astro` — Astro: index (~991 tok)
 
 ## src/pages/admin/
 
 - `receipts.astro` — src/pages/admin/receipts.astro (~1286 tok)
 
+## src/styles/
+
+- `global.css` — Styles: 8 rules (~356 tok)
+- `tokens.css` — Styles: 30 vars (~268 tok)
+
 ## tests/component/
 
 - `receipts-page.test.ts` — Declares src (~175 tok)
 
+## tests/unit/
+
+- `tokens.test.ts` — Declares tokens (~176 tok)
+
 ## tests/unit/receipts/
 
-- `api.test.ts` — Node's undici preserves the Origin header that scripts set; happy-dom strips it (~1829 tok)
-- `auth.test.ts` — Declares mockUser (~342 tok)
+- `api.test.ts` — Node's undici preserves the Origin header that scripts set; happy-dom strips it (~2031 tok)
+- `auth.test.ts` — Declares mockUser (~358 tok)
 - `receiptModel.test.ts` — Declares good (~692 tok)
-- `receiptsClient.test.ts` — Declares msg (~600 tok)
+- `receiptsClient.test.ts` — Declares msg (~616 tok)
 - `renderPdf.test.ts` — Declares model (~354 tok)
 - `serial.test.ts` (~220 tok)

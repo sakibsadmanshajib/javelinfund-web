@@ -36,7 +36,6 @@ const formatFrequency = (f: string) =>
           <a
             class={`tier ${t.data.featured ? 'featured' : ''}`}
             href={t.data.canada_helps_url ?? '#interac'}
-            aria-label={`Donate ${formatAmount(t.data.amount)} ${formatFrequency(t.data.frequency)} — ${t.data.label}`}
           >
             {t.data.ribbon && <span class="ribbon">{t.data.ribbon}</span>}
             <span class="amt">{formatAmount(t.data.amount)}</span>

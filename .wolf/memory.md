@@ -111,3 +111,42 @@
 | 20:03 | Edited tests/unit/receipts/renderPdf.test.ts | 5→8 lines | ~99 |
 | 20:04 | Edited tests/unit/receipts/serial.test.ts | 4→7 lines | ~64 |
 | 20:04 | Edited tests/unit/receipts/receiptModel.test.ts | 4→9 lines | ~60 |
+| 21:13 | Edited decap-oauth-worker/src/index.js | 2→1 lines | ~17 |
+| 21:13 | Edited decap-oauth-worker/src/index.js | modified receive() | ~338 |
+| 21:13 | Edited apps-script/form-handler.gs | added error handling | ~273 |
+| 21:13 | Edited decap-oauth-worker/src/api/receipts.js | modified if() | ~454 |
+| 21:14 | Edited decap-oauth-worker/src/lib/renderPdf.js | 1→2 lines | ~39 |
+| 21:14 | Edited src/lib/receiptsClient.ts | added 1 condition(s) | ~59 |
+| 21:14 | Edited tests/unit/receipts/api.test.ts | 1→4 lines | ~20 |
+| 21:14 | Edited tests/unit/receipts/api.test.ts | expanded (+17 lines) | ~457 |
+| 21:15 | Edited tests/unit/receipts/auth.test.ts | 1→4 lines | ~20 |
+| 21:15 | Edited tests/unit/receipts/receiptsClient.test.ts | 4→5 lines | ~28 |
+| 21:15 | Edited docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md | 2→2 lines | ~28 |
+| 21:16 | Edited docs/superpowers/plans/2026-05-28-manual-donation-receipts.md | added error handling | ~820 |
+| 21:16 | Edited docs/superpowers/plans/2026-05-28-manual-donation-receipts.md | modified catch() | ~85 |
+| 21:20 | Edited src/styles/global.css | expanded (+10 lines) | ~161 |
+| 21:20 | Edited src/layouts/Base.astro | removed 8 lines | ~24 |
+| 21:21 | Edited src/components/Hero.astro | 8→8 lines | ~47 |
+| 21:21 | Edited src/components/DonateStrip.astro | 4→3 lines | ~35 |
+| 21:21 | Edited src/pages/donate.astro | 4→3 lines | ~36 |
+| 21:24 | Edited astro.config.mjs | 1→3 lines | ~56 |
+| 21:27 | Edited src/styles/global.css | fonts() → family() | ~123 |
+| 21:28 | Edited src/styles/tokens.css | 2→2 lines | ~38 |
+| 21:31 | Edited src/layouts/Base.astro | expanded (+6 lines) | ~195 |
+| 21:31 | Edited src/layouts/Base.astro | 2→5 lines | ~93 |
+| 21:31 | Edited src/components/ProgramCard.astro | 7→8 lines | ~39 |
+| 21:32 | Edited src/components/StorySpotlight.astro | 7→8 lines | ~58 |
+| 21:32 | Edited src/components/Hero.astro | 4→5 lines | ~23 |
+| 21:33 | Edited src/components/Hero.astro | 5→5 lines | ~23 |
+| 21:33 | Edited src/components/ProgramCard.astro | 2→2 lines | ~10 |
+| 21:35 | Edited src/components/Hero.astro | 5→5 lines | ~24 |
+| 21:37 | Edited src/components/Hero.astro | 5→5 lines | ~25 |
+| 21:39 | Edited src/components/Hero.astro | 5→5 lines | ~25 |
+| 21:45 | Edited src/components/Hero.astro | 5→5 lines | ~23 |
+| 21:48 | Edited src/components/Hero.astro | 5→5 lines | ~23 |
+| 21:50 | Edited src/components/Hero.astro | 5→5 lines | ~22 |
+| 21:52 | Edited src/components/Hero.astro | 5→5 lines | ~31 |
+| 21:54 | Edited src/components/Hero.astro | 5→5 lines | ~31 |
+| 21:57 | Edited src/components/Hero.astro | expanded (+35 lines) | ~407 |
+| 21:59 | Edited src/components/Hero.astro | 14→18 lines | ~151 |
+| 22:01 | Edited tests/unit/tokens.test.ts | 3→3 lines | ~56 |

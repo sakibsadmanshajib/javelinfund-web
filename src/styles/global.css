@@ -1,4 +1,11 @@
 /* src/styles/global.css */
+/* Self-hosted fonts — no external Google Fonts request chain.
+   Variable fonts collapse all weights into a single woff2 per family
+   (browser only downloads the latin unicode-range subset), keeping the
+   critical request tree shallow. */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/playfair-display/wght-italic.css';
+@import '@fontsource/archivo-black/latin-400.css';
 @import './tokens.css';
 
 *,

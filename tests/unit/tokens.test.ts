@@ -9,7 +9,7 @@ describe('tokens.css', () => {
     expect(css).toContain('--gold: #ffd60a');
     expect(css).toContain('--ivory: #fafaf7');
     expect(css).toContain("--font-display: 'Archivo Black'");
-    expect(css).toContain("--font-accent: 'Playfair Display'");
-    expect(css).toContain("--font-body: 'Inter'");
+    expect(css).toContain("--font-accent: 'Playfair Display Variable'");
+    expect(css).toContain("--font-body: 'Inter Variable'");
   });
 });

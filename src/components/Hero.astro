@@ -1,24 +1,60 @@
 ---
 // src/components/Hero.astro
-import { Image } from 'astro:assets';
-import hero from '../assets/images/hero.jpg';
+import { getImage } from 'astro:assets';
+import heroLandscape from '../assets/images/hero.jpg';
+import heroPortrait from '../assets/images/hero-portrait.jpg';
 
 interface Props {
   pill?: string;
   quote?: { text: string; who: string; where: string };
 }
 const { pill = 'Northern Haiti · 2026 Appeal', quote } = Astro.props;
+
+// Art-directed hero: a portrait crop for narrow viewports (where the wide
+// landscape would be heavily cropped by object-fit:cover, wasting bytes and
+// failing Lighthouse's image-delivery insight) and the full landscape for
+// wider screens. The portrait variant's aspect matches the mobile hero box,
+// so downloaded pixels match displayed pixels.
+// Lighthouse measures displayed pixels in CSS px (not device px), so the
+// downloaded file should be ~412x762 on a mobile viewport. A single 412w
+// portrait variant keeps file pixels == displayed pixels (no over-delivery)
+// while quality 55 keeps bytes-per-pixel under the AVIF target.
+const portrait = await getImage({
+  src: heroPortrait,
+  widths: [412],
+  sizes: '100vw',
+  format: 'webp',
+  quality: 55,
+});
+const landscape = await getImage({
+  src: heroLandscape,
+  widths: [768, 1080, 1440, 1920],
+  sizes: '100vw',
+  format: 'webp',
+  quality: 60,
+});
 ---
 
 <section class="hero">
-  <Image
-    src={hero}
-    alt="Children in a Javelin Fund partner school in Northern Haiti"
-    class="bg"
-    widths={[800, 1200, 1800]}
-    sizes="100vw"
-    loading="eager"
-  />
+  <picture>
+    <source
+      media="(max-width: 700px)"
+      type="image/webp"
+      srcset={portrait.srcSet.attribute}
+      sizes="100vw"
+    />
+    <source type="image/webp" srcset={landscape.srcSet.attribute} sizes="100vw" />
+    <img
+      src={landscape.src}
+      alt="Children in a Javelin Fund partner school in Northern Haiti"
+      class="bg"
+      width="1440"
+      height="814"
+      loading="eager"
+      decoding="sync"
+      fetchpriority="high"
+    />
+  </picture>
   <div class="scrim" aria-hidden="true"></div>
   <div class="container content">
     <div class="left">
