@@ -30,6 +30,7 @@ describe('listReceipts/createReceipt network', () => {
   beforeEach(() => setToken('tok'));
   afterEach(() => {
     clearToken();
+    vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
 

@@ -132,6 +132,10 @@ export async function createReceipt(
 
 export async function cancelReceipt(serial: string): Promise<void> {
   const res = await apiFetch(`/api/receipts/${serial}/cancel`, { method: 'POST' });
+  if (res.status === 401) {
+    clearToken();
+    throw new Error('not authorized');
+  }
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || 'cancel failed');
 }

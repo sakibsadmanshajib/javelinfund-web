@@ -16,7 +16,6 @@
  */
 
 import { handleReceiptsRequest } from './api/receipts.js';
-import { ALLOWED_ORIGINS } from './lib/origins.js';
 
 const SCOPE = 'repo,user';
 
@@ -89,7 +88,6 @@ function htmlPostMessage(token) {
   // This handshake mirrors the well-known netlify-cms-github-oauth-provider
   // implementation and matches what Decap's auth page expects.
   const payload = JSON.stringify({ token, provider: 'github' });
-  const origins = JSON.stringify(ALLOWED_ORIGINS);
   const html = `<!doctype html>
 <html><head><meta charset="utf-8"><title>CMS sign-in</title></head>
 <body>
@@ -97,22 +95,16 @@ function htmlPostMessage(token) {
 <script>
 (function () {
   var payload = ${JSON.stringify(payload)};
-  var ALLOWED = ${origins};
-  function postAll(msg, target) {
-    if (!window.opener) return;
-    if (target && target !== 'null') { window.opener.postMessage(msg, target); return; }
-    // no trusted single origin: deliver only to allowlisted origins (postMessage drops it unless the opener origin matches)
-    for (var i = 0; i < ALLOWED.length; i++) { try { window.opener.postMessage(msg, ALLOWED[i]); } catch (_) {} }
-  }
   function receive(e) {
     if (!e.data || typeof e.data !== 'string') return;
     if (e.data !== 'authorizing:github') return;
-    // echo success back to the exact origin that handshook us
+    // Only the window that echoed the handshake gets the token, sent to its exact origin.
     (e.source || window.opener).postMessage('authorization:github:success:' + payload, e.origin && e.origin !== 'null' ? e.origin : '*');
   }
   window.addEventListener('message', receive, false);
-  postAll('authorizing:github', null);
-  setTimeout(function () { postAll('authorization:github:success:' + payload, null); }, 1200);
+  // Non-secret handshake ping — safe to broadcast; the opener replies and we then target its origin.
+  if (window.opener) window.opener.postMessage('authorizing:github', '*');
+  setTimeout(function () { if (window.opener) window.opener.postMessage('authorizing:github', '*'); }, 1200);
   setTimeout(function () { try { window.close(); } catch (_) {} }, 2200);
 })();
 </script>

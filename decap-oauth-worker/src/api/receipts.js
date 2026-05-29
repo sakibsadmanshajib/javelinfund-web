@@ -92,36 +92,37 @@ export async function handleReceiptsRequest(request, env) {
     const pdfMatch = /^\/api\/receipts\/([0-9]{4}-[0-9]{4})\/pdf$/.exec(url.pathname);
     if (request.method === 'GET' && pdfMatch) {
       const serial = pdfMatch[1];
-      const list = await callAppsScript(env, 'receipt.list', {});
-      const row = (list.receipts || []).find((r) => r.serial === serial);
-      if (!row) return json({ ok: false, error: 'not found' }, 404, origin);
-      if (String(row.status).toLowerCase() === 'cancelled') {
+      const file = await callAppsScript(env, 'receipt.getFile', { serial });
+      if (String(file.status).toLowerCase() === 'cancelled') {
         return json({ ok: false, error: 'receipt cancelled' }, 410, origin);
       }
+      const pdfHeaders = {
+        'content-type': 'application/pdf',
+        'content-disposition': `attachment; filename="${serial}.pdf"`,
+        ...cors(origin),
+      };
+      // Prefer the archived Drive PDF — re-download must return the exact issued bytes.
+      if (file.pdfBase64) {
+        return new Response(base64ToBytes(file.pdfBase64), { status: 200, headers: pdfHeaders });
+      }
+      // Legacy row with no archived file: regenerate from the stored row fields.
       const model = buildReceiptModel(
         {
-          donorName: row.donorName,
-          donorAddress: row.donorAddress,
-          cityProvince: row.cityProvince,
-          postalCode: row.postalCode,
-          amount: row.amount,
-          dateReceived: String(row.dateReceived).slice(0, 10),
+          donorName: file.donorName,
+          donorAddress: file.donorAddress,
+          cityProvince: file.cityProvince,
+          postalCode: file.postalCode,
+          amount: file.amount,
+          dateReceived: String(file.dateReceived).slice(0, 10),
         },
-        { serial: row.serial, dateIssued: new Date(row.dateIssued).toISOString() },
+        { serial, dateIssued: new Date(file.dateIssued).toISOString() },
       );
       if (!env.SIGNATURE_PNG_B64) {
         return json({ ok: false, error: 'signature not configured' }, 500, origin);
       }
       const sig = base64ToBytes(env.SIGNATURE_PNG_B64);
       const pdf = await renderReceiptPdf(model, sig);
-      return new Response(pdf, {
-        status: 200,
-        headers: {
-          'content-type': 'application/pdf',
-          'content-disposition': `attachment; filename="${serial}.pdf"`,
-          ...cors(origin),
-        },
-      });
+      return new Response(pdf, { status: 200, headers: pdfHeaders });
     }
 
     const cancelMatch = /^\/api\/receipts\/([0-9]{4}-[0-9]{4})\/cancel$/.exec(url.pathname);

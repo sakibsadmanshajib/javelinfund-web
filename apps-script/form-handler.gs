@@ -122,6 +122,42 @@ function _handleReceipt(body) {
     return _json({ ok: true, driveFileId: file.getId() });
   }
 
+  if (body.action === 'receipt.getFile') {
+    const serial = body.serial;
+    const values = sh.getDataRange().getValues();
+    for (let i = 1; i < values.length; i++) {
+      if (values[i][0] === serial) {
+        const r = values[i];
+        const status = r[8];
+        const driveFileId = r[9];
+        let pdfBase64 = null;
+        if (driveFileId) {
+          try {
+            pdfBase64 = Utilities.base64Encode(
+              DriveApp.getFileById(driveFileId).getBlob().getBytes(),
+            );
+          } catch (e) {
+            pdfBase64 = null;
+          }
+        }
+        return _json({
+          ok: true,
+          status: status,
+          driveFileId: driveFileId,
+          pdfBase64: pdfBase64,
+          donorName: r[3],
+          donorAddress: r[4],
+          cityProvince: r[5],
+          postalCode: r[6],
+          amount: r[7],
+          dateReceived: r[1],
+          dateIssued: r[2],
+        });
+      }
+    }
+    return _err('serial not found');
+  }
+
   if (body.action === 'receipt.list') {
     const values = sh.getDataRange().getValues();
     const out = [];

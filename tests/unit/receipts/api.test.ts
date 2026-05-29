@@ -5,7 +5,10 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { handleReceiptsRequest } from '../../../decap-oauth-worker/src/api/receipts.js';
 
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+});
 
 const env = {
   RECEIPTS_ALLOWLIST: 'glenjackson',
@@ -164,24 +167,41 @@ describe('handleReceiptsRequest', () => {
         ok: true,
         json: async () => ({
           ok: true,
-          receipts: [
-            {
-              serial: '2026-0001',
-              status: 'cancelled',
-              donorName: 'X',
-              donorAddress: 'Y',
-              cityProvince: 'Z, ON',
-              postalCode: 'N1N1N1',
-              amount: '50.00',
-              dateReceived: '2026-05-28',
-              dateIssued: '2026-05-28T00:00:00.000Z',
-            },
-          ],
+          status: 'cancelled',
+          driveFileId: '',
+          pdfBase64: null,
         }),
       });
     vi.stubGlobal('fetch', fetchMock);
     const res = await handleReceiptsRequest(req('GET', '/api/receipts/2026-0001/pdf'), env);
     expect(res.status).toBe(410);
+  });
+
+  it('serves the archived Drive PDF bytes on re-download (no regenerate)', async () => {
+    const archived = env.SIGNATURE_PNG_B64; // any valid base64 payload stands in for stored PDF bytes
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ login: 'glenjackson' }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          ok: true,
+          status: 'active',
+          driveFileId: 'drv1',
+          pdfBase64: archived,
+        }),
+      });
+    vi.stubGlobal('fetch', fetchMock);
+    const res = await handleReceiptsRequest(req('GET', '/api/receipts/2026-0001/pdf'), env);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toBe('application/pdf');
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    const expected = Uint8Array.from(atob(archived), (c) => c.charCodeAt(0));
+    expect(bytes).toEqual(expected);
   });
 
   it('omits access-control-allow-origin for a non-allowlisted origin', async () => {

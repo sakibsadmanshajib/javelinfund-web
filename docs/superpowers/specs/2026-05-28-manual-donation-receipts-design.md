@@ -124,7 +124,7 @@ charity details; final wording/fields are Glen's responsibility to confirm.
 - No donor PII committed to the public repo, by design.
 - **Signature image** stored as a Cloudflare Worker Secret (base64); never in repo, never
   in static assets, never sent to the browser. Source asset to import:
-  `C:\Users\sakib\Downloads\glen's signature.png` (load as Worker secret at setup; do NOT
+  `path/to/glen-signature.png` (load as Worker secret at setup; do NOT
   commit). Repo can remain public.
 - Archived receipt PDFs (contain the signature) live in a **private** Drive folder and are
   retrievable only through the authenticated Worker — no public Drive share links.

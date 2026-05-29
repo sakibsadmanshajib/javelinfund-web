@@ -29,6 +29,7 @@ export async function renderReceiptPdf(model, signaturePngBytes) {
   line(`Official Donation Receipt        Receipt #: ${model.serial}`, { bold: true, gap: 18 });
   line(`Date issued: ${model.dateIssued.slice(0, 10)}`, { gap: 14 });
   line(`Date donation received: ${model.dateReceived}`, { gap: 22 });
+  line(`Location issued: Belle River, ON`, { size: 10, gap: 22 });
 
   line('Donor:', { bold: true, gap: 14 });
   line(model.donorName, { gap: 14 });

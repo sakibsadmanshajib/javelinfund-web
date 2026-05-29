@@ -1,7 +1,10 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { verifyGitHubIdentity } from '../../../decap-oauth-worker/src/lib/auth.js';
 
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+});
 
 function mockUser(login: string, status = 200) {
   vi.stubGlobal(

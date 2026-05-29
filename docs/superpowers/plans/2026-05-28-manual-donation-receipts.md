@@ -909,50 +909,77 @@ export async function handleReceiptsRequest(request, env) {
 
     if (request.method === 'POST' && url.pathname === '/api/receipts') {
       const fields = await request.json();
+      // Validate BEFORE reserving so invalid input never burns a serial / orphans a row.
+      try {
+        buildReceiptModel(fields, { serial: '0000-0000', dateIssued: new Date().toISOString() });
+      } catch (ve) {
+        return json(
+          { ok: false, error: ve instanceof Error ? ve.message : 'invalid input' },
+          400,
+          origin,
+        );
+      }
       const reserved = await callAppsScript(env, 'receipt.reserve', { issuedBy: id.login, fields });
-      const model = buildReceiptModel(fields, {
-        serial: reserved.serial,
-        dateIssued: reserved.dateIssued,
-      });
-      const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
-      const pdf = await renderReceiptPdf(model, sig);
-      const pdfBase64 = bytesToBase64(pdf);
-      await callAppsScript(env, 'receipt.store', { serial: reserved.serial, pdfBase64 });
-      return json(
-        { ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64 },
-        200,
-        origin,
-      );
+      try {
+        const model = buildReceiptModel(fields, {
+          serial: reserved.serial,
+          dateIssued: reserved.dateIssued,
+        });
+        if (!env.SIGNATURE_PNG_B64)
+          return json({ ok: false, error: 'signature not configured' }, 500, origin);
+        const sig = base64ToBytes(env.SIGNATURE_PNG_B64);
+        const pdf = await renderReceiptPdf(model, sig);
+        const pdfBase64 = bytesToBase64(pdf);
+        await callAppsScript(env, 'receipt.store', { serial: reserved.serial, pdfBase64 });
+        return json(
+          { ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64 },
+          200,
+          origin,
+        );
+      } catch (postErr) {
+        // Cancel-on-failure compensation: void the reserved-but-unfinished serial.
+        try {
+          await callAppsScript(env, 'receipt.cancel', { serial: reserved.serial });
+        } catch (_) {
+          /* swallow */
+        }
+        throw postErr;
+      }
     }
 
-    // GET /api/receipts/<serial>/pdf  → regenerate from stored data
+    // GET /api/receipts/<serial>/pdf  → serve archived Drive PDF; cancelled → 410; legacy → regenerate
     const pdfMatch = /^\/api\/receipts\/([0-9]{4}-[0-9]{4})\/pdf$/.exec(url.pathname);
     if (request.method === 'GET' && pdfMatch) {
       const serial = pdfMatch[1];
-      const list = await callAppsScript(env, 'receipt.list', {});
-      const row = (list.receipts || []).find((r) => r.serial === serial);
-      if (!row) return json({ ok: false, error: 'not found' }, 404, origin);
+      const file = await callAppsScript(env, 'receipt.getFile', { serial });
+      if (String(file.status).toLowerCase() === 'cancelled') {
+        return json({ ok: false, error: 'receipt cancelled' }, 410, origin);
+      }
+      const pdfHeaders = {
+        'content-type': 'application/pdf',
+        'content-disposition': `attachment; filename="${serial}.pdf"`,
+        ...cors(origin),
+      };
+      if (file.pdfBase64) {
+        return new Response(base64ToBytes(file.pdfBase64), { status: 200, headers: pdfHeaders });
+      }
+      // Legacy row with no archived file: regenerate from stored row fields.
       const model = buildReceiptModel(
         {
-          donorName: row.donorName,
-          donorAddress: row.donorAddress,
-          cityProvince: row.cityProvince,
-          postalCode: row.postalCode,
-          amount: row.amount,
-          dateReceived: String(row.dateReceived).slice(0, 10),
+          donorName: file.donorName,
+          donorAddress: file.donorAddress,
+          cityProvince: file.cityProvince,
+          postalCode: file.postalCode,
+          amount: file.amount,
+          dateReceived: String(file.dateReceived).slice(0, 10),
         },
-        { serial: row.serial, dateIssued: new Date(row.dateIssued).toISOString() },
+        { serial, dateIssued: new Date(file.dateIssued).toISOString() },
       );
-      const sig = env.SIGNATURE_PNG_B64 ? base64ToBytes(env.SIGNATURE_PNG_B64) : null;
+      if (!env.SIGNATURE_PNG_B64)
+        return json({ ok: false, error: 'signature not configured' }, 500, origin);
+      const sig = base64ToBytes(env.SIGNATURE_PNG_B64);
       const pdf = await renderReceiptPdf(model, sig);
-      return new Response(pdf, {
-        status: 200,
-        headers: {
-          'content-type': 'application/pdf',
-          'content-disposition': `attachment; filename="${serial}.pdf"`,
-          ...cors(origin),
-        },
-      });
+      return new Response(pdf, { status: 200, headers: pdfHeaders });
     }
 
     // POST /api/receipts/<serial>/cancel
@@ -964,7 +991,9 @@ export async function handleReceiptsRequest(request, env) {
 
     return json({ ok: false, error: 'not found' }, 404, origin);
   } catch (e) {
-    return json({ ok: false, error: e instanceof Error ? e.message : 'error' }, 500, origin);
+    // Generic message — never leak internal error text to the client.
+    console.error('receipts api error:', e instanceof Error ? e.stack || e.message : e);
+    return json({ ok: false, error: 'internal error' }, 500, origin);
   }
 }
 ```
