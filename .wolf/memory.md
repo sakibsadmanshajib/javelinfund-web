@@ -150,3 +150,44 @@
 | 21:57 | Edited src/components/Hero.astro | expanded (+35 lines) | ~407 |
 | 21:59 | Edited src/components/Hero.astro | 14→18 lines | ~151 |
 | 22:01 | Edited tests/unit/tokens.test.ts | 3→3 lines | ~56 |
+| 22:13 | Session end: 93 writes across 31 files (2026-05-28-manual-donation-receipts-design.md, 2026-05-28-manual-donation-receipts.md, form-handler.gs, README.md, serial.test.ts) | 31 reads | ~50524 tok |
+| 22:52 | Session end: 93 writes across 31 files (2026-05-28-manual-donation-receipts-design.md, 2026-05-28-manual-donation-receipts.md, form-handler.gs, README.md, serial.test.ts) | 31 reads | ~50524 tok |
+
+## Session: 2026-05-29 00:23
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-05-29 00:23
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 00:40 | Created src/pages/admin/receipts.astro | — | ~5030 |
+| 00:45 | Session end: 1 writes across 1 files (receipts.astro) | 5 reads | ~6944 tok |
+| 00:46 | Session end: 1 writes across 1 files (receipts.astro) | 5 reads | ~6944 tok |
+
+## Session: 2026-05-29 00:46
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 14:26
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 14:31 | Created decap-oauth-worker/repro.mjs | — | ~443 |
+| 14:42 | Edited decap-oauth-worker/src/api/receipts.js | added optional chaining | ~495 |
+| 14:42 | Edited decap-oauth-worker/src/api/receipts.js | modified catch() | ~124 |
+| 14:46 | Edited src/pages/admin/receipts.astro | 4→6 lines | ~158 |
+| 14:46 | Edited src/pages/admin/receipts.astro | modified media() | ~202 |
+| 14:46 | Edited src/pages/admin/receipts.astro | expanded (+9 lines) | ~184 |
+| 14:46 | Edited src/pages/admin/receipts.astro | modified media() | ~64 |
+| 14:47 | Edited src/lib/receiptsClient.ts | modified createReceipt() | ~41 |
+| 14:47 | Edited src/lib/receiptsClient.ts | 4→5 lines | ~81 |
+| 14:47 | Edited src/pages/admin/receipts.astro | added 1 condition(s) | ~160 |
+| 14:48 | Edited tests/unit/receipts/api.test.ts | expanded (+73 lines) | ~934 |
+| 14:49 | Diagnosed receipts 500 via Playwright + wrangler tail | decap-oauth-worker/src/api/receipts.js, apps-script/form-handler.gs | ROOT CAUSE: Apps Script web app lacks Drive OAuth scope (DriveApp.getFolderById permission error); not a code bug | ~- |
+| 14:49 | Fixed: hardened worker error, best-effort Drive archival, Astro is:global CSS for runtime rows | receipts.js, receipts.astro, receiptsClient.ts, api.test.ts | 52 tests pass, build clean | ~- |
+| 14:51 | Created decap-oauth-worker/repro2.mjs | — | ~441 |
+| 14:51 | Session end: 12 writes across 6 files (repro.mjs, receipts.js, receipts.astro, receiptsClient.ts, api.test.ts) | 7 reads | ~15773 tok |
+| 14:55 | Edited tests/unit/receipts/api.test.ts | added optional chaining | ~331 |

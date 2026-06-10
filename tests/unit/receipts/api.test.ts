@@ -104,6 +104,97 @@ describe('handleReceiptsRequest', () => {
     expect(json.pdfBase64.length).toBeGreaterThan(100);
   });
 
+  it('issues the receipt with archived:false when Drive archival fails (best-effort, no cancel)', async () => {
+    // Regression for bug-008: a receipt.store failure (e.g. missing Drive OAuth scope)
+    // must NOT cancel the serial or 500 — the receipt is valid and downloadable.
+    // Dispatch by Apps Script action (NOT call order) so the assertion can't silently
+    // drift if the request sequence changes. cancelSpy fires only on receipt.cancel.
+    const cancelSpy = vi.fn();
+    const fetchMock = vi.fn(async (url: string, init: RequestInit) => {
+      if (String(url).includes('api.github.com'))
+        return { ok: true, status: 200, json: async () => ({ login: 'glenjackson' }) };
+      const action = JSON.parse(String(init?.body || '{}')).action;
+      if (action === 'receipt.reserve')
+        return {
+          ok: true,
+          json: async () => ({
+            ok: true,
+            serial: '2026-0007',
+            dateIssued: '2026-05-28T00:00:00.000Z',
+          }),
+        };
+      // receipt.store fails the way the live Apps Script did (Drive permission error).
+      if (action === 'receipt.store')
+        return {
+          ok: true,
+          json: async () => ({
+            ok: false,
+            error: 'You do not have permission to call DriveApp.getFolderById.',
+          }),
+        };
+      if (action === 'receipt.cancel') cancelSpy();
+      return { ok: true, json: async () => ({ ok: true }) };
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    const body = {
+      donorName: 'Jane',
+      donorAddress: '12 King',
+      cityProvince: 'Windsor, ON',
+      postalCode: 'N9A1A1',
+      amount: '50',
+      dateReceived: '2026-05-28',
+    };
+    const res = await handleReceiptsRequest(req('POST', '/api/receipts', { body }), env);
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json.ok).toBe(true);
+    expect(json.serial).toBe('2026-0007');
+    expect(json.archived).toBe(false);
+    expect(typeof json.pdfBase64).toBe('string');
+    expect(cancelSpy).not.toHaveBeenCalled(); // serial must stay active
+  });
+
+  it('cancels the serial and returns the real error (500) when PDF rendering fails', async () => {
+    // Render failure is the ONLY post-reserve failure that should void the serial.
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ login: 'glenjackson' }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          ok: true,
+          serial: '2026-0008',
+          dateIssued: '2026-05-28T00:00:00.000Z',
+        }),
+      })
+      // 3rd call is the best-effort receipt.cancel triggered by the render failure.
+      .mockResolvedValue({ ok: true, json: async () => ({ ok: true }) });
+    vi.stubGlobal('fetch', fetchMock);
+    const body = {
+      donorName: 'Jane',
+      donorAddress: '12 King',
+      cityProvince: 'Windsor, ON',
+      postalCode: 'N9A1A1',
+      amount: '50',
+      dateReceived: '2026-05-28',
+    };
+    // A non-PNG signature payload decodes to bytes but makes embedPng throw inside renderReceiptPdf.
+    const res = await handleReceiptsRequest(req('POST', '/api/receipts', { body }), {
+      ...env,
+      SIGNATURE_PNG_B64: btoa('not a real png'),
+    });
+    expect(res.status).toBe(500);
+    const json = await res.json();
+    expect(json.ok).toBe(false);
+    expect(json.error).not.toBe('internal error'); // hardened: surfaces the real cause
+    // reserve + cancel both hit Apps Script -> 3 fetch calls total (auth, reserve, cancel).
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
   it('rejects creation with 500 when no signature is configured', async () => {
     const fetchMock = vi
       .fn()

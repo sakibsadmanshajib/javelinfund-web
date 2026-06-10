@@ -109,7 +109,7 @@ export async function listReceipts(): Promise<ReceiptRow[]> {
 
 export async function createReceipt(
   fields: Record<string, string>,
-): Promise<{ serial: string; pdfBase64: string }> {
+): Promise<{ serial: string; pdfBase64: string; archived: boolean }> {
   const res = await apiFetch('/api/receipts', { method: 'POST', body: JSON.stringify(fields) });
   if (res.status === 401) {
     clearToken();
@@ -127,7 +127,8 @@ export async function createReceipt(
   }
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || 'create failed');
-  return { serial: json.serial, pdfBase64: json.pdfBase64 };
+  // archived defaults to true for backward compatibility with older Worker responses.
+  return { serial: json.serial, pdfBase64: json.pdfBase64, archived: json.archived !== false };
 }
 
 export async function cancelReceipt(serial: string): Promise<void> {
