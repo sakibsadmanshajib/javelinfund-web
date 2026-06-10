@@ -191,3 +191,23 @@
 | 14:51 | Created decap-oauth-worker/repro2.mjs | — | ~441 |
 | 14:51 | Session end: 12 writes across 6 files (repro.mjs, receipts.js, receipts.astro, receiptsClient.ts, api.test.ts) | 7 reads | ~15773 tok |
 | 14:55 | Edited tests/unit/receipts/api.test.ts | added optional chaining | ~331 |
+| 15:19 | Deployed decap-oauth worker manually + verified live fix | decap-oauth-worker | receipt 2026-0009 issued Active, downloaded; archived:false (Drive scope still pending user re-auth) | ~- |
+| 15:20 | Session end: 13 writes across 6 files (repro.mjs, receipts.js, receipts.astro, receiptsClient.ts, api.test.ts) | 10 reads | ~18019 tok |
+| 15:31 | Edited decap-oauth-worker/src/lib/renderPdf.js | added error handling | ~550 |
+| 15:31 | Created decap-oauth-worker/repro3.mjs | — | ~219 |
+
+## Session: 2026-06-10 15:32
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-06-10 15:32
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 15:33 | Edited apps-script/form-handler.gs | added 1 condition(s) | ~400 |
+| 15:34 | Created apps-script/appsscript.json | — | ~106 |
+| 15:34 | Edited .github/workflows/deploy.yml | modified worker() | ~305 |
+| 15:35 | doPost manual-run TypeError + Drive consent: added authorizeDrive() + appsscript.json | apps-script/ | consent function ready, manifest scopes explicit | ~- |
+| 15:35 | Added letterhead banner to receipt PDF (image2.png from docx) | renderPdf.js, letterhead.js | logo+wordmark renders top of PDF, deployed | ~- |
+| 15:35 | CI deploy.yml now deploys BOTH workers (site + decap-oauth) | .github/workflows/deploy.yml | future merges deploy worker automatically | ~- |
