@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-05-29T02:01:53.647Z
-> Files: 541 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-10T18:51:10.070Z
+> Files: 543 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -917,13 +917,18 @@
 - `form-handler.gs` — Javelin Fund form handler. (~2148 tok)
 - `README.md` — Project documentation (~364 tok)
 
+## decap-oauth-worker/
+
+- `repro.mjs` — Reproduce renderReceiptPdf with the documented 32-colour palette signature. (~443 tok)
+- `repro2.mjs` — Simulate the GET /pdf regeneration path when NO Drive archive exists. (~441 tok)
+
 ## decap-oauth-worker/src/
 
 - `index.js` — Decap CMS OAuth handler for Cloudflare Workers. (~1398 tok)
 
 ## decap-oauth-worker/src/api/
 
-- `receipts.js` — API routes: GET (2 endpoints) (~1580 tok)
+- `receipts.js` — API routes: GET (2 endpoints) (~1830 tok)
 
 ## decap-oauth-worker/src/lib/
 
@@ -964,7 +969,7 @@
 
 ## src/lib/
 
-- `receiptsClient.ts` — Browser-side client for the receipts API. The Worker (not this file) is the security boundary. (~1538 tok)
+- `receiptsClient.ts` — Browser-side client for the receipts API. The Worker (not this file) is the security boundary. (~1578 tok)
 
 ## src/pages/
 
@@ -973,7 +978,7 @@
 
 ## src/pages/admin/
 
-- `receipts.astro` — src/pages/admin/receipts.astro (~1286 tok)
+- `receipts.astro` — src/pages/admin/receipts.astro (~5558 tok)
 
 ## src/styles/
 
@@ -990,7 +995,7 @@
 
 ## tests/unit/receipts/
 
-- `api.test.ts` — Node's undici preserves the Origin header that scripts set; happy-dom strips it (~2031 tok)
+- `api.test.ts` — Node's undici preserves the Origin header that scripts set; happy-dom strips it (~2942 tok)
 - `auth.test.ts` — Declares mockUser (~358 tok)
 - `receiptModel.test.ts` — Declares good (~692 tok)
 - `receiptsClient.test.ts` — Declares msg (~616 tok)

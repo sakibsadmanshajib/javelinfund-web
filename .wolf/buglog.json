@@ -115,5 +115,17 @@
     "related_bugs": [],
     "occurrences": 1,
     "last_seen": "2026-05-28"
+  },
+  {
+    "id": "bug-008",
+    "timestamp": "2026-06-10T18:40:00.000Z",
+    "error_message": "POST /api/receipts -> 500 {\"ok\":false,\"error\":\"internal error\"}; live worker log: 'Error: You do not have permission to call DriveApp.getFolderById. Required permissions: (.../auth/drive.readonly || .../auth/drive)'. Every issued receipt ends status=cancelled, driveFileId empty; Download button returns 410.",
+    "file": "apps-script/form-handler.gs (receipt.store) + decap-oauth-worker/src/api/receipts.js",
+    "root_cause": "The Apps Script web app was deployed/authorized BEFORE the DriveApp archival code existed, so Google never granted the script the drive OAuth scope. receipt.store calls DriveApp.getFolderById which throws an authorization error. The Worker's generic outer catch masked the real error as 'internal error', and its post-reserve catch called receipt.cancel on every failure -> all serials consumed and cancelled. Cancelled status then made GET /<serial>/pdf return 410 on Download.",
+    "fix": "PRIMARY (operator, only fix that restores archival): in Apps Script editor run a function that touches DriveApp once and complete the OAuth consent for the drive scope, then redeploy the web app (Manage deployments) so the live deployment carries the new scope. CODE MITIGATIONS shipped: (1) Worker outer catch now returns the real error message (endpoint is admin-only). (2) receipt.store made best-effort -- a Drive failure no longer cancels the serial or 500s; the receipt is still issued (PDF returned, re-download regenerates from the Sheet row), response carries archived:false. Only build/render failures void the serial.",
+    "tags": ["apps-script", "drive", "oauth-scope", "authorization", "cloudflare-worker", "receipts", "500", "410", "best-effort"],
+    "related_bugs": ["bug-003", "bug-005"],
+    "occurrences": 1,
+    "last_seen": "2026-06-10T18:40:00.000Z"
   }
 ]

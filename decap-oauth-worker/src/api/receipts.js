@@ -61,7 +61,10 @@ export async function handleReceiptsRequest(request, env) {
         );
       }
       const reserved = await callAppsScript(env, 'receipt.reserve', { issuedBy: id.login, fields });
+      let pdfBase64;
       try {
+        // Build + render are the only steps whose failure should void the serial:
+        // without a valid PDF there is no receipt to issue.
         const model = buildReceiptModel(fields, {
           serial: reserved.serial,
           dateIssued: reserved.dateIssued,
@@ -71,22 +74,31 @@ export async function handleReceiptsRequest(request, env) {
         }
         const sig = base64ToBytes(env.SIGNATURE_PNG_B64);
         const pdf = await renderReceiptPdf(model, sig);
-        const pdfBase64 = bytesToBase64(pdf);
-        await callAppsScript(env, 'receipt.store', { serial: reserved.serial, pdfBase64 });
-        return json(
-          { ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64 },
-          200,
-          origin,
-        );
-      } catch (postErr) {
-        // best-effort: void the reserved-but-unfinished serial so it isn't left dangling active
+        pdfBase64 = bytesToBase64(pdf);
+      } catch (renderErr) {
+        // No usable PDF: void the reserved-but-unfinished serial so it isn't left dangling active.
         try {
           await callAppsScript(env, 'receipt.cancel', { serial: reserved.serial });
         } catch (_) {
           /* swallow */
         }
-        throw postErr;
+        throw renderErr;
       }
+      // Drive archival is BEST-EFFORT: the receipt is already valid and downloadable.
+      // A store failure (e.g. missing Drive OAuth scope) must NOT cancel the serial or 500 —
+      // re-download regenerates the identical PDF from the stored Sheet row.
+      let archived = true;
+      try {
+        await callAppsScript(env, 'receipt.store', { serial: reserved.serial, pdfBase64 });
+      } catch (storeErr) {
+        archived = false;
+        console.error('receipt.store failed (issued anyway):', storeErr?.message || storeErr);
+      }
+      return json(
+        { ok: true, serial: reserved.serial, dateIssued: reserved.dateIssued, pdfBase64, archived },
+        200,
+        origin,
+      );
     }
 
     const pdfMatch = /^\/api\/receipts\/([0-9]{4}-[0-9]{4})\/pdf$/.exec(url.pathname);
@@ -134,6 +146,9 @@ export async function handleReceiptsRequest(request, env) {
     return json({ ok: false, error: 'not found' }, 404, origin);
   } catch (e) {
     console.error('receipts api error:', e instanceof Error ? e.stack || e.message : e);
-    return json({ ok: false, error: 'internal error' }, 500, origin);
+    // This endpoint is gated to allowlisted GitHub admins, so it is safe — and far more
+    // diagnosable — to surface the underlying error rather than a generic 'internal error'.
+    const detail = e instanceof Error ? e.message : String(e);
+    return json({ ok: false, error: detail || 'internal error' }, 500, origin);
   }
 }

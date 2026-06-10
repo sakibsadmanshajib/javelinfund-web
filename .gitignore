@@ -45,3 +45,6 @@ graphify-out/
 node-compile-cache/
 playwright-transform-cache-*/
 test-results/
+.playwright-mcp/
+receipts-redesign-gate.jpeg
+receipts-table-before.jpeg

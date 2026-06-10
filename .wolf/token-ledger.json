@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-05-14T19:11:25.528Z",
   "lifetime": {
-    "total_tokens_estimated": 23499,
-    "total_reads": 0,
-    "total_writes": 17,
-    "total_sessions": 1,
-    "anatomy_hits": 0,
-    "anatomy_misses": 0,
-    "repeated_reads_blocked": 0,
-    "estimated_savings_vs_bare_cli": 0
+    "total_tokens_estimated": 154208,
+    "total_reads": 79,
+    "total_writes": 217,
+    "total_sessions": 5,
+    "anatomy_hits": 47,
+    "anatomy_misses": 32,
+    "repeated_reads_blocked": 152,
+    "estimated_savings_vs_bare_cli": 153168
   },
   "sessions": [
     {
@@ -159,6 +159,1565 @@
         "writes_count": 8,
         "repeated_reads_blocked": 0,
         "anatomy_lookups": 0
+      }
+    },
+    {
+      "id": "session-2026-05-28-1738",
+      "started": "2026-05-28T21:38:24.425Z",
+      "ended": "2026-05-29T02:13:31.871Z",
+      "reads": [
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 1792,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/README.md",
+          "tokens_estimated": 265,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 1399,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 1532,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/layouts/Base.astro",
+          "tokens_estimated": 535,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/astro.config.mjs",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/public/admin/index.html",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 1242,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 1282,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/serial.js",
+          "tokens_estimated": 134,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js",
+          "tokens_estimated": 518,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js",
+          "tokens_estimated": 315,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/origins.js",
+          "tokens_estimated": 183,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/appsScript.js",
+          "tokens_estimated": 175,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/renderPdf.js",
+          "tokens_estimated": 624,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptsClient.test.ts",
+          "tokens_estimated": 213,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 1829,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/auth.test.ts",
+          "tokens_estimated": 342,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts",
+          "tokens_estimated": 692,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/serial.test.ts",
+          "tokens_estimated": 220,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/renderPdf.test.ts",
+          "tokens_estimated": 354,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 2013,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/component/receipts-page.test.ts",
+          "tokens_estimated": 175,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/manual-donation-receipts-setup.md",
+          "tokens_estimated": 473,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/styles/global.css",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/MottoBand.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/DonateStrip.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/StorySpotlight.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/Hero.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/index.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/donate.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 1816,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 100,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 147,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 295,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 97,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 295,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/plans/2026-05-28-manual-donation-receipts.md",
+          "tokens_estimated": 14159,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/plans/2026-05-28-manual-donation-receipts.md",
+          "tokens_estimated": 108,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 1079,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 60,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/README.md",
+          "tokens_estimated": 278,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 192,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/serial.test.ts",
+          "tokens_estimated": 187,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/serial.js",
+          "tokens_estimated": 106,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts",
+          "tokens_estimated": 372,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js",
+          "tokens_estimated": 327,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/auth.test.ts",
+          "tokens_estimated": 342,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js",
+          "tokens_estimated": 260,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/renderPdf.test.ts",
+          "tokens_estimated": 299,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/renderPdf.js",
+          "tokens_estimated": 626,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/appsScript.js",
+          "tokens_estimated": 175,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 827,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 1347,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 25,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 71,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 96,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/origins.js",
+          "tokens_estimated": 183,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 51,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 37,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 40,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptsClient.test.ts",
+          "tokens_estimated": 213,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 1151,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/component/receipts-page.test.ts",
+          "tokens_estimated": 175,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/layouts/Base.astro",
+          "tokens_estimated": 60,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 1158,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/astro.config.mjs",
+          "tokens_estimated": 22,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/public/admin/index.html",
+          "tokens_estimated": 85,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/manual-donation-receipts-setup.md",
+          "tokens_estimated": 540,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 361,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 162,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 16,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 219,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 17,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/appsScript.js",
+          "tokens_estimated": 37,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js",
+          "tokens_estimated": 30,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 79,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 387,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 111,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 86,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 168,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 282,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 26,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 335,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 82,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 162,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 117,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 36,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 32,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptsClient.test.ts",
+          "tokens_estimated": 64,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptsClient.test.ts",
+          "tokens_estimated": 408,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 82,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 121,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 72,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 118,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/manual-donation-receipts-setup.md",
+          "tokens_estimated": 390,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 32,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 423,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 75,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js",
+          "tokens_estimated": 313,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 91,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts",
+          "tokens_estimated": 254,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 288,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/MottoBand.astro",
+          "tokens_estimated": 22,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/DonateStrip.astro",
+          "tokens_estimated": 18,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/DonateStrip.astro",
+          "tokens_estimated": 47,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/StorySpotlight.astro",
+          "tokens_estimated": 27,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/Hero.astro",
+          "tokens_estimated": 18,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/Hero.astro",
+          "tokens_estimated": 23,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/index.astro",
+          "tokens_estimated": 7,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/index.astro",
+          "tokens_estimated": 15,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/donate.astro",
+          "tokens_estimated": 21,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/donate.astro",
+          "tokens_estimated": 47,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 71,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 78,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/renderPdf.js",
+          "tokens_estimated": 85,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js",
+          "tokens_estimated": 106,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js",
+          "tokens_estimated": 100,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/serial.js",
+          "tokens_estimated": 82,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 37,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 313,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/renderPdf.test.ts",
+          "tokens_estimated": 99,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/serial.test.ts",
+          "tokens_estimated": 64,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts",
+          "tokens_estimated": 60,
+          "action": "edit"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 16307,
+        "output_tokens_estimated": 34217,
+        "reads_count": 31,
+        "writes_count": 93,
+        "repeated_reads_blocked": 76,
+        "anatomy_lookups": 19
+      }
+    },
+    {
+      "id": "session-2026-05-28-1738",
+      "started": "2026-05-28T21:38:24.425Z",
+      "ended": "2026-05-29T02:52:41.353Z",
+      "reads": [
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 1792,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/README.md",
+          "tokens_estimated": 265,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 1399,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 1532,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/layouts/Base.astro",
+          "tokens_estimated": 535,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/astro.config.mjs",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/public/admin/index.html",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 1242,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 1282,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/serial.js",
+          "tokens_estimated": 134,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js",
+          "tokens_estimated": 518,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js",
+          "tokens_estimated": 315,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/origins.js",
+          "tokens_estimated": 183,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/appsScript.js",
+          "tokens_estimated": 175,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/renderPdf.js",
+          "tokens_estimated": 624,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptsClient.test.ts",
+          "tokens_estimated": 213,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 1829,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/auth.test.ts",
+          "tokens_estimated": 342,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts",
+          "tokens_estimated": 692,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/serial.test.ts",
+          "tokens_estimated": 220,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/renderPdf.test.ts",
+          "tokens_estimated": 354,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 2013,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/component/receipts-page.test.ts",
+          "tokens_estimated": 175,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/manual-donation-receipts-setup.md",
+          "tokens_estimated": 473,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/styles/global.css",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/MottoBand.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/DonateStrip.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/StorySpotlight.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/Hero.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/index.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/donate.astro",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 1816,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 100,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 147,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 295,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 97,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 295,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/plans/2026-05-28-manual-donation-receipts.md",
+          "tokens_estimated": 14159,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/plans/2026-05-28-manual-donation-receipts.md",
+          "tokens_estimated": 108,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 1079,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 60,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/README.md",
+          "tokens_estimated": 278,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 192,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/serial.test.ts",
+          "tokens_estimated": 187,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/serial.js",
+          "tokens_estimated": 106,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts",
+          "tokens_estimated": 372,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js",
+          "tokens_estimated": 327,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/auth.test.ts",
+          "tokens_estimated": 342,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js",
+          "tokens_estimated": 260,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/renderPdf.test.ts",
+          "tokens_estimated": 299,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/renderPdf.js",
+          "tokens_estimated": 626,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/appsScript.js",
+          "tokens_estimated": 175,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 827,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 1347,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 25,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 71,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 96,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/origins.js",
+          "tokens_estimated": 183,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 51,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 37,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 40,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptsClient.test.ts",
+          "tokens_estimated": 213,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 1151,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/component/receipts-page.test.ts",
+          "tokens_estimated": 175,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/layouts/Base.astro",
+          "tokens_estimated": 60,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 1158,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/astro.config.mjs",
+          "tokens_estimated": 22,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/public/admin/index.html",
+          "tokens_estimated": 85,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/manual-donation-receipts-setup.md",
+          "tokens_estimated": 540,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 361,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 162,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 16,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 219,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 17,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/appsScript.js",
+          "tokens_estimated": 37,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js",
+          "tokens_estimated": 30,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 79,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 387,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 111,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 86,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 168,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 282,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 26,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 335,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 82,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 162,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 117,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 36,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 32,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptsClient.test.ts",
+          "tokens_estimated": 64,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptsClient.test.ts",
+          "tokens_estimated": 408,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 82,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 121,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 72,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/superpowers/specs/2026-05-28-manual-donation-receipts-design.md",
+          "tokens_estimated": 118,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/docs/manual-donation-receipts-setup.md",
+          "tokens_estimated": 390,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 32,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/index.js",
+          "tokens_estimated": 423,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 75,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js",
+          "tokens_estimated": 313,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 91,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts",
+          "tokens_estimated": 254,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 288,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/MottoBand.astro",
+          "tokens_estimated": 22,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/DonateStrip.astro",
+          "tokens_estimated": 18,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/DonateStrip.astro",
+          "tokens_estimated": 47,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/StorySpotlight.astro",
+          "tokens_estimated": 27,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/Hero.astro",
+          "tokens_estimated": 18,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/components/Hero.astro",
+          "tokens_estimated": 23,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/index.astro",
+          "tokens_estimated": 7,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/index.astro",
+          "tokens_estimated": 15,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/donate.astro",
+          "tokens_estimated": 21,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/donate.astro",
+          "tokens_estimated": 47,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 71,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 78,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/renderPdf.js",
+          "tokens_estimated": 85,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/auth.js",
+          "tokens_estimated": 106,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/receiptModel.js",
+          "tokens_estimated": 100,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/lib/serial.js",
+          "tokens_estimated": 82,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 37,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 313,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/renderPdf.test.ts",
+          "tokens_estimated": 99,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/serial.test.ts",
+          "tokens_estimated": 64,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/receiptModel.test.ts",
+          "tokens_estimated": 60,
+          "action": "edit"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 16307,
+        "output_tokens_estimated": 34217,
+        "reads_count": 31,
+        "writes_count": 93,
+        "repeated_reads_blocked": 76,
+        "anatomy_lookups": 19
+      }
+    },
+    {
+      "id": "session-2026-05-29-0023",
+      "started": "2026-05-29T04:23:29.599Z",
+      "ended": "2026-05-29T04:45:01.730Z",
+      "reads": [
+        {
+          "file": "/mnt/c/Users/sakib/Downloads/Screenshot_29-5-2026_03616_javelinfund.ca.jpeg",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 1286,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/styles/tokens.css",
+          "tokens_estimated": 268,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/.playwright-mcp/receipts-redesign-gate.jpeg",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/mnt/c/Users/sakib/Downloads/Screenshot_29-5-2026_04252_javelinfund.ca.jpeg",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 5390,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 1554,
+        "output_tokens_estimated": 5390,
+        "reads_count": 5,
+        "writes_count": 1,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 2
+      }
+    },
+    {
+      "id": "session-2026-05-29-0023",
+      "started": "2026-05-29T04:23:29.599Z",
+      "ended": "2026-05-29T04:46:05.871Z",
+      "reads": [
+        {
+          "file": "/mnt/c/Users/sakib/Downloads/Screenshot_29-5-2026_03616_javelinfund.ca.jpeg",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 1286,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/styles/tokens.css",
+          "tokens_estimated": 268,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/.playwright-mcp/receipts-redesign-gate.jpeg",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/mnt/c/Users/sakib/Downloads/Screenshot_29-5-2026_04252_javelinfund.ca.jpeg",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 5390,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 1554,
+        "output_tokens_estimated": 5390,
+        "reads_count": 5,
+        "writes_count": 1,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 2
+      }
+    },
+    {
+      "id": "session-2026-06-10-1426",
+      "started": "2026-06-10T18:26:03.641Z",
+      "ended": "2026-06-10T18:51:38.101Z",
+      "reads": [
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 1580,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 5030,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/.playwright-mcp/receipts-table-before.jpeg",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/receipts-table-before.jpeg",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 1538,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 2031,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/home/sakib/javelinefund/apps-script/form-handler.gs",
+          "tokens_estimated": 2148,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/repro.mjs",
+          "tokens_estimated": 475,
+          "action": "create"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 495,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js",
+          "tokens_estimated": 124,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 169,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 216,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 198,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 69,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 41,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/lib/receiptsClient.ts",
+          "tokens_estimated": 81,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/src/pages/admin/receipts.astro",
+          "tokens_estimated": 172,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+          "tokens_estimated": 934,
+          "action": "edit"
+        },
+        {
+          "file": "/home/sakib/javelinefund/decap-oauth-worker/repro2.mjs",
+          "tokens_estimated": 472,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 12327,
+        "output_tokens_estimated": 3446,
+        "reads_count": 7,
+        "writes_count": 12,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 5
       }
     }
   ],
