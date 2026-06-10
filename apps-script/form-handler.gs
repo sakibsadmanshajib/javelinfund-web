@@ -252,3 +252,30 @@ function _err(m) {
     ContentService.MimeType.JSON,
   );
 }
+
+/**
+ * ONE-TIME SETUP — run this from the Apps Script editor to grant the Drive scope.
+ *
+ * The receipt archival step (receipt.store) calls DriveApp, but the web app was
+ * first authorized BEFORE that code existed, so Google never granted the Drive
+ * scope and every store fails with "You do not have permission to call
+ * DriveApp.getFolderById".
+ *
+ * Do NOT run doPost to fix this — doPost(e) needs the request event and throws
+ * "Cannot read properties of undefined (reading 'parameter')" when run manually.
+ *
+ * Instead:
+ *   1. In the editor function dropdown, select `authorizeDrive` and click Run.
+ *   2. Google shows an authorization dialog → choose the owning account →
+ *      "Advanced" if warned → Allow the Drive permission.
+ *   3. The Execution log should print the folder name (proves Drive access works).
+ *   4. Deploy → Manage deployments → edit the active web-app deployment →
+ *      deploy a NEW version so the live URL carries the newly granted scope.
+ */
+function authorizeDrive() {
+  const folderId = _getProp('RECEIPTS_FOLDER_ID');
+  if (!folderId) throw new Error('RECEIPTS_FOLDER_ID script property is not set');
+  const name = DriveApp.getFolderById(folderId).getName(); // forces the Drive consent prompt
+  Logger.log('Drive authorized. Receipts folder: "' + name + '" (' + folderId + ')');
+  return name;
+}

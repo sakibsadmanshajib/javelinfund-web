@@ -127,5 +127,17 @@
     "related_bugs": ["bug-003", "bug-005"],
     "occurrences": 1,
     "last_seen": "2026-06-10T18:40:00.000Z"
+  },
+  {
+    "id": "bug-009",
+    "timestamp": "2026-06-10T19:30:00.000Z",
+    "error_message": "Apps Script editor: 'TypeError: Cannot read properties of undefined (reading 'parameter') at doPost (Code:207)'. User ran doPost manually trying to trigger the Drive OAuth consent; consent never appeared no matter which function was run.",
+    "file": "apps-script/form-handler.gs",
+    "root_cause": "Two things. (1) doPost(e) is a web-app entry point that reads e.parameter/e.postData; running it from the editor Run button passes no event arg, so e is undefined and e.parameter throws. (2) The Drive consent never fired because the only editor-runnable functions either need an event (doPost) or bail before reaching DriveApp; Apps Script's static scope detection needs an actually-runnable code path that touches DriveApp to prompt. If appsscript.json pins oauthScopes without drive, auto-detection is also overridden.",
+    "fix": "Added a dedicated zero-arg authorizeDrive() function that calls DriveApp.getFolderById(RECEIPTS_FOLDER_ID).getName() -> forces the consent dialog when run from the editor. Added apps-script/appsscript.json with explicit oauthScopes (spreadsheets, drive, script.external_request) so the drive scope is always requested. Operator: run authorizeDrive (NOT doPost), approve consent, then redeploy the web app to a new version.",
+    "tags": ["apps-script", "doPost", "oauth-consent", "drive-scope", "manifest", "oauthScopes", "TypeError"],
+    "related_bugs": ["bug-008"],
+    "occurrences": 1,
+    "last_seen": "2026-06-10T19:30:00.000Z"
   }
 ]

@@ -1,4 +1,12 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { LETTERHEAD_PNG_B64 } from './letterhead.js';
+
+function b64ToBytes(b64) {
+  const bin = atob(b64);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
 
 // Draws a receipt mirroring Glen's template layout, with the current charity address.
 // signaturePngBytes: Uint8Array|null — facsimile signature, composited above the signatory line.
@@ -22,7 +30,20 @@ export async function renderReceiptPdf(model, signaturePngBytes) {
     y -= opts.gap ?? 16;
   };
 
-  line(model.charity.name, { bold: true, size: 15, gap: 20 });
+  // Letterhead banner (logo + wordmark) across the top, drawn at content width with
+  // aspect ratio preserved. A bad asset must never block a valid receipt, so on failure
+  // fall back to the charity name as bold text (the prior behavior).
+  try {
+    const banner = await doc.embedPng(b64ToBytes(LETTERHEAD_PNG_B64));
+    const bannerW = 612 - left * 2; // content width, symmetric margins
+    const bannerH = (banner.height / banner.width) * bannerW;
+    y -= bannerH; // top-align banner just under the page top margin
+    page.drawImage(banner, { x: left, y, width: bannerW, height: bannerH });
+    y -= 24; // gap below the letterhead
+  } catch (_) {
+    line(model.charity.name, { bold: true, size: 15, gap: 20 });
+  }
+
   line(model.charity.address, { size: 10, gap: 14 });
   line(`Registration # ${model.charity.regNumber}`, { size: 10, gap: 26 });
 

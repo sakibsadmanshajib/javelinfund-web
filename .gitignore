@@ -48,3 +48,5 @@ test-results/
 .playwright-mcp/
 receipts-redesign-gate.jpeg
 receipts-table-before.jpeg
+receipts-after-deploy.jpeg
+update-check/

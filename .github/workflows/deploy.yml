@@ -28,9 +28,26 @@ jobs:
         env:
           PUBLIC_FORMS_ENDPOINT: ${{ secrets.PUBLIC_FORMS_ENDPOINT }}
 
-      - name: Deploy to Cloudflare Workers
+      # Site worker (javelinfund-web): root wrangler.toml serving the built Astro site.
+      - name: Deploy Astro site to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+
+      # Receipts API worker (javelinfund-decap-oauth): SEPARATE worker with its own
+      # wrangler.toml + deps under decap-oauth-worker/. Not covered by the root deploy,
+      # so it gets its own install + deploy. Secrets are managed out-of-band via
+      # `wrangler secret put` and are NOT touched here.
+      - name: Install receipts worker deps
+        run: npm ci
+        working-directory: decap-oauth-worker
+
+      - name: Deploy receipts API worker to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: decap-oauth-worker
           command: deploy
