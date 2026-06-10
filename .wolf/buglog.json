@@ -150,6 +150,8 @@
     "tags": ["apps-script", "drive", "granular-consent", "readonly-vs-write", "createFile", "oauth-scope", "receipts"],
     "related_bugs": ["bug-008", "bug-009"],
     "occurrences": 1,
-    "last_seen": "2026-06-10T19:41:00.000Z"
+    "last_seen": "2026-06-10T19:41:00.000Z",
+    "resolved": true,
+    "resolution": "2026-06-10T19:43Z: after running authorizeDriveWrite() (real createFile probe) and approving the full drive scope, then redeploying the web app, a live receipt POST logged a clean 'POST Ok' with NO 'receipt.store failed' line. Drive archival confirmed working end-to-end."
   }
 ]
