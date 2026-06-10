@@ -117,7 +117,11 @@ describe('handleReceiptsRequest', () => {
       if (action === 'receipt.reserve')
         return {
           ok: true,
-          json: async () => ({ ok: true, serial: '2026-0007', dateIssued: '2026-05-28T00:00:00.000Z' }),
+          json: async () => ({
+            ok: true,
+            serial: '2026-0007',
+            dateIssued: '2026-05-28T00:00:00.000Z',
+          }),
         };
       // receipt.store fails the way the live Apps Script did (Drive permission error).
       if (action === 'receipt.store')
@@ -154,10 +158,18 @@ describe('handleReceiptsRequest', () => {
     // Render failure is the ONLY post-reserve failure that should void the serial.
     const fetchMock = vi
       .fn()
-      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ login: 'glenjackson' }) })
       .mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ ok: true, serial: '2026-0008', dateIssued: '2026-05-28T00:00:00.000Z' }),
+        status: 200,
+        json: async () => ({ login: 'glenjackson' }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          ok: true,
+          serial: '2026-0008',
+          dateIssued: '2026-05-28T00:00:00.000Z',
+        }),
       })
       // 3rd call is the best-effort receipt.cancel triggered by the render failure.
       .mockResolvedValue({ ok: true, json: async () => ({ ok: true }) });
