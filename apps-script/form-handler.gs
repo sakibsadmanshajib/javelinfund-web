@@ -254,28 +254,32 @@ function _err(m) {
 }
 
 /**
- * ONE-TIME SETUP — run this from the Apps Script editor to grant the Drive scope.
+ * ONE-TIME SETUP — run from the Apps Script editor to grant the FULL Drive scope.
  *
- * The receipt archival step (receipt.store) calls DriveApp, but the web app was
- * first authorized BEFORE that code existed, so Google never granted the Drive
- * scope and every store fails with "You do not have permission to call
- * DriveApp.getFolderById".
+ * Background: an earlier read-only authorization let receipt.store call
+ * getFolderById() but it still fails at folder.createFile() with
+ * "You do not have permission to call DriveApp.Folder.createFile.
+ *  Required permissions: https://www.googleapis.com/auth/drive".
+ * createFile needs the read-WRITE Drive scope, which a read-only consent skips.
  *
- * Do NOT run doPost to fix this — doPost(e) needs the request event and throws
- * "Cannot read properties of undefined (reading 'parameter')" when run manually.
+ * This function performs a real write (create + trash a tiny test file) so Google
+ * must prompt for the full https://www.googleapis.com/auth/drive scope.
  *
- * Instead:
- *   1. In the editor function dropdown, select `authorizeDrive` and click Run.
- *   2. Google shows an authorization dialog → choose the owning account →
- *      "Advanced" if warned → Allow the Drive permission.
- *   3. The Execution log should print the folder name (proves Drive access works).
- *   4. Deploy → Manage deployments → edit the active web-app deployment →
- *      deploy a NEW version so the live URL carries the newly granted scope.
+ * Steps:
+ *   1. Project Settings → "Show appsscript.json" → confirm oauthScopes contains
+ *      "https://www.googleapis.com/auth/drive" (NOT just .readonly). Save.
+ *   2. Function dropdown → select `authorizeDriveWrite` → Run.
+ *   3. On the consent dialog, keep EVERY box checked (granular consent lets you
+ *      uncheck Drive — do not). Choose the owning account → Advanced if warned → Allow.
+ *   4. Execution log should print "Drive WRITE authorized".
+ *   5. Deploy → Manage deployments → edit active web app → deploy a NEW version.
  */
-function authorizeDrive() {
+function authorizeDriveWrite() {
   const folderId = _getProp('RECEIPTS_FOLDER_ID');
   if (!folderId) throw new Error('RECEIPTS_FOLDER_ID script property is not set');
-  const name = DriveApp.getFolderById(folderId).getName(); // forces the Drive consent prompt
-  Logger.log('Drive authorized. Receipts folder: "' + name + '" (' + folderId + ')');
-  return name;
+  const folder = DriveApp.getFolderById(folderId);
+  const probe = folder.createFile('._auth_probe.txt', 'ok', 'text/plain'); // forces the WRITE scope
+  probe.setTrashed(true); // clean up immediately
+  Logger.log('Drive WRITE authorized. Folder: "' + folder.getName() + '" (' + folderId + ')');
+  return 'ok';
 }

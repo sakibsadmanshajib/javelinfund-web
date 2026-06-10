@@ -139,5 +139,17 @@
     "related_bugs": ["bug-008"],
     "occurrences": 1,
     "last_seen": "2026-06-10T19:30:00.000Z"
+  },
+  {
+    "id": "bug-010",
+    "timestamp": "2026-06-10T19:41:00.000Z",
+    "error_message": "After authorizing Drive, receipt.store STILL fails but with a DIFFERENT error: 'You do not have permission to call DriveApp.Folder.createFile. Required permissions: https://www.googleapis.com/auth/drive' (previously it failed on getFolderById needing drive.readonly||drive).",
+    "file": "apps-script/form-handler.gs (authorizeDrive) + appsscript.json",
+    "root_cause": "The first authorizeDrive() only called getFolderById().getName() — a READ. Google's granular consent therefore granted only the read-only Drive scope (drive.readonly). getFolderById now succeeds, but folder.createFile() (writing the archived PDF) requires the full read-WRITE scope https://www.googleapis.com/auth/drive, which a read-only consent does not cover. The error advancing from getFolderById to createFile confirms partial authorization.",
+    "fix": "Replaced authorizeDrive() with authorizeDriveWrite() which actually creates + trashes a probe file, forcing Google to request the full drive (write) scope. Operator must: (1) ensure appsscript.json oauthScopes lists 'https://www.googleapis.com/auth/drive' (not .readonly), (2) run authorizeDriveWrite, (3) keep ALL boxes checked on the granular consent screen (do not uncheck Drive), (4) redeploy the web app to a new version.",
+    "tags": ["apps-script", "drive", "granular-consent", "readonly-vs-write", "createFile", "oauth-scope", "receipts"],
+    "related_bugs": ["bug-008", "bug-009"],
+    "occurrences": 1,
+    "last_seen": "2026-06-10T19:41:00.000Z"
   }
 ]
