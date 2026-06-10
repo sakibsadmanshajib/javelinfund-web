@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-06-10T18:51:10.070Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-06-10T18:55:41.194Z
 > Files: 543 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
@@ -995,7 +995,7 @@
 
 ## tests/unit/receipts/
 
-- `api.test.ts` — Node's undici preserves the Origin header that scripts set; happy-dom strips it (~2942 tok)
+- `api.test.ts` — Node's undici preserves the Origin header that scripts set; happy-dom strips it (~3037 tok)
 - `auth.test.ts` — Declares mockUser (~358 tok)
 - `receiptModel.test.ts` — Declares good (~692 tok)
 - `receiptsClient.test.ts` — Declares msg (~616 tok)

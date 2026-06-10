@@ -3,13 +3,13 @@
   "started": "2026-06-10T18:26:03.641Z",
   "files_read": {
     "/home/sakib/javelinefund/decap-oauth-worker/src/api/receipts.js": {
-      "count": 1,
-      "tokens": 1580,
+      "count": 2,
+      "tokens": 1830,
       "first_read": "2026-06-10T18:41:54.668Z"
     },
     "/home/sakib/javelinefund/src/pages/admin/receipts.astro": {
-      "count": 1,
-      "tokens": 5030,
+      "count": 2,
+      "tokens": 5558,
       "first_read": "2026-06-10T18:42:27.276Z"
     },
     "/home/sakib/javelinefund/.playwright-mcp/receipts-table-before.jpeg": {
@@ -23,19 +23,24 @@
       "first_read": "2026-06-10T18:43:15.857Z"
     },
     "/home/sakib/javelinefund/src/lib/receiptsClient.ts": {
-      "count": 1,
-      "tokens": 1538,
+      "count": 2,
+      "tokens": 1578,
       "first_read": "2026-06-10T18:47:05.906Z"
     },
     "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts": {
-      "count": 1,
-      "tokens": 2031,
+      "count": 3,
+      "tokens": 2942,
       "first_read": "2026-06-10T18:47:45.510Z"
     },
     "/home/sakib/javelinefund/apps-script/form-handler.gs": {
       "count": 1,
       "tokens": 2148,
       "first_read": "2026-06-10T18:50:25.651Z"
+    },
+    "/home/sakib/javelinefund/decap-oauth-worker/src/lib/appsScript.js": {
+      "count": 1,
+      "tokens": 186,
+      "first_read": "2026-06-10T18:54:34.867Z"
     }
   },
   "files_written": [
@@ -110,6 +115,12 @@
       "action": "create",
       "tokens": 472,
       "at": "2026-06-10T18:51:10.076Z"
+    },
+    {
+      "file": "/home/sakib/javelinefund/tests/unit/receipts/api.test.ts",
+      "action": "edit",
+      "tokens": 331,
+      "at": "2026-06-10T18:55:41.203Z"
     }
   ],
   "edit_counts": {
@@ -117,12 +128,12 @@
     "decap-oauth-worker/src/api/receipts.js": 2,
     "src/pages/admin/receipts.astro": 5,
     "src/lib/receiptsClient.ts": 2,
-    "tests/unit/receipts/api.test.ts": 1,
+    "tests/unit/receipts/api.test.ts": 2,
     "decap-oauth-worker/repro2.mjs": 1
   },
-  "anatomy_hits": 5,
+  "anatomy_hits": 6,
   "anatomy_misses": 2,
-  "repeated_reads_warned": 0,
+  "repeated_reads_warned": 5,
   "cerebrum_warnings": 0,
   "stop_count": 1
 }
